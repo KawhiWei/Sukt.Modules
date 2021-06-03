@@ -17,7 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Z.EntityFramework.Plus;
 
-namespace SuktCore.Shared
+namespace Sukt.EntityFrameworkCore
 {
     public class AggregateRootBaseRepository<TEntity, Tkey> : IAggregateRootRepository<TEntity, Tkey>
         where TEntity : class, IAggregateRoot<Tkey> where Tkey : IEquatable<Tkey>

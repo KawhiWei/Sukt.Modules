@@ -3,7 +3,7 @@
     /// <summary>
     /// 表示数据类型
     /// </summary>
-    public enum DatabaseType
+    public enum DataBaseType
     {
         /// <summary>
         /// MySql数据库类型

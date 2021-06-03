@@ -17,7 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Z.EntityFramework.Plus;
 
-namespace SuktCore.Shared
+namespace Sukt.EntityFrameworkCore
 {
     public class BaseRepository<TEntity, Tkey> : IEFCoreRepository<TEntity, Tkey>
         where TEntity : class, IEntity<Tkey> where Tkey : IEquatable<Tkey>

@@ -12,7 +12,7 @@ namespace Sukt.Module.Core.AppOption
         /// 
         /// </summary>
         public AuthOptions Auth { get; set; }
-        public Dictionary<string, DestinyContextOptions> DbContexts { get; set; }
+        public Dictionary<string, SuktContextOptions> DbContexts { get; set; }
         /// <summary>
         /// 是否启用审计 
         /// </summary>
@@ -48,12 +48,12 @@ namespace Sukt.Module.Core.AppOption
     /// <summary>
     /// 数据库配置
     /// </summary>
-    public class DestinyContextOptions
+    public class SuktContextOptions
     {
         /// <summary>
         /// 数据类型
         /// </summary>
-        public DatabaseType DatabaseType { get; set; }
+        public DataBaseType DatabaseType { get; set; }
 
         /// <summary>
         /// 数据库链接

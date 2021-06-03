@@ -13,7 +13,7 @@ namespace Sukt.Module.Core.DbContextDriven
         /// <summary>
         /// 数据库类型
         /// </summary>
-        DatabaseType DatabaseType { get; }
+        DataBaseType DatabaseType { get; }
 
         /// <summary>
         /// 构建数据库驱动

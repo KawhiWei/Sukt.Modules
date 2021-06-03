@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Sukt.EntityFrameworkCore;
 using Sukt.Module.Core;
 using Sukt.Module.Core.Entity;
 
-namespace SuktCore.Shared
+namespace Sukt.EntityFrameworkCore
 {
     public static class UnitOfWorkExtensions
     {
