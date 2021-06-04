@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Sukt.Module.Core.Extensions;
 using System;
 
@@ -45,10 +46,33 @@ namespace Sukt.Module.Core.SuktDependencyAppModule
         /// <summary>
         /// 设置应用程序服务集合
         /// </summary>
-        internal void SetServiceCollection(IServiceCollection services)
+        public void SetServiceCollection(IServiceCollection services)
         {
             services.NotNull(nameof(services));
             _services = services;
+        }
+        /// <summary>
+        /// 得到服务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+
+        public T GetService<T>()
+        {
+            _provider.NotNull(nameof(_provider));
+            _services.NotNull(nameof(_services));
+            return _provider.GetService<T>();
+        }
+
+        /// <summary>
+        /// 得到日志记录
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public ILogger GetLogger<T>()
+        {
+            ILoggerFactory factory = _provider.GetService<ILoggerFactory>();
+            return factory.CreateLogger<T>();
         }
     }
 }

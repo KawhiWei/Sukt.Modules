@@ -12,5 +12,6 @@ namespace Sukt.Module.Core.Modules
         IServiceProvider ServiceProvider { get; }
 
         IReadOnlyList<ISuktAppModule> Modules { get; }
+        List<ISuktAppModule> Source { get; }
     }
 }

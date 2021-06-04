@@ -23,7 +23,7 @@ namespace Sukt.Module.Core.Modules
         /// </summary>
         public IReadOnlyList<ISuktAppModule> Modules { get; set; }
 
-        private List<ISuktAppModule> _source = new List<ISuktAppModule>();
+        public List<ISuktAppModule> Source { get; protected set; }
 
         public ModuleApplicationBase(Type startupModuleType, IServiceCollection services)
         {
@@ -33,11 +33,11 @@ namespace Sukt.Module.Core.Modules
             services.TryAddSingleton<ITypeFinder, TypeFinder>();
             services.AddSingleton<IModuleApplication>(this);
             services.TryAddObjectAccessor<IServiceProvider>();
-            _source = this.GetAllModule(services);
+            Source = this.GetAllModule(services);
             Modules = this.LoadModules();
         }
 
-        private List<ISuktAppModule> GetAllModule(IServiceCollection services)
+        protected virtual List<ISuktAppModule> GetAllModule(IServiceCollection services)
         {
             var typeFinder = services.GetOrAddSingletonService<ITypeFinder, TypeFinder>();
             var typs = typeFinder.Find(o => SuktAppModule.IsAppModule(o));
@@ -55,11 +55,11 @@ namespace Sukt.Module.Core.Modules
         /// 获取所有需要加载的模块
         /// </summary>
         /// <returns></returns>
-        private IReadOnlyList<ISuktAppModule> LoadModules()
+        protected virtual IReadOnlyList<ISuktAppModule> LoadModules()
         {
             List<ISuktAppModule> modules = new List<ISuktAppModule>();
 
-            var module = _source.FirstOrDefault(o => o.GetType() == StartupModuleType);
+            var module = Source.FirstOrDefault(o => o.GetType() == StartupModuleType);
             if (module == null)
             {
                 throw new Exception($"类型为“{StartupModuleType.FullName}”的模块实例无法找到");
@@ -68,7 +68,7 @@ namespace Sukt.Module.Core.Modules
             var dependeds = module.GetDependedTypes();
             foreach (var dependType in dependeds.Where(o => SuktAppModule.IsAppModule(o)))
             {
-                var dependModule = _source.ToList().Find(m => m.GetType() == dependType);
+                var dependModule = Source.ToList().Find(m => m.GetType() == dependType);
                 if (dependModule == null)
                 {
                     throw new Exception($"加载模块{module.GetType().FullName}时无法找到依赖模块{dependType.FullName}");
@@ -86,7 +86,7 @@ namespace Sukt.Module.Core.Modules
         /// <returns></returns>
         private ISuktAppModule CreateModule(IServiceCollection services, Type moduleType)
         {
-            var module = /*(IAppModule)Activator.CreateInstance(moduleType)*/(ISuktAppModule)Expression.Lambda(Expression.New(moduleType)).Compile().DynamicInvoke();
+            var module = (ISuktAppModule)Expression.Lambda(Expression.New(moduleType)).Compile().DynamicInvoke();
             services.AddSingleton(moduleType, module);
             return module;
         }

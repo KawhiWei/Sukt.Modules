@@ -5,8 +5,10 @@ using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Extensions;
 using Sukt.Module.Core.OperationResult;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,11 +35,14 @@ namespace Sukt.EntityFrameworkCore
         /// 是否释放
         /// </summary>
         private bool _disposed;
+        private Stack<bool> _callStack = new Stack<bool>();
 
         /// <summary>
         /// 是否提交
         /// </summary>
         public bool HasCommitted { get; private set; }
+        public Action OnDispose { get; set; }
+        public bool Enabled => _callStack.Count <= 0;
 
         /// <summary>
         /// 事务
@@ -67,6 +72,10 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         public void BeginTransaction()
         {
+            if (!Enabled)
+            {
+                return;
+            }
             if (_dbTransaction?.Connection == null)
             {
                 if (_connection.State != System.Data.ConnectionState.Open)
@@ -75,8 +84,17 @@ namespace Sukt.EntityFrameworkCore
                 }
                 _dbTransaction = _connection.BeginTransaction();
             }
-            Console.WriteLine("方法执行前");
-            _dbContext.Database.UseTransaction(_dbTransaction);
+            if (_dbContext.IsRelationalTransaction())
+            {
+                _dbContext.Database.UseTransaction(_dbTransaction);
+            }
+            else
+            {
+
+                _dbContext.Database.BeginTransaction();
+            }
+            //Console.WriteLine("方法执行前");
+            //_dbContext.Database.UseTransaction(_dbTransaction);
             HasCommitted = false;
         }
 
@@ -85,10 +103,22 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         public void Commit()
         {
+            if (!Enabled)
+            {
+                return;
+            }
             if (HasCommitted || _dbTransaction == null)
                 return;
             _dbTransaction.Commit();
-            _dbContext.Database.CurrentTransaction.Dispose();
+            //_dbContext.Database.CurrentTransaction.Dispose();
+            if (_dbContext.IsRelationalTransaction())
+            {
+                _dbContext.Database.CurrentTransaction.Dispose();
+            }
+            else
+            {
+                _dbContext.Database.CommitTransaction();
+            }
             HasCommitted = true;
             Console.WriteLine("方法执行后");
         }
@@ -98,71 +128,85 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         public void Rollback()
         {
+            if (!Enabled)
+            {
+                return;
+            }
             if (_dbTransaction?.Connection != null)
             {
                 _dbTransaction.Rollback();
             }
-
-            if (_dbContext.Database.CurrentTransaction != null)
+            if (_dbContext.IsRelationalTransaction())
             {
-                _dbContext.Database.CurrentTransaction.Dispose();
+                if (_dbContext.Database.CurrentTransaction != null)
+                {
+                    _dbContext.Database.CurrentTransaction.Dispose();
+                }
             }
+            else
+            {
+                _dbContext.Database.RollbackTransaction();
+            }
+            //if (_dbContext.Database.CurrentTransaction != null)
+            //{
+            //    _dbContext.Database.CurrentTransaction.Dispose();
+            //}
             HasCommitted = true;
         }
 
-        public void UseTran(Action action)
-        {
-            action.NotNull(nameof(action));
-            if (HasCommitted)
-            {
-                return;
-            }
-            BeginTransaction();
-            try
-            {
-                action?.Invoke();
-                Commit();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                this.Rollback();
-            }
-        }
+        //public void UseTran(Action action)
+        //{
+        //    action.NotNull(nameof(action));
+        //    if (HasCommitted)
+        //    {
+        //        return;
+        //    }
+        //    BeginTransaction();
+        //    try
+        //    {
+        //        action?.Invoke();
+        //        Commit();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        this.Rollback();
+        //    }
+        //}
 
         /// <summary>
         /// 开启事务 如果成功提交事务，失败回滚事务
         /// </summary>
         /// <param name="func">要执行的操作</param>
         /// <returns></returns>
-        public OperationResponse UseTran(Func<OperationResponse> func)
-        {
-            func.NotNull(nameof(func));
-            OperationResponse result = new OperationResponse();
-            if (HasCommitted)
-            {
-                result.Type = OperationEnumType.NoChanged;
-                result.Message = "事务已提交!!";
-                return result;
-            }
-            try
-            {
-                this.BeginTransaction();
-                result = func.Invoke();
-                this.Commit();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                this.Rollback();
-                _logger.LogError(ex.Message, ex);
-                return new OperationResponse()
-                {
-                    Type = OperationEnumType.Error,
-                    Message = ex.Message,
-                };
-            }
-        }
+        //public OperationResponse UseTran(Func<OperationResponse> func)
+        //{
+        //    func.NotNull(nameof(func));
+        //    OperationResponse result = new OperationResponse();
+        //    if (HasCommitted)
+        //    {
+        //        result.Type = OperationEnumType.NoChanged;
+        //        result.Message = "事务已提交!!";
+        //        return result;
+        //    }
+        //    try
+        //    {
+        //        this.BeginTransaction();
+        //        result = func.Invoke();
+        //        this.Commit();
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this.Rollback();
+        //        _logger.LogError(ex.Message, ex);
+        //        return new OperationResponse()
+        //        {
+        //            Type = OperationEnumType.Error,
+        //            Message = ex.Message,
+        //        };
+        //    }
+        //}
 
         #endregion 同步事务
 
@@ -175,6 +219,10 @@ namespace Sukt.EntityFrameworkCore
         /// <returns></returns>
         public virtual async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
+            if (!Enabled)
+            {
+                return;
+            }
             if (_dbTransaction?.Connection == null)
             {
                 if (_connection.State != ConnectionState.Open)
@@ -183,7 +231,16 @@ namespace Sukt.EntityFrameworkCore
                 }
                 _dbTransaction = _connection.BeginTransaction();
             }
-            _dbContext.Database.UseTransaction(_dbTransaction);
+            if (_dbContext.IsRelationalTransaction())
+            {
+                _dbContext.Database.UseTransaction(_dbTransaction);
+            }
+            else
+            {
+
+                _dbContext.Database.BeginTransaction();
+            }
+            //_dbContext.Database.UseTransaction(_dbTransaction);
             HasCommitted = false;
         }
 
@@ -193,12 +250,24 @@ namespace Sukt.EntityFrameworkCore
         /// <returns></returns>
         public async Task CommitAsync()
         {
+            if (!Enabled)
+            {
+                return;
+            }
             if (HasCommitted || _dbTransaction == null)
             {
                 return;
             }
             await _dbTransaction.CommitAsync();
-            await _dbContext.Database.CurrentTransaction.DisposeAsync();
+            if (_dbContext.IsRelationalTransaction())
+            {
+                _dbContext.Database.CurrentTransaction.Dispose();
+            }
+            else
+            {
+                _dbContext.Database.CommitTransaction();
+            }
+            //await _dbContext.Database.CurrentTransaction.DisposeAsync();
             HasCommitted = true;
         }
 
@@ -208,14 +277,29 @@ namespace Sukt.EntityFrameworkCore
         /// <returns></returns>
         public async Task RollbackAsync()
         {
+            if (!Enabled)
+            {
+                return;
+            }
             if (_dbTransaction?.Connection != null)
             {
                 await _dbTransaction.RollbackAsync();
             }
-            if (_dbContext.Database.CurrentTransaction != null)
+            if (_dbContext.IsRelationalTransaction())
             {
-                await _dbContext.Database.CurrentTransaction.DisposeAsync();
+                if (_dbContext.Database.CurrentTransaction != null)
+                {
+                    _dbContext.Database.CurrentTransaction.Dispose();
+                }
             }
+            else
+            {
+                _dbContext.Database.RollbackTransaction();
+            }
+            //if (_dbContext.Database.CurrentTransaction != null)
+            //{
+            //    await _dbContext.Database.CurrentTransaction.DisposeAsync();
+            //}
             HasCommitted = true;
         }
 
@@ -281,7 +365,27 @@ namespace Sukt.EntityFrameworkCore
             }
             _dbTransaction?.Dispose();
             _dbContext.Dispose();
+            OnDispose?.Invoke();
+            _callStack?.Clear();
             _disposed = true;
+        }
+
+        public bool HasCommit()
+        {
+            return HasCommitted;
+        }
+
+        public void Push()
+        {
+            _callStack.Push(true);
+        }
+
+        public void Pop()
+        {
+            if (_callStack.Any())
+            {
+                _callStack.Pop();
+            }
         }
     }
 }

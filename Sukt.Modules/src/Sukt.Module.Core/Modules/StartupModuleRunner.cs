@@ -22,10 +22,25 @@ namespace Sukt.Module.Core.Modules
             SuktIocManage.Instance.SetServiceCollection(services);
             var context = new ConfigureServicesContext(services);
             services.AddSingleton(context);
-            foreach (var contextcfg in Modules)
+            foreach (var module in Modules)
             {
-                services.AddSingleton(contextcfg);
-                contextcfg.ConfigureServices(context);
+                //如果是继承了SuktAppModule
+                if(module is SuktAppModule appModule)
+                {
+                    appModule.ConfigureServicesContext = context;
+                }
+            }
+            foreach (var config in Modules)
+            {
+                services.AddSingleton(config);
+                config.ConfigureServices(context);
+            }
+            foreach (var module in Modules)
+            {
+                if (module is SuktAppModule appModule)
+                {
+                    appModule.ConfigureServicesContext = null;
+                }
             }
         }
 

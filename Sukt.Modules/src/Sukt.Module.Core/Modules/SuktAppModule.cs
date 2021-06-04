@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Sukt.Module.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,12 +9,27 @@ namespace Sukt.Module.Core.Modules
 {
     public class SuktAppModule : ISuktAppModule
     {
+        public bool Enable { get; set; } = true;
+        private ConfigureServicesContext _configureServicesContext;
         public virtual void ApplicationInitialization(ApplicationContext context)
         {
         }
 
         public virtual void ConfigureServices(ConfigureServicesContext context)
         {
+        }
+        protected internal ConfigureServicesContext ConfigureServicesContext
+        {
+            get
+            {
+                if (_configureServicesContext == null)
+                {
+                    throw new SuktAppException($"{nameof(ConfigureServicesContext)}仅适用于{nameof(ConfigureServices)}方法。");
+                }
+
+                return _configureServicesContext;
+            }
+            internal set => _configureServicesContext = value;
         }
 
         /// <summary>
@@ -61,6 +78,11 @@ namespace Sukt.Module.Core.Modules
                  !typeInfo.IsAbstract &&
                  !typeInfo.IsGenericType &&
                  typeof(ISuktAppModule).GetTypeInfo().IsAssignableFrom(type);
+        }
+
+        public void Configure<TOptions>(Action<TOptions> configureOptions) where TOptions : class
+        {
+            ConfigureServicesContext.Services.Configure<TOptions>(configureOptions);
         }
     }
 }

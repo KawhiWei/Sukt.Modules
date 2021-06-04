@@ -8,7 +8,7 @@ namespace Sukt.Module.Core.DbContextDriven
     /// <summary>
     /// 上下文驱动提供者
     /// </summary>
-    public interface IDbContextDrivenProvider : ISingletonDependency
+    public interface IDbContextDrivenProvider 
     {
         /// <summary>
         /// 数据库类型
