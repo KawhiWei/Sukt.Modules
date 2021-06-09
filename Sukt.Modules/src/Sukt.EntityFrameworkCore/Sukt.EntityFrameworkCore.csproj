@@ -7,7 +7,7 @@
     <PackageProjectUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</RepositoryUrl>
     <PackageIcon>logo.jpg</PackageIcon>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />

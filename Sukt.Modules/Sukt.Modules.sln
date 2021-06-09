@@ -3,29 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Module.Core", "src\Sukt.Module.Core\Sukt.Module.Core.csproj", "{DA69384D-2B6A-4BEB-8A77-99C3B05F37CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Module.Core", "src\Sukt.Module.Core\Sukt.Module.Core.csproj", "{DA69384D-2B6A-4BEB-8A77-99C3B05F37CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.EntityFrameworkCore", "src\Sukt.EntityFrameworkCore\Sukt.EntityFrameworkCore.csproj", "{667951A5-C1F3-4E97-8979-4F8A22A6E543}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.EntityFrameworkCore", "src\Sukt.EntityFrameworkCore\Sukt.EntityFrameworkCore.csproj", "{667951A5-C1F3-4E97-8979-4F8A22A6E543}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.CodeGenerator", "src\Sukt.CodeGenerator\Sukt.CodeGenerator.csproj", "{952834BA-DE55-4917-B128-B8783D5C980B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.CodeGenerator", "src\Sukt.CodeGenerator\Sukt.CodeGenerator.csproj", "{952834BA-DE55-4917-B128-B8783D5C980B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.TestBase", "src\Sukt.TestBase\Sukt.TestBase.csproj", "{4A8F3750-FF1A-46FF-87A1-BECE6BA357A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.TestBase", "src\Sukt.TestBase\Sukt.TestBase.csproj", "{4A8F3750-FF1A-46FF-87A1-BECE6BA357A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Swagger", "src\Sukt.Swagger\Sukt.Swagger.csproj", "{06C157B4-EB9E-49A2-84B8-B33D1DCF8B17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Swagger", "src\Sukt.Swagger\Sukt.Swagger.csproj", "{06C157B4-EB9E-49A2-84B8-B33D1DCF8B17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.SeriLog", "src\Sukt.SeriLog\Sukt.SeriLog.csproj", "{B84973ED-22F0-4AFD-B138-931A506CFB53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.SeriLog", "src\Sukt.SeriLog\Sukt.SeriLog.csproj", "{B84973ED-22F0-4AFD-B138-931A506CFB53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.MultiTenancy", "src\Sukt.MultiTenancy\Sukt.MultiTenancy.csproj", "{C716F9D7-1E52-48C3-A082-C523A1CD9EBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.MultiTenancy", "src\Sukt.MultiTenancy\Sukt.MultiTenancy.csproj", "{C716F9D7-1E52-48C3-A082-C523A1CD9EBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.MongoDB", "src\Sukt.MongoDB\Sukt.MongoDB.csproj", "{AFA2C586-54CF-4AE5-8CE2-43343E04CB5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.MongoDB", "src\Sukt.MongoDB\Sukt.MongoDB.csproj", "{AFA2C586-54CF-4AE5-8CE2-43343E04CB5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Caching", "src\Sukt.Caching\Sukt.Caching.csproj", "{88337B1A-7593-45DB-9556-6F45D3B53A27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Caching", "src\Sukt.Caching\Sukt.Caching.csproj", "{88337B1A-7593-45DB-9556-6F45D3B53A27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.AutoMapper", "src\Sukt.AutoMapper\Sukt.AutoMapper.csproj", "{CE9FD2A2-5E61-4B87-BE25-76B8A19B0E3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.AutoMapper", "src\Sukt.AutoMapper\Sukt.AutoMapper.csproj", "{CE9FD2A2-5E61-4B87-BE25-76B8A19B0E3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.AspNetCore", "src\Sukt.AspNetCore\Sukt.AspNetCore.csproj", "{D91EAC66-8F67-42CB-9759-3312801280D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.AspNetCore", "src\Sukt.AspNetCore\Sukt.AspNetCore.csproj", "{D91EAC66-8F67-42CB-9759-3312801280D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Aop", "src\Sukt.Aop\Sukt.Aop.csproj", "{B8DF671D-70EB-420C-8911-7A26E0082CA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Aop", "src\Sukt.Aop\Sukt.Aop.csproj", "{B8DF671D-70EB-420C-8911-7A26E0082CA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Redis", "src\Sukt.Redis\Sukt.Redis.csproj", "{B0D75B6D-2892-48C4-833A-123D8B92702E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{B8DF671D-70EB-420C-8911-7A26E0082CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8DF671D-70EB-420C-8911-7A26E0082CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8DF671D-70EB-420C-8911-7A26E0082CA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0D75B6D-2892-48C4-833A-123D8B92702E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0D75B6D-2892-48C4-833A-123D8B92702E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0D75B6D-2892-48C4-833A-123D8B92702E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0D75B6D-2892-48C4-833A-123D8B92702E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

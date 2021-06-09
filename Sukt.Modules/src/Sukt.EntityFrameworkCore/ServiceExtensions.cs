@@ -21,14 +21,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="optionsAction">操作委托</param>
         /// <returns></returns>
 
-        public static IServiceCollection AddSuktDbContext<TDbContext>(this IServiceCollection services, Action<SuktContextOptions> dboption,  Action<IServiceProvider, DbContextOptionsBuilder> optionsAction = null) where TDbContext : SuktDbContextBase
+        public static IServiceCollection AddSuktDbContext<TDbContext>(this IServiceCollection services, SuktContextOptions dbOption,  Action<IServiceProvider, DbContextOptionsBuilder> optionsAction = null) where TDbContext : SuktDbContextBase
         {
-            if(dboption==null)
+            if(dbOption == null)
             {
-                throw new SuktAppException(nameof(dboption));
+                throw new SuktAppException(nameof(dbOption));
             }
-            SuktContextOptions options = new SuktContextOptions();
-            dboption(options);
             var stest = services.GetAppSettings();
             var type1 = typeof(TDbContext);
             //SuktContextOptions contextOptions = stest.DbContexts?.Values.FirstOrDefault(o => o.DbContextType == type1);
@@ -41,12 +39,16 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     MessageBox.Show("配置不存在!!");
                 }
+                if (dbOption.MigrationsAssemblyName.IsNullOrEmpty())
+                {
+                    MessageBox.Show("迁移程序集名不能为空或null");
+                }
                 //SuktContextOptions contextOptions = settings.DbContexts?.Values.FirstOrDefault(o => o.DbContextType == type);
-                if (options is null)
+                if (dbOption is null)
                 {
                     MessageBox.Show($"无法找到{type.Name}数据库配置信息!!");
                 }
-                var databaseType = options.DatabaseType;
+                var databaseType = dbOption.DatabaseType;
                 //if (databaseType == Destiny.Core.Flow.Entity.DatabaseType.SqlServer)              
                 //每个类型都要判断。可以使用一个接口，每种类型实现自己的，根据数据类型得到相关驱动，使用（策略模式？工厂模式？？）
                 //配合注入完美
@@ -56,14 +58,13 @@ namespace Microsoft.Extensions.DependencyInjection
                 if (drivenProvider == null)
                 {
                     MessageBox.Show($"没有找到{databaseType}类型的驱动");
-
                 }
                 DestinyContextOptionsBuilder optionsBuilder1 = new DestinyContextOptionsBuilder();
-                optionsBuilder1.MigrationsAssemblyName = options.MigrationsAssemblyName;
-                var connectionString = options.ConnectionString;
-                if (Path.GetExtension(options.ConnectionString).ToLower() == ".txt") //txt文件
+                optionsBuilder1.MigrationsAssemblyName = dbOption.MigrationsAssemblyName;
+                var connectionString = dbOption.ConnectionString;
+                if (Path.GetExtension(dbOption.ConnectionString).ToLower() == ".txt") //txt文件
                 {
-                    connectionString = provider.GetFileText(options.ConnectionString, $"未找到存放{databaseType.ToDescription()}数据库链接的文件");
+                    connectionString = provider.GetFileText(dbOption.ConnectionString, $"未找到存放{databaseType.ToDescription()}数据库链接的文件");
                 }
                 builder = drivenProvider.Builder(builder, connectionString, optionsBuilder1);
                 optionsAction?.Invoke(provider, builder);

@@ -2,9 +2,6 @@
 using Sukt.EntityFrameworkCore.DbDrivens;
 using Sukt.Module.Core.DbContextDriven;
 using Sukt.Module.Core.Modules;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sukt.EntityFrameworkCore
 {
@@ -13,10 +10,8 @@ namespace Sukt.EntityFrameworkCore
         public override void ConfigureServices(ConfigureServicesContext context)
         {
             this.AddDbDriven(context.Services);
-            context.Services.AddRepository();
-            //context.Services.AddUnitOfWork
-            //AddDbContextWithUnitOfWork(context.Services);
-            //AddRepository(context.Services);
+            context.Services.AddDefaultRepository();
+            AddDbContextWithUnitOfWork(context.Services);
         }
         /// <summary>
         /// 添加DB驱动
@@ -25,10 +20,10 @@ namespace Sukt.EntityFrameworkCore
         /// <returns></returns>
         protected virtual IServiceCollection AddDbDriven(IServiceCollection services)
         {
-
             services.AddSingleton<IDbContextDrivenProvider, MySqlDbContextDrivenProvider>();
             services.AddSingleton<IDbContextDrivenProvider, SqlServerDbContextDrivenProvider>();
             return services;
         }
+        public abstract void AddDbContextWithUnitOfWork(IServiceCollection services); 
     }
 }

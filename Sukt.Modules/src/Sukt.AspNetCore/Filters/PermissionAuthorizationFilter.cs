@@ -34,7 +34,7 @@ namespace Sukt.AspNetCore
             var isAllowAnonymous = action.ControllerTypeInfo.GetCustomAttribute<AllowAnonymousAttribute>();//获取Action中的特性
             var linkurl = context.HttpContext.Request.Path.Value.Replace("/api/", "");
             var result = new AjaxResult(ResultMessage.Unauthorized, AjaxResultType.Unauthorized);
-            if (!action.EndpointMetadata.Any(x => x is AllowAnonymousAttribute) && action.ControllerTypeInfo.GetType().IsAssignableFrom(typeof(ApiControllerBase)))
+            if (!action.EndpointMetadata.Any(x => x is AllowAnonymousAttribute))
             {
                 if (!(bool)_httpContextAccessor.HttpContext?.User.Identity.IsAuthenticated)
                 {

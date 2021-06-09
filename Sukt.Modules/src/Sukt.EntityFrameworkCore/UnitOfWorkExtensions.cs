@@ -36,10 +36,10 @@ namespace Sukt.EntityFrameworkCore
         /// <param name="services"></param>
         /// <param name="lifetime"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRepository(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddDefaultRepository(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
-            services.AddScoped(typeof(IEFCoreRepository<,>), typeof(BaseRepository<,>));
-            services.AddScoped(typeof(IAggregateRootRepository<,>), typeof(AggregateRootBaseRepository<,>));
+            services.Add(new ServiceDescriptor(typeof(IEFCoreRepository<,>), typeof(BaseRepository<,>), lifetime));
+            services.Add(new ServiceDescriptor(typeof(IAggregateRootRepository<,>), typeof(AggregateRootBaseRepository<,>),lifetime));
             return services;
         }
         /// <summary>
