@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.AspNetCore", "src\Sukt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Aop", "src\Sukt.Aop\Sukt.Aop.csproj", "{B8DF671D-70EB-420C-8911-7A26E0082CA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Redis", "src\Sukt.Redis\Sukt.Redis.csproj", "{B0D75B6D-2892-48C4-833A-123D8B92702E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Redis", "src\Sukt.Redis\Sukt.Redis.csproj", "{B0D75B6D-2892-48C4-833A-123D8B92702E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Tests", "test\Sukt.Tests\Sukt.Tests.csproj", "{7C2374E8-D7AD-47D4-896A-A90F4B6B82C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{B0D75B6D-2892-48C4-833A-123D8B92702E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0D75B6D-2892-48C4-833A-123D8B92702E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0D75B6D-2892-48C4-833A-123D8B92702E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C2374E8-D7AD-47D4-896A-A90F4B6B82C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C2374E8-D7AD-47D4-896A-A90F4B6B82C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C2374E8-D7AD-47D4-896A-A90F4B6B82C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C2374E8-D7AD-47D4-896A-A90F4B6B82C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

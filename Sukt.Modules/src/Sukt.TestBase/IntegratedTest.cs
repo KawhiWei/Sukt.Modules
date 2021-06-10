@@ -19,6 +19,7 @@ namespace Sukt.TestBase
         {
             var services = CreateServiceCollection();
             BeforeAddApplication(services);
+            services.AddLogging();
             var application = services.AddApplication<TStartupModule>();
             Application = services.GetBuildService<IModuleApplication>();
             AfterAddApplication(services);
