@@ -57,7 +57,17 @@ namespace Sukt.Module.Core.Extensions
 
             return descriptor.ImplementationFactory(provider);
         }
-
+        /// <summary>
+        /// 获取日志记录器
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static ILogger GetLogger(this ILazyServiceProvider provider, Type type)
+        {
+            ILoggerFactory factory = provider.LazyGetService<ILoggerFactory>();
+            return factory.CreateLogger(type);
+        }
         public static object GetServiceOrCreateInstance(this IServiceProvider provider, Type type)
         {
             return ActivatorUtilities.GetServiceOrCreateInstance(provider, type);

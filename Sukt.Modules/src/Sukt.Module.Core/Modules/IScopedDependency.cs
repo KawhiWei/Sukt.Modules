@@ -1,4 +1,5 @@
 ﻿using Sukt.Module.Core.Attributes.Dependency;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Sukt.Module.Core
 {

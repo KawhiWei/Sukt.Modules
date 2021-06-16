@@ -1,12 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="..\..\common.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</RepositoryUrl>
-    <PackageIcon>logo.jpg</PackageIcon>
-    <Authors>GeorGeWzw</Authors>
   </PropertyGroup>
 
   <ItemGroup>

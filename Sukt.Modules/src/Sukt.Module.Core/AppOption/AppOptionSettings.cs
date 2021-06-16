@@ -53,7 +53,7 @@ namespace Sukt.Module.Core.AppOption
         /// <summary>
         /// 数据类型
         /// </summary>
-        public DataBaseType DatabaseType { get; set; }
+        public DBType DatabaseType { get; set; }
 
         /// <summary>
         /// 数据库链接

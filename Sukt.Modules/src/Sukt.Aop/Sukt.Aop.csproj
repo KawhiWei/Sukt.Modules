@@ -1,25 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>logo.jpg</PackageIcon>
-    <RepositoryUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</RepositoryUrl>
-    <RepositoryType></RepositoryType>
-    <PackageProjectUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</PackageProjectUrl>
-    <Product>Sukt.Aop</Product>
-    <Company>GeorGeWzw</Company>
-    <Authors>GeorGeWzw</Authors>
+    <Description></Description>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Sukt.Module.Core\Sukt.Module.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\..\logo.jpg">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 </Project>

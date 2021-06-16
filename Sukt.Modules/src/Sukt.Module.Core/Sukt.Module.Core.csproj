@@ -1,13 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="..\..\common.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>GeorGeWzw</Authors>
-    <PackageProjectUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</PackageProjectUrl>
-    <PackageIcon>logo.jpg</PackageIcon>
-    <RepositoryUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</RepositoryUrl>
-    <Version>1.0.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AspectCore.Abstractions" Version="2.2.0" />

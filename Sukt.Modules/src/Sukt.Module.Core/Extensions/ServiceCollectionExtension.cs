@@ -7,6 +7,7 @@ using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Helpers;
 using Sukt.Module.Core.SuktDependencyAppModule;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -433,6 +434,23 @@ namespace Sukt.Module.Core.Extensions
             return services.AddSingleton<IFileProvider>(new PhysicalFileProvider(basePath));
 
         }
+        /// <summary>
+        /// 获取指定key的值,如没有则设置并获取默认值
+        /// </summary>
+        /// <typeparam name="TKey">key的类型</typeparam>
+        /// <typeparam name="TValue">value的类型</typeparam>
+        /// <param name="dict">字典</param>
+        /// <param name="key">key</param>
+        /// <param name="func">默认值委托</param>
+        /// <returns></returns>
+        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, Func<TKey, TValue> func)
+        {
+            if (dict.TryGetValue(key, out var obj))
+            {
+                return obj;
+            }
 
+            return dict[key] = func(key);
+        }
     }
 }

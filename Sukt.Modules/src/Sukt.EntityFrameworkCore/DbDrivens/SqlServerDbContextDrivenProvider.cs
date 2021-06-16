@@ -10,7 +10,7 @@ namespace Sukt.EntityFrameworkCore.DbDrivens
     /// </summary>
     public class SqlServerDbContextDrivenProvider : IDbContextDrivenProvider
     {
-        public DataBaseType DatabaseType => DataBaseType.SqlServer;
+        public DBType DatabaseType => DBType.SqlServer;
 
         public DbContextOptionsBuilder Builder(DbContextOptionsBuilder builder, string connectionString, DestinyContextOptionsBuilder optionsBuilder)
         {
