@@ -25,8 +25,8 @@ namespace Sukt.EntityFrameworkCore
     /// </summary>
     public class SuktDbContextBase : DbContext
     {
-        [FromServiceContext]
-        public ILazyServiceProvider ServiceProvider { get; set; }
+        //[FromServiceContext]
+        private readonly IServiceProvider ServiceProvider;
         protected readonly AppOptionSettings _appOptionSettings;
         private readonly IGetChangeTracker _changeTracker;
         protected readonly ILogger _logger = null;
@@ -36,19 +36,21 @@ namespace Sukt.EntityFrameworkCore
         /// 构造函数
         /// </summary>
         /// <param name="options"></param>
-        protected SuktDbContextBase(DbContextOptions options) : base(options)
+        /// <param name="serviceProvider"></param>
+        protected SuktDbContextBase(DbContextOptions options, IServiceProvider serviceProvider) : base(options)
         {
-            _appOptionSettings = ServiceProvider.LazyGetService<IObjectAccessor<AppOptionSettings>>()?.Value;
+            ServiceProvider = serviceProvider;
+            _appOptionSettings = ServiceProvider.GetAppSettings();
             this._logger = ServiceProvider.GetLogger(GetType());
-            _auditEntryDictionaryScoped = ServiceProvider.LazyGetService<AuditEntryDictionaryScoped>();
-            _changeTracker = ServiceProvider.LazyGetService<IGetChangeTracker>();
-            _principal = ServiceProvider.LazyGetService<IPrincipal>();
+            _auditEntryDictionaryScoped = ServiceProvider.GetService<AuditEntryDictionaryScoped>();
+            _changeTracker = ServiceProvider.GetService<IGetChangeTracker>();
+            _principal = ServiceProvider.GetService<IPrincipal>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            var typeFinder = ServiceProvider.LazyGetService<ITypeFinder>();
+            var typeFinder = ServiceProvider.GetService<ITypeFinder>();
             IEntityMappingConfiguration[] entitymapping = typeFinder.Find(x => x.IsDeriveClassFrom<IEntityMappingConfiguration>()).Select(x => Activator.CreateInstance(x) as IEntityMappingConfiguration).ToArray();
             foreach (var item in entitymapping)
             {
