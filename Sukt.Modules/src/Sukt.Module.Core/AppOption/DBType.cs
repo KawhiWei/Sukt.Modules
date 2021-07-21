@@ -12,6 +12,10 @@
         /// <summary>
         /// SqlServer数据库类型
         /// </summary>
-        SqlServer
+        SqlServer,
+        /// <summary>
+        /// PostgreSQL数据库类型
+        /// </summary>
+        PostgreSQL
     }
 }

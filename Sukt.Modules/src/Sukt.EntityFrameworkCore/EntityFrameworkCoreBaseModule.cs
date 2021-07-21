@@ -22,6 +22,7 @@ namespace Sukt.EntityFrameworkCore
         {
             services.AddSingleton<IDbContextDrivenProvider, MySqlDbContextDrivenProvider>();
             services.AddSingleton<IDbContextDrivenProvider, SqlServerDbContextDrivenProvider>();
+            services.AddSingleton<IDbContextDrivenProvider, NpgSqlDbContextDrivenProvider>();
             return services;
         }
         public abstract void AddDbContextWithUnitOfWork(IServiceCollection services); 
