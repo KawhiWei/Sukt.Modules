@@ -125,5 +125,20 @@ namespace Sukt.Module.Core.Extensions
             format.NotNull("format");
             return string.Format(CultureInfo.CurrentCulture, format, args);
         }
+        /// <summary>
+        /// 将驼峰字符串的第一个字符小写
+        /// </summary>
+        public static string LowerFirstChar(this string str)
+        {
+            if (string.IsNullOrEmpty(str) || !char.IsUpper(str[0]))
+            {
+                return str;
+            }
+            if (str.Length == 1)
+            {
+                return char.ToLower(str[0]).ToString();
+            }
+            return char.ToLower(str[0]) + str.Substring(1, str.Length - 1);
+        }
     }
 }

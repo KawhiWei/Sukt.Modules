@@ -31,6 +31,11 @@ namespace Sukt.CodeGenerator
         public bool IsGeneratorDto { get; set; }
 
         /// <summary>
+        /// 是否是聚合根
+        /// </summary>
+        public bool IsAggregate { get; set; }
+
+        /// <summary>
         /// 属性集合
         /// </summary>
         public List<PropertyMetadata> Properties = new List<PropertyMetadata>();
@@ -54,7 +59,6 @@ namespace Sukt.CodeGenerator
         /// 是否软删除
         /// </summary>
         public bool IsSoftDelete { get; set; } = true;
-
         /// <summary>
         /// 是否全部审核
         /// </summary>

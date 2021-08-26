@@ -36,28 +36,57 @@ namespace Sukt.Tests
             await _redisRepository.RemoveAsync("test");
         }
         /// <summary>
-        /// 在List头部插入值
+        /// 在List头部循环插入值
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public async Task ListLeftPush_Test()
+        public async Task ListLeftTopPush_Test()
         {
-            var source = "123456";
-            await _redisRepository.SetListLeftPushAsync("listleft_test", source);
-            var target = await _redisRepository.GetListLeftPopAsync("listleft_test");
-            target.ShouldBe(source);
+            var value = "Sukt.Core.Top";
+            for (int i = 0; i < 80; i++)
+            {
+                await _redisRepository.SetListLeftPushAsync("listleft_top_test", $"{value }---------------------{i}");
+            }
         }
         /// <summary>
-        /// 在List尾部插入值
+        /// List头部插入和取出值
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task GetListLeftTopPop_Test()
+        {
+            var value = "Sukt.Core";
+            var key = "list_left_top_insert";
+            var result = await _redisRepository.SetListLeftPushAsync(key,value);
+            var target = await _redisRepository.GetListLeftPopAsync(key);
+            target.ShouldBe(value);
+        }
+        /// <summary>
+        /// 在List尾部循环插入值
         /// </summary>
         /// <returns></returns>
         [Fact]
         public async Task ListRightPush_Test()
         {
-            var source = "123456";
-            await _redisRepository.SetListLeftPushAsync("listleft_test", source);
-            var target = await _redisRepository.GetListLeftPopAsync("listleft_test");
-            target.ShouldBe(source);
+            var value = "Sukt.Core.Last";
+            for (int i = 0; i < 80; i++)
+            {
+
+                await _redisRepository.SetListLeftPushAsync("listleft_last_test", $"{value}+++++++++++++++++{i}");
+            }
+        }
+        /// <summary>
+        /// List尾部插入和取出值
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task GetListRightPush_Test()
+        {
+            var value = "Sukt.Core";
+            var key = "list_left_last_insert";
+            var result = await _redisRepository.SetListRightPushAsync(key,value);
+            var target = await _redisRepository.GetListRightPopAsync(key);
+            target.ShouldBe(value);
         }
         /// <summary>
         /// 分布式锁单元测试
@@ -95,7 +124,7 @@ namespace Sukt.Tests
     {
         public override void AddRedis(IServiceCollection service)
         {
-            service.AddRedis("192.168.0.166:6379,password = redis123,defaultDatabase=5,prefix = test_");
+            service.AddRedis("192.168.31.164:6379,password = P@ssW0rd,defaultDatabase=5,prefix = test_");
         }
     }
 }

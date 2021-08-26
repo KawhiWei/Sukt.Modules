@@ -29,7 +29,10 @@
         /// 命名空间
         /// </summary>
         public string Namespace { get; set; }
-
+        /// <summary>
+        /// 生成路径
+        /// </summary>
+        public string SaveFilePath { get; set; }
         /// <summary>
         /// 实体元数据
         /// </summary>

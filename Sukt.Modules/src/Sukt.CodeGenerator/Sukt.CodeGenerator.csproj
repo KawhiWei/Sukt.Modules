@@ -5,8 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Templates\ApplicationContract.cshtml" />
+    <None Remove="Templates\Controller.cshtml" />
     <None Remove="Templates\Entity.cshtml" />
     <None Remove="Templates\EntityConfiguration.cshtml" />
+    <None Remove="Templates\IApplicationContract.cshtml" />
+    <None Remove="Templates\InputDto.cshtml" />
+    <None Remove="Templates\OutputDto.cshtml" />
     <None Include="..\..\..\..\logo.jpg">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -14,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Templates\Controller.cshtml" />
+    <EmbeddedResource Include="Templates\OutputDto.cshtml" />
+    <EmbeddedResource Include="Templates\InputDto.cshtml" />
+    <EmbeddedResource Include="Templates\IApplicationContract.cshtml" />
+    <EmbeddedResource Include="Templates\ApplicationContract.cshtml" />
     <EmbeddedResource Include="Templates\Entity.cshtml" />
     <EmbeddedResource Include="Templates\EntityConfiguration.cshtml" />
   </ItemGroup>

@@ -18,19 +18,20 @@ namespace Sukt.CodeGenerator
         /// 生成代码
         /// </summary>
         /// <param name="projectMetadata"></param>
-        /// <param name="filePath"></param>
-        public void GenerateCode(ProjectMetadata projectMetadata, string filePath)
+        public void GenerateCode(ProjectMetadata projectMetadata)
         {
             List<CodeData> codes = new List<CodeData>();
 
             codes.Add(GenerateEntityCode(projectMetadata));
             codes.Add(GenerateEntityConfigurationCode(projectMetadata));
-            //codes.Add(GenerateInputDtoCode(projectMetadata));
-            //codes.Add(GenerateOutputDtoCode(projectMetadata));
-            //codes.Add(GeneratePageDtoCode(projectMetadata));
+            codes.Add(GenerateIApplicationContract(projectMetadata));
+            codes.Add(GenerateApplicationContract(projectMetadata));
+            codes.Add(GenerateInputDto(projectMetadata));
+            codes.Add(GenerateOutputDto(projectMetadata));
+            codes.Add(GenerateController(projectMetadata));
             foreach (var code in codes.OrderBy(o => o.FileName))
             {
-                var saveFilePath = $"{Path.Combine(@"{0}\{1}", filePath, code.FileName)}";
+                var saveFilePath = $"{Path.Combine(@"{0}\{1}", projectMetadata.SaveFilePath, code.FileName)}";
                 var path = Path.GetDirectoryName(saveFilePath);
                 if (!Directory.Exists(path))
                 {
@@ -108,51 +109,78 @@ namespace Sukt.CodeGenerator
             };
             return code;
         }
-
         /// <summary>
-        /// 创建输入代码
+        /// 生成契约
         /// </summary>
         /// <param name="metadata"></param>
         /// <returns></returns>
-        public CodeData GenerateInputDtoCode(ProjectMetadata metadata)
+        public CodeData GenerateIApplicationContract(ProjectMetadata metadata)
+        {
+            var template = GetTemplateCode(metadata, CodeType.IApplicationContract);
+            var code = new CodeData()
+            {
+                SourceCode = template,
+                FileName = $"{metadata.EntityMetadata.EntityName}/I{metadata.EntityMetadata.EntityName}Contract.cs"
+            };
+            return code;
+        }
+        /// <summary>
+        /// 生成契约实现
+        /// </summary>
+        /// <param name="metadata"></param>
+        /// <returns></returns>
+        public CodeData GenerateApplicationContract(ProjectMetadata metadata)
+        {
+            var template = GetTemplateCode(metadata, CodeType.ApplicationContract);
+            var code = new CodeData()
+            {
+                SourceCode = template,
+                FileName = $"{metadata.EntityMetadata.EntityName}/{metadata.EntityMetadata.EntityName}Contract.cs"
+            };
+            return code;
+        }
+        /// <summary>
+        /// 生成输入Dto
+        /// </summary>
+        /// <param name="metadata"></param>
+        /// <returns></returns>
+        public CodeData GenerateInputDto(ProjectMetadata metadata)
         {
             var template = GetTemplateCode(metadata, CodeType.InputDto);
             var code = new CodeData()
             {
                 SourceCode = template,
-                FileName = $"Dtos/{metadata.EntityMetadata.EntityName}InputDto.cs"
+                FileName = $"{metadata.EntityMetadata.EntityName}Dto/{metadata.EntityMetadata.EntityName}InputDto.cs"
             };
             return code;
         }
-
         /// <summary>
-        /// 创建输出代码
+        /// 生成输出Dto
         /// </summary>
         /// <param name="metadata"></param>
         /// <returns></returns>
-        public CodeData GenerateOutputDtoCode(ProjectMetadata metadata)
+        public CodeData GenerateOutputDto(ProjectMetadata metadata)
         {
             var template = GetTemplateCode(metadata, CodeType.OutputDto);
             var code = new CodeData()
             {
                 SourceCode = template,
-                FileName = $"Dtos/{metadata.EntityMetadata.EntityName}OutputDto.cs"
+                FileName = $"{metadata.EntityMetadata.EntityName}Dto/{metadata.EntityMetadata.EntityName}OutputDto.cs"
             };
             return code;
         }
-
         /// <summary>
-        /// 创建分页Dto代码
+        /// 生成控制器
         /// </summary>
         /// <param name="metadata"></param>
         /// <returns></returns>
-        public CodeData GeneratePageDtoCode(ProjectMetadata metadata)
+        public CodeData GenerateController(ProjectMetadata metadata)
         {
-            var template = GetTemplateCode(metadata, CodeType.PageListDto);
+            var template = GetTemplateCode(metadata, CodeType.Controller);
             var code = new CodeData()
             {
                 SourceCode = template,
-                FileName = $"Dtos/{metadata.EntityMetadata.EntityName}PageListDto.cs"
+                FileName = $"Controller/{metadata.EntityMetadata.EntityName}Controller.cs"
             };
             return code;
         }
@@ -199,10 +227,21 @@ namespace Sukt.CodeGenerator
         /// 输入Dto
         /// </summary>
         InputDto,
-
+        /// <summary>
+        /// 控制器
+        /// </summary>
+        Controller,
         /// <summary>
         /// 分页Dto
         /// </summary>
         PageListDto,
+        /// <summary>
+        /// 契约层实现
+        /// </summary>
+        ApplicationContract,
+        /// <summary>
+        /// 契约层接口
+        /// </summary>
+        IApplicationContract
     }
 }
