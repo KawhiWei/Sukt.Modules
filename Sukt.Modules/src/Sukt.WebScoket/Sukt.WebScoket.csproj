@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,6 +6,10 @@
 
   <ItemGroup>
     <Folder Include="Configures\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sukt.Module.Core\Sukt.Module.Core.csproj" />
   </ItemGroup>
 
 </Project>

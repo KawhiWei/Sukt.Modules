@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket.WebScoketAttributes
+namespace Sukt.WebScoket.Attributes
 {
     /// <summary>
-    /// WebSocket特性
+    /// WebSocket Endpoint mark
+    /// WebSocket路由标记
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class WebSocketAttribute : Attribute
+    public class WebSocketAttribute: Attribute
     {
         /// <summary>
         /// Mark action use action name

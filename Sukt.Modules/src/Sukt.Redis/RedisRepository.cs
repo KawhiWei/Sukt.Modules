@@ -130,6 +130,7 @@ namespace Sukt.Redis
         public async Task<string> GetListRightPopAsync(string key)
         {
             return await _database.ListRightPopAsync(key);
+            //_database.SortedSetAddAsync
         }
         public async Task<long> GetListLengthAsync(string key)
         {
