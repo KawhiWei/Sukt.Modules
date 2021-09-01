@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket.Attributes
+namespace Sukt.WebSocketServer.Attributes
 {
     /// <summary>
     /// WebSocket Endpoint mark

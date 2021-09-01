@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket.Configures
+namespace Sukt.WebSocketServer.Configures
 {
     /// <summary>
     /// 集群配置

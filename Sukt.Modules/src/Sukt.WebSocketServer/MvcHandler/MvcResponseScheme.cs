@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket.MvcHandler
+namespace Sukt.WebSocketServer.MvcHandler
 {
     /// <summary>
     /// WebSocket通信响应方案

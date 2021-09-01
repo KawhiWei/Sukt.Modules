@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket.Configures
+namespace Sukt.WebSocketServer.Configures
 {
     /// <summary>
     /// WebSocket端点路由

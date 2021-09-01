@@ -21,5 +21,5 @@ $projects = (
     "Sukt.Modules/src/Sukt.SeriLog",
     "Sukt.Modules/src/Sukt.Swagger",
     "Sukt.Modules/src/Sukt.TestBase",
-    "Sukt.Modules/src/Sukt.WebScoket"
+    "Sukt.Modules/src/Sukt.WebSocketServer"
 )

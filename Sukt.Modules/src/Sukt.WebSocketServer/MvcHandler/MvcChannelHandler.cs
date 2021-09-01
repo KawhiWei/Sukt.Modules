@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Sukt.Module.Core.Extensions;
-using Sukt.WebScoket.Configures;
+using Sukt.WebSocketServer.Configures;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket.MvcHandler
+namespace Sukt.WebSocketServer.MvcHandler
 {
     /// <summary>
     /// Mvc通道处理器

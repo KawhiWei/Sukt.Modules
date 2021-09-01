@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sukt.WebScoket.Configures;
+using Sukt.WebSocketServer.Configures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket
+namespace Sukt.WebSocketServer
 {
     public class WebSocketRouteOption
     {

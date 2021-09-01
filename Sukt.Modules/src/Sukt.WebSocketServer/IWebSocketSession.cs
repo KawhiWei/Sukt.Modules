@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket
+namespace Sukt.WebSocketServer
 {
     public interface IWebSocketSession
     {

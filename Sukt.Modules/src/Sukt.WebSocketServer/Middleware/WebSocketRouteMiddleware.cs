@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket
+namespace Sukt.WebSocketServer
 {
     public class WebSocketRouteMiddleware
     {

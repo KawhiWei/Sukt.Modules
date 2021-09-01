@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Sukt.WebScoket.Attributes;
-using Sukt.WebScoket.Configures;
+using Sukt.WebSocketServer.Attributes;
+using Sukt.WebSocketServer.Configures;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Sukt.WebScoket
+namespace Sukt.WebSocketServer
 {
     public static class SuktWebSocketRouteServiceCollectionExtensions
     {
