@@ -73,7 +73,7 @@ app.UseSuktWebSocketServer(app.ApplicationServices);
       //消息处理标准结构
       var msg = {
       id: 'login',
-      target: "im.login",
+      TargetAction: "im.login",
       body: { 
         uid: "asdasdasdasdasdadsada" 
       }
