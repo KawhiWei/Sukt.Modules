@@ -7,7 +7,7 @@ service.AddSuktWebSocketConfigRouterEndpoint(x =>
             {
                 x.WebSocketChannels = new Dictionary<string, WebSocketRouteOption.WebSocketChannelHandler>()
                 {
-                    { "/im",new MvcChannelHandler(4*1024).MvcChannel_Handler}
+                    { "/im",new MvcChannelHandler(4*1024).ConnectionEntry}
                 };
                 x.ApplicationServiceCollection = service;
             });
@@ -73,7 +73,7 @@ app.UseSuktWebSocketServer(app.ApplicationServices);
       //消息处理标准结构
       var msg = {
       id: 'login',
-      TargetAction: "im.login",
+      TargetAction: "im.login",//对应的处理函数
       body: { 
         uid: "asdasdasdasdasdadsada" 
       }

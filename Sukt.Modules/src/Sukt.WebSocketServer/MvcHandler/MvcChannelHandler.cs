@@ -3,8 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Sukt.Module.Core.Extensions;
 using Sukt.WebSocketServer.Configures;
+using Sukt.Module.Core.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace Sukt.WebSocketServer.MvcHandler
     /// <summary>
     /// Mvc通道处理器
     /// </summary>
-    public class MvcChannelHandler
+    public class MvcChannelHandler: IWebSocketHandler
     {
         /// <summary>
         /// 通过mvc链接客户端通道
@@ -30,22 +30,36 @@ namespace Sukt.WebSocketServer.MvcHandler
         /// <summary>
         /// Http请求上下文
         /// </summary>
-        private HttpContext context;
+        //private HttpContext context;
         private ILogger<WebSocketRouteMiddleware> logger;
         private WebSocketRouteOption webSocketRouteOption;
         /// <summary>
-        /// 收到消息缓冲区
+        /// 收到文本消息缓冲区
         /// Receive message buffer
         /// </summary>
-        public int ReceiveBufferSize { get; set; } = 1024 * 4;
+        public int ReceiveTextBufferSize { get; set; }
+        /// <summary>
+        /// 收到二进制消息缓冲区
+        /// Receive message buffer
+        /// </summary>
+        public int ReceiveBinaryBufferSize { get; set; }
+        /// <summary>
+        /// 提供MVC转发处理程序
+        /// Provide MVC forwarding handler
+        /// </summary>
+        public WebSocketHandlerMetadata Metadata { get; } = new WebSocketHandlerMetadata()
+        {
+            Describe = "Provide MVC forwarding handler",
+            CanHandleBinary = false,
+            CanHandleText = true,
+        };
         public MvcChannelHandler(int receiveBufferSize = 4 * 1024)
         {
-            ReceiveBufferSize = receiveBufferSize;
+            ReceiveTextBufferSize = ReceiveBinaryBufferSize = receiveBufferSize;
         }
-
-        public async Task MvcChannel_Handler(HttpContext context,ILogger<WebSocketRouteMiddleware> logger,WebSocketRouteOption webSocketRouteOption)
+        public async Task ConnectionEntry(HttpContext context,ILogger<WebSocketRouteMiddleware> logger,WebSocketRouteOption webSocketRouteOption)
         {
-            this.context = context;
+            //this.context = context;
             this.logger = logger;
             this.webSocketRouteOption = webSocketRouteOption;
             WebSocket webSocketCloseInst = null;
@@ -74,7 +88,16 @@ namespace Sukt.WebSocketServer.MvcHandler
                         {
                             await MvcForward(context, webSocket);
                         }
+                        else
+                        {
+                            throw new InvalidOperationException("客户端初始化链接失败");
+                        }
                     }
+                }
+                else
+                {
+                    logger.LogWarning($"{context.Connection.RemoteIpAddress}:{context.Connection.RemotePort} -> 拒绝连接，缺少请求头({context.Connection.Id})");
+                    context.Response.StatusCode = 400;
                 }
             }
             catch (Exception)
@@ -87,8 +110,6 @@ namespace Sukt.WebSocketServer.MvcHandler
                 await MvcChannel_OnDisConnected(context, webSocketCloseInst, webSocketRouteOption, logger);
             }
         }
-        
-        
         /// <summary>
         /// 转发由WebSocket传输类型
         /// Forward by WebSocket transfer type
@@ -98,7 +119,7 @@ namespace Sukt.WebSocketServer.MvcHandler
         /// <returns></returns>
         private async Task MvcForward(HttpContext context, WebSocket webSocket)
         {
-            var buffer = new byte[ReceiveBufferSize];
+            var buffer = new byte[ReceiveTextBufferSize];
             try
             {
                 WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
@@ -108,10 +129,9 @@ namespace Sukt.WebSocketServer.MvcHandler
                         await MvcBinaryForward(context, webSocket, result, buffer);
                         break;
                     case WebSocketMessageType.Text:
-                        await MvcTextForward(result, buffer, webSocket);
+                        await MvcTextForward(result, buffer, webSocket, context);
                         break;
                 }
-
                 //链接断开
                 await webSocket.CloseAsync(webSocket.CloseStatus == null ?
                     webSocket.State == WebSocketState.Aborted ?
@@ -129,22 +149,21 @@ namespace Sukt.WebSocketServer.MvcHandler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="buffer"></param>
+        /// <param name="webSocket"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        private async Task MvcTextForward(WebSocketReceiveResult result, byte[] buffer, WebSocket webSocket)
+        private async Task MvcTextForward(WebSocketReceiveResult result, byte[] buffer, WebSocket webSocket, HttpContext context)
         {
-
             long requestTime = DateTime.Now.Ticks;
             StringBuilder json = new StringBuilder();
-
             //处理第一次返回的数据
             json = json.Append(Encoding.UTF8.GetString(buffer[..result.Count]));
-
             //第一次接受已经接受完数据了
             if (result.EndOfMessage)
             {
                 try
                 {
-                    await MvcTextForwardSendData(result, webSocket, json, requestTime);
+                    await MvcTextForwardSendData(result, webSocket, context, json, requestTime);
                 }
                 catch (Exception ex)
                 {
@@ -156,7 +175,6 @@ namespace Sukt.WebSocketServer.MvcHandler
                     json = json.Clear();
                 }
             }
-
             //等待客户端发送数据，第二次接受数据
             while (!result.CloseStatus.HasValue)
             {
@@ -168,16 +186,12 @@ namespace Sukt.WebSocketServer.MvcHandler
                     }
                     result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     requestTime = DateTime.Now.Ticks;
-
                     json = json.Append(Encoding.UTF8.GetString(buffer[..result.Count]));
-
                     if (!result.EndOfMessage || result.CloseStatus.HasValue)
                     {
                         continue;
                     }
-
-                    await MvcTextForwardSendData(result, webSocket, json, requestTime);
-
+                    await MvcTextForwardSendData(result, webSocket, context, json, requestTime);
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -191,28 +205,25 @@ namespace Sukt.WebSocketServer.MvcHandler
                 {
                     json = json.Clear();
                 }
-
             }
-
-
         }
         /// <summary>
         /// Mvc文本转发器
         /// MvcChannel text forward data
         /// </summary>
         /// <param name="result"></param>
+        /// <param name="webSocket"></param>
+        /// <param name="context"></param>
         /// <param name="json"></param>
         /// <param name="requsetTicks"></param>
         /// <returns></returns>
-        private async Task MvcTextForwardSendData(WebSocketReceiveResult result, WebSocket webSocket, StringBuilder json, long requsetTicks)
+        private async Task MvcTextForwardSendData(WebSocketReceiveResult result, WebSocket webSocket, HttpContext context, StringBuilder json, long requsetTicks)
         {
             try
             {
                 MvcRequestScheme request = JsonConvert.DeserializeObject<MvcRequestScheme>(json.ToString());
-
                 //按节点请求转发
                 object invokeResult = await MvcDistributeAsync(webSocketRouteOption, context, webSocket, request, logger);
-
                 string serialJson = null;
                 JObject jo = JObject.FromObject(invokeResult ?? string.Empty);
                 if (string.IsNullOrEmpty(request.Id))
@@ -220,7 +231,6 @@ namespace Sukt.WebSocketServer.MvcHandler
                     //如果客户端请求不包含Id，响应内容则移除Id
                     jo.Remove("Id");
                 }
-
                 // 如果没有抛出异常则移除Msg
                 if (jo.TryGetValue("Msg", out JToken v))
                 {
@@ -229,11 +239,8 @@ namespace Sukt.WebSocketServer.MvcHandler
                         jo.Remove("Msg");
                     }
                 }
-
                 serialJson = JsonConvert.SerializeObject(jo);
-
                 await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(serialJson)), result.MessageType, result.EndOfMessage, CancellationToken.None);
-
             }
             catch (JsonSerializationException ex)
             {
@@ -453,11 +460,9 @@ namespace Sukt.WebSocketServer.MvcHandler
                     // dispose ioc scope
                     serviceScope = null;
                     serviceScope?.Dispose();
-
                     mvcResponse.Id = request.Id;
                     mvcResponse.Body = invokeResult;
                     mvcResponse.ComplateTime = DateTime.Now.Ticks;
-
                     return mvcResponse;
                 }
             }
@@ -465,10 +470,8 @@ namespace Sukt.WebSocketServer.MvcHandler
             {
                 return new MvcResponseScheme() { Id = request.Id, Status = 1, Msg = $@"{context.Connection.RemoteIpAddress}:{context.Connection.RemotePort} -> Target:{requestPath}\r\n{ex.Message}\r\n{ex.StackTrace}", RequestTime = requestTime, ComplateTime = DateTime.Now.Ticks };
             }
-
         NotFound: return new MvcResponseScheme() { Id = request.Id, Status = 2, Msg = $@"{context.Connection.RemoteIpAddress}:{context.Connection.RemotePort} -> Target:{requestPath} not found", RequestTime = requestTime, ComplateTime = DateTime.Now.Ticks };
         }
-
         /// <summary>
         /// Client close connection
         /// </summary>
@@ -540,12 +543,10 @@ namespace Sukt.WebSocketServer.MvcHandler
                 bool wsExists = Clients.ContainsKey(context.Connection.Id);
                 if (wsExists)
                 {
-                    Clients.TryRemove(context.Connection.Id, out var ws);
+                    Clients.TryRemove(context.Connection.Id, out var _);
                 }
             }
         }
-
-
         /// <summary>
         /// 连接前建立Mvc通道
         /// Mvc channel before connection
@@ -559,7 +560,6 @@ namespace Sukt.WebSocketServer.MvcHandler
         {
             return Task.FromResult(true);
         }
-
         /// <summary>
         /// Mvc通道disconnectioneevent入口
         /// Mvc channel DisConnectionedEvent entry
