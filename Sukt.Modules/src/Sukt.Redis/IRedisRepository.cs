@@ -37,7 +37,7 @@ namespace Sukt.Redis
         /// <param name="value"></param>
         /// <param name="expiretime"></param>
         /// <returns></returns>
-        Task SetAsync(string key, object value, TimeSpan expiretime);
+        Task SetJsonAsync(string key, object value, TimeSpan expiretime);
         /// <summary>
         /// 写入字符串
         /// </summary>
@@ -45,7 +45,7 @@ namespace Sukt.Redis
         /// <param name="value"></param>
         /// <param name="expiretime"></param>
         /// <returns></returns>
-        Task SetAsync(string key, string value, TimeSpan expiretime);
+        Task SetStringAsync(string key, string value, TimeSpan expiretime);
         /// <summary>
         /// 获取泛型缓存
         /// </summary>
@@ -90,14 +90,12 @@ namespace Sukt.Redis
         /// <summary>
         /// 返回该键的第一个值并删除
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         Task<string> GetListLeftPopAsync(string key);
         /// <summary>
         /// 返回该键的最后一个值并删除
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         Task<string> GetListRightPopAsync(string key);
