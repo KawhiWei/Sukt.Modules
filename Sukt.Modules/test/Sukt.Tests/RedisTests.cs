@@ -30,7 +30,7 @@ namespace Sukt.Tests
         public async Task String_Test()
         {
             var source = "adsadadasda";
-            await _redisRepository.SetAsync("test", source, TimeSpan.FromMinutes(20));
+            await _redisRepository.SetStringAsync("test", source, TimeSpan.FromMinutes(20));
             var target = await _redisRepository.GetStringAsync("test");
             target.ShouldBe(source);
             await _redisRepository.RemoveAsync("test");

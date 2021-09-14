@@ -34,14 +34,14 @@ namespace Sukt.Redis
         {
             await _database.KeyDeleteAsync(key);
         }
-        public async Task SetAsync(string key,object value,TimeSpan expiretime)
+        public async Task SetJsonAsync(string key,object value,TimeSpan expiretime)
         {
             if(value!=null)
             {
                 await _database.StringSetAsync(key, value.ToJson(), expiretime);
             }
         }
-        public async Task SetAsync(string key, string value, TimeSpan expiretime)
+        public async Task SetStringAsync(string key, string value, TimeSpan expiretime)
         {
             if (value != null)
             {
@@ -114,7 +114,6 @@ namespace Sukt.Redis
         /// <summary>
         /// 返回该键的第一个值并删除
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         public async Task<string> GetListLeftPopAsync(string key)
@@ -124,7 +123,6 @@ namespace Sukt.Redis
         /// <summary>
         /// 返回该键的最后一个值并删除
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         public async Task<string> GetListRightPopAsync(string key)
@@ -140,6 +138,7 @@ namespace Sukt.Redis
         /// 返回在该键上列表对应的元素
         /// </summary>
         /// <param name="redisKey"></param>
+        /// <param name="db"></param>
         /// <returns></returns>
         public async Task<IEnumerable<string>> GetListRangeAsync(string redisKey, int db = -1)
         {
@@ -197,7 +196,6 @@ namespace Sukt.Redis
         /// 释放锁
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="expiretime"></param>
         /// <returns></returns>
         public bool UnLock(string key)
         {
@@ -217,7 +215,6 @@ namespace Sukt.Redis
         /// 释放锁
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="expiretime"></param>
         /// <returns></returns>
         public async Task<bool> UnLockAsync(string key)
         {
