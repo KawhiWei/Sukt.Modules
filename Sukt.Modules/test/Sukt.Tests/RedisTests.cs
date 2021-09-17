@@ -95,8 +95,8 @@ namespace Sukt.Tests
         [Fact]
         public async Task DistributedLocker_Test()
         {
-            var key = "Order002";
-            var lockerkey = await _redisRepository.LockAsync(key, TimeSpan.FromSeconds(180));
+            var key = "miaoshakoujiankucun";
+            var lockerkey = await _redisRepository.LockAsync(key, TimeSpan.FromSeconds(15));
             try
             {
                 if (!lockerkey)
@@ -124,7 +124,7 @@ namespace Sukt.Tests
     {
         public override void AddRedis(IServiceCollection service)
         {
-            service.AddRedis("192.168.31.164:6379,password = P@ssW0rd,defaultDatabase=5,prefix = test_");
+            service.AddRedis("192.168.31.144:6379,password=P@ssW0rd,defaultDatabase=5,prefix=sukt_admin_");
         }
     }
 }
