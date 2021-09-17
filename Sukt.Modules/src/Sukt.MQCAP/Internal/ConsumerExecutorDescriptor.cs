@@ -11,17 +11,16 @@ namespace Sukt.MQCAP
     public class ConsumerExecutorDescriptor
     {
         /// <summary>
-        /// 
+        /// 消费者处理方法
         /// </summary>
         public MethodInfo MethodInfo { get; set; }
         /// <summary>
-        /// 用户自定义方法特性
+        /// 消费者方法特性
         /// </summary>
         public ISuktSubscribeAttribute SuktSubscribeAttribute {get;set;}
         /// <summary>
-        /// 
+        /// 消费者类元数据
         /// </summary>
-        public TypeInfo ImplTypeInfo { get; set; }
-        public 
+        public TypeInfo ClassTypeInfo { get; set; }
     }
 }
