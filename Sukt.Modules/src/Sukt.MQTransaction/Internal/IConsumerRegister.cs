@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sukt.MQCAP
+namespace Sukt.MQTransaction
 {
-    public  interface ISuktSubscribeAttribute
+    public interface IConsumerRegister: IProcessingServer
     {
 
     }

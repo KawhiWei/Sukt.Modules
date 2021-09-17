@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Sukt.MQCAP
+namespace Sukt.MQTransaction
 {
     /// <summary>
     /// 用户定义方法的描述符。

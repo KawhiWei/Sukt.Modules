@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sukt.MQCAP
+namespace Sukt.MQTransaction
 {
     /// <summary>
     /// 通配符模式

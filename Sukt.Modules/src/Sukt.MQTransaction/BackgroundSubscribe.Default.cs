@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sukt.MQCAP
+namespace Sukt.MQTransaction
 {
     public class BackgroundSubscribe : BackgroundService, IBackgroundSubscribe
     {
@@ -30,6 +30,7 @@ namespace Sukt.MQCAP
         /// <exception cref="NotImplementedException"></exception>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Console.WriteLine(13213);
             await Initializer();
         }
     }

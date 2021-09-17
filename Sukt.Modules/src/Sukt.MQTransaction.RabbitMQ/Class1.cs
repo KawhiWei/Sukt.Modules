@@ -1,8 +1,9 @@
 ﻿using System;
 
-namespace Sukt.MQBus
+namespace Sukt.MQTransaction.RabbitMQ
 {
     public class Class1
     {
+
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sukt.MQCAP
+namespace Sukt.MQTransaction
 {
     /// <summary>
     /// MQ事件特性，只允许在方法上，允许多个

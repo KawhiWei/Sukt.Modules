@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Sukt.MQCAP\Sukt.MQCAP.csproj" />
+    <ProjectReference Include="..\..\src\Sukt.MQTransaction\Sukt.MQTransaction.csproj" />
   </ItemGroup>
 
 </Project>

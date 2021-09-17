@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Sukt.MQCAP;
-using Sukt.MQCAP.Internal;
+using Sukt.MQTransaction;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +11,6 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddSuktMQCap(this IServiceCollection services)
         {
-            services.AddSingleton<IServiceCollection>();
             services.TryAddSingleton<IConsumerServiceSelector, ConsumerServiceSelector>();
             services.TryAddSingleton<IConsumerRegister, ConsumerRegister>();
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingServer,IConsumerRegister>(serviceProvider=>serviceProvider.GetRequiredService<IConsumerRegister>()));
