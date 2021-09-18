@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Sukt.MQTransaction
 {
-    public interface IProcessingServer
+    public interface IProcessingServer: IDisposable
     {
         /// <summary>
         /// 启动程序

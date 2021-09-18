@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Sukt.MQTransaction.RabbitMQ\Sukt.MQTransaction.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\Sukt.MQTransaction\Sukt.MQTransaction.csproj" />
   </ItemGroup>
 

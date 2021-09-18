@@ -17,10 +17,24 @@ namespace Sukt.MQTransaction
         /// <summary>
         /// 消费者方法特性
         /// </summary>
-        public ISuktSubscribeAttribute SuktSubscribeAttribute {get;set;}
+        public SubscribeAttribute SuktSubscribeAttribute {get;set;}
         /// <summary>
-        /// 消费者类元数据
+        /// 服务实现类型
         /// </summary>
-        public TypeInfo ClassTypeInfo { get; set; }
+        public TypeInfo ImplementationTypeInfo { get; set; }
+        /// <summary>
+        /// 服务类型
+        /// </summary>
+        public TypeInfo ServiceTypeInfo { get; set; }
+        /// <summary>
+        /// 方法参数
+        /// </summary>
+        public IList<ParameterDescriptor> ParameterDescriptors { get; set; }
+    }
+    public class ParameterDescriptor
+    {
+        public string Name { get; set; }
+
+        public Type ParameterType { get; set; }
     }
 }

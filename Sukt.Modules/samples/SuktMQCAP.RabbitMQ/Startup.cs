@@ -27,7 +27,16 @@ namespace SuktMQCAP.RabbitMQ
         {
 
             services.AddControllers();
-            services.AddSuktMQCap();
+            services.AddScoped<ITest, Test>();
+            services.AddSuktMQTransaction(x =>
+            {
+                x.UseRabbitMQ(a =>
+                {
+                    a.Host = "";
+                    a.UserName = "";
+                    a.Password = "password";
+                });
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SuktMQCAP.RabbitMQ", Version = "v1" });

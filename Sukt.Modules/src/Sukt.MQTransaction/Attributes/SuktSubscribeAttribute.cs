@@ -8,9 +8,9 @@ namespace Sukt.MQTransaction
     /// 通配符模式
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class TopicSubscribeAttribute : Attribute
+    public abstract class SubscribeAttribute : Attribute
     {
-        public TopicSubscribeAttribute(string exchange, string topicOrRoutingKeyName="", string queue="")
+        public SubscribeAttribute(string exchange, string topicOrRoutingKeyName="", string queue="")
         {
             Exchange = exchange;
             TopicOrRoutingKeyName = topicOrRoutingKeyName;

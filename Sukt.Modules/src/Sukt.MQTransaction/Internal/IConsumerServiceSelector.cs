@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +10,6 @@ namespace Sukt.MQTransaction
     /// </summary>
     public interface IConsumerServiceSelector
     {
-
+        ConcurrentDictionary<string, IReadOnlyList<ConsumerExecutorDescriptor>> GetSubscribe();
     }
 }
