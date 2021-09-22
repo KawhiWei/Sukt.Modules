@@ -6,6 +6,7 @@ namespace Sukt.MQTransaction
 {
     public interface IConsumerRegister: IProcessingServer
     {
-
+        bool Ishealthy();
+        void ReStart(bool force = false);
     }
 }

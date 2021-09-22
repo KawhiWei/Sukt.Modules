@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new ArgumentNullException(nameof(action));
             }
-            options.RegisterExtension();
+            options.RegisterExtension(new SuktMQTransactionOptionsExtension(action));
             return options;
         }
     }

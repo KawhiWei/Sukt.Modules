@@ -124,7 +124,7 @@ namespace Sukt.Tests
     {
         public override void AddRedis(IServiceCollection service)
         {
-            service.AddRedis("192.168.31.144:6379,password=P@ssW0rd,defaultDatabase=5,prefix=sukt_admin_");
+            service.AddRedis("192.168.31.175:6379,password=P@ssW0rd,defaultDatabase=5,prefix=sukt_admin_");
         }
     }
 }

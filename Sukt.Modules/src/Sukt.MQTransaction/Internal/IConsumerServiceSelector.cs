@@ -11,5 +11,6 @@ namespace Sukt.MQTransaction
     public interface IConsumerServiceSelector
     {
         ConcurrentDictionary<string, IReadOnlyList<ConsumerExecutorDescriptor>> GetSubscribe();
+        IEnumerable<ConsumerExecutorDescriptor> SelectConsumersFromInterfaceTypes();
     }
 }

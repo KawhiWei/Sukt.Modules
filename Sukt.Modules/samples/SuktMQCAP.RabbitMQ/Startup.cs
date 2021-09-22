@@ -32,9 +32,10 @@ namespace SuktMQCAP.RabbitMQ
             {
                 x.UseRabbitMQ(a =>
                 {
-                    a.Host = "";
-                    a.UserName = "";
-                    a.Password = "password";
+                    a.Host = "192.168.31.188";
+                    a.Port = 30104;
+                    a.UserName = "guest";
+                    a.Password = "guest";
                 });
             });
             services.AddSwaggerGen(c =>

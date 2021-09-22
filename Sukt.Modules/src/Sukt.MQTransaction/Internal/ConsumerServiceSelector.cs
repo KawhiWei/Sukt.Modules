@@ -44,7 +44,7 @@ namespace Sukt.MQTransaction
         /// 获取继承<ISuktMQTransactionSubscribe>的所有类型
         /// </summary>
         /// <returns></returns>
-        protected virtual IEnumerable<ConsumerExecutorDescriptor> SelectConsumersFromInterfaceTypes()
+        public virtual IEnumerable<ConsumerExecutorDescriptor> SelectConsumersFromInterfaceTypes()
         {
             List<ConsumerExecutorDescriptor> consumerExecutorDescriptors = new List<ConsumerExecutorDescriptor>();
             //通过typeof()获取<ISuktMQTransactionSubscribe>接口元数据
