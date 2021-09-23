@@ -10,7 +10,13 @@ namespace Sukt.MQTransaction
         {
             
             Extensions = new List<ISuktMQTransactionExtension>();
+            ProducerThreadCount = 1;
+            EverySubscribeThreadCount = 1;
         }
+        /// <summary>
+        /// 生产者处理线程数
+        /// </summary>
+        public int ProducerThreadCount { get; set; }
         /// <summary>
         /// 是否需要持久化到数据库
         /// </summary>
@@ -18,7 +24,7 @@ namespace Sukt.MQTransaction
         /// <summary>
         /// 每个消费者的线程开启数量，默认是使用一个线程消费
         /// </summary>
-        public int EverySubscribeThreadCount { get; set; } = 1;
+        public int EverySubscribeThreadCount { get; set; }
         /// <summary>
         /// 所有的扩展
         /// </summary>

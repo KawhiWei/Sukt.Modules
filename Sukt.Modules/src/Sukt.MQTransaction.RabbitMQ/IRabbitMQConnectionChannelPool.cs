@@ -16,5 +16,16 @@ namespace Sukt.MQTransaction.RabbitMQ
         /// </summary>
         /// <returns></returns>
         IConnection GetConnection();
+        /// <summary>
+        /// 借用一个IModel
+        /// </summary>
+        /// <returns></returns>
+        IModel Rent();
+        /// <summary>
+        /// 退还
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        bool Return(IModel context);
     }
 }

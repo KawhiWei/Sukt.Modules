@@ -68,7 +68,7 @@ namespace Sukt.MQTransaction
             {
                 try
                 {
-                    item.ProcessStatr(_cts.Token);
+                    item.ProcessStart(_cts.Token);
                 }
                 catch(OperationCanceledException)
                 {

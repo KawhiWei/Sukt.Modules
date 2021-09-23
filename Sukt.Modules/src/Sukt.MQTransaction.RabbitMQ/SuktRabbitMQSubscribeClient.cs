@@ -107,7 +107,7 @@ namespace Sukt.MQTransaction.RabbitMQ
             //    }
             //}
 
-            var message = new MessageCarrier(e.Body.ToArray());
+            var message = new MessageCarrier(new Dictionary<string, string>(), e.Body.ToArray());
             OnMessageReceived?.Invoke(e.DeliveryTag, message);
         }
         public void Dispose()

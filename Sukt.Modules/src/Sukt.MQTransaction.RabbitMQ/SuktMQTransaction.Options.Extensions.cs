@@ -16,6 +16,7 @@ namespace Sukt.MQTransaction.RabbitMQ
         public void AddService(IServiceCollection services)
         {
             services.Configure(_action);
+            services.AddSingleton<IMessageTransport, RabbitMQMessageTransport>();
             services.AddSingleton<IRabbitMQConnectionChannelPool, RabbitMQConnectionChannelPool>();
             services.AddSingleton<ISuktMQClientFactory, SuktRabbitMQClientFactory>();
         }

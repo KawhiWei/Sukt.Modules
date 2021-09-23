@@ -10,6 +10,6 @@ namespace Sukt.MQTransaction
         /// <summary>
         /// 启动程序
         /// </summary>
-        void ProcessStatr(CancellationToken stoppingToken);
+        void ProcessStart(CancellationToken stoppingToken);
     }
 }

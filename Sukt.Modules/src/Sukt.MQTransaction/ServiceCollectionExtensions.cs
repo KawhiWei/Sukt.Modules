@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sukt.MQTransaction;
+using Sukt.MQTransaction.Internal;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,11 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             services.AddSingleton(_ => services);
             services.TryAddSingleton<IConsumerServiceSelector, ConsumerServiceSelector>();
+            services.TryAddSingleton<ISenderMessageToMQ, SenderMessageToMQ>();
             services.TryAddSingleton<IConsumerRegister, ConsumerRegister>();
+            services.TryAddSingleton<IDispatcher, Dispatcher>();
+            services.TryAddSingleton<IMQTransactionPublisher, MQTransactionPublisher>();
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingServer, IDispatcher>(serviceProvider => serviceProvider.GetRequiredService<IDispatcher>()));
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingServer,IConsumerRegister>(serviceProvider=>serviceProvider.GetRequiredService<IConsumerRegister>()));
             var options = new SuktMQTransactionOptions();
             action(options);

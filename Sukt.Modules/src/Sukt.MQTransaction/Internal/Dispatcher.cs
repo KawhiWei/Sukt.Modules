@@ -1,0 +1,125 @@
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Channels;
+using System.Threading.Tasks;
+
+namespace Sukt.MQTransaction.Internal
+{
+    public class Dispatcher : IDispatcher
+    {
+        private readonly ILogger<Dispatcher> _logger;
+        private readonly ISenderMessageToMQ _senderMessageToMQ;
+        private readonly SuktMQTransactionOptions _options;
+        /// <summary>
+        /// 关闭程序
+        /// </summary>
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        /// <summary>
+        /// 发布消息处理内存队列
+        /// </summary>
+        private Channel<DbMessage> _publishChannel;
+
+        public Dispatcher(ILogger<Dispatcher> logger, ISenderMessageToMQ senderMessageToMQ, IOptions<SuktMQTransactionOptions> options)
+        {
+            _logger = logger;
+            _senderMessageToMQ = senderMessageToMQ;
+            _options = options.Value;
+        }
+
+        public void Dispose()
+        {
+            if(!_cts.IsCancellationRequested)
+            {
+                _cts.Cancel();
+            }
+        }
+
+        public void ProcessStart(CancellationToken stoppingToken)
+        {
+            stoppingToken.ThrowIfCancellationRequested();
+            stoppingToken.Register(() => _cts.Cancel());
+            var capacity = _options.ProducerThreadCount * 500;
+            _publishChannel = Channel.CreateBounded<DbMessage>(new BoundedChannelOptions(capacity > 5000 ? 5000 : capacity)
+            {
+                AllowSynchronousContinuations = true,
+                SingleReader = _options.ProducerThreadCount == 1,
+                SingleWriter = true,
+                FullMode = BoundedChannelFullMode.Wait
+            });
+            //启动后台处理发布消息方法
+            Task.WhenAll(Enumerable.Range(0,_options.ProducerThreadCount)
+                .Select(_ => 
+                Task.Factory.StartNew(() => SendingToMQ(stoppingToken),stoppingToken,TaskCreationOptions.LongRunning,TaskScheduler.Default)
+                ).ToArray());
+
+        }
+        /// <summary>
+        /// 发布消息到通道
+        /// </summary>
+        /// <param name="message"></param>
+        public void PublishToChannel(DbMessage message)
+        {
+            try
+            {
+                if(!_publishChannel.Writer.TryWrite(message))
+                {
+                    while (_publishChannel.Writer.WaitToWriteAsync(_cts.Token).AsTask().ConfigureAwait(false).GetAwaiter().GetResult())
+                    {
+                        if(_publishChannel.Writer.TryWrite(message))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void SubscribeToChannel(DbMessage message, ConsumerExecutorDescriptor consumer)
+        {
+            
+        }
+        /// <summary>
+        /// 内存队列消息监听者，使用信号量
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        private async Task SendingToMQ(CancellationToken stoppingToken)
+        {
+            try
+            {
+                while (await _publishChannel.Reader.WaitToReadAsync(stoppingToken))
+                {
+                    while (_publishChannel.Reader.TryRead(out var message))
+                    {
+                        try
+                        {
+                           var result=await _senderMessageToMQ.SendAsync(message);
+                           if(!result.Success)
+                            {
+                                _logger.LogError($"在发布消息时出现异常,原因是：{result.Message}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, $"向MQ发送消息异常，{ex.Message}-------------->消息Id:{message.Id}");
+                        }
+                    }
+                }
+            }
+            catch (OperationCanceledException cex)
+            {
+                _logger.LogError(cex, cex.Message);
+            }
+            
+        }
+    }
+}

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Sukt.MQTransaction
 {
     /// <summary>
-    /// 实现消息订阅者后台服务
+    /// 消息订阅者实现后台服务
     /// </summary>
     public class ConsumerRegister : IConsumerRegister
     {
@@ -23,7 +23,6 @@ namespace Sukt.MQTransaction
         private Task _compositeTask;
         private bool _disposed;
         private IConsumerServiceSelector _consumerServiceSelector;
-        private int ConsumerThreadCount = 1;
         private bool _isHealthy = true;
         private ISuktMQClientFactory _clientFactory;
         private SuktMQTransactionOptions _options;
@@ -35,7 +34,7 @@ namespace Sukt.MQTransaction
             _options = _serviceProvider.GetRequiredService<IOptions<SuktMQTransactionOptions>>().Value;
         }
 
-        public void ProcessStatr(CancellationToken stoppingToken)
+        public void ProcessStart(CancellationToken stoppingToken)
         {
             _consumerServiceSelector = _serviceProvider.GetService<IConsumerServiceSelector>();
             _clientFactory = _serviceProvider.GetService<ISuktMQClientFactory>();
@@ -146,6 +145,10 @@ namespace Sukt.MQTransaction
         {
             client.OnMessageReceived += (sender, msessageCarrier) =>
             {
+
+
+
+
                 _logger.LogInformation(msessageCarrier.ToString());
 
             };
