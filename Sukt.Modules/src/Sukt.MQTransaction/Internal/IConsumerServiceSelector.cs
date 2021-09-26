@@ -11,6 +11,18 @@ namespace Sukt.MQTransaction
     public interface IConsumerServiceSelector
     {
         ConcurrentDictionary<string, IReadOnlyList<ConsumerExecutorDescriptor>> GetSubscribe();
-        IEnumerable<ConsumerExecutorDescriptor> SelectConsumersFromInterfaceTypes();
+        /// <summary>
+        /// 获取所有订阅者方法
+        /// </summary>
+        /// <returns></returns>
+        ConcurrentBag<ConsumerExecutorDescriptor> SelectConsumersFromInterfaceTypes();
+        /// <summary>
+        /// 获取一个实例
+        /// </summary>
+        /// <param name="exchange"></param>
+        /// <param name="routingkey"></param>
+        /// <param name="descriptor"></param>
+        /// <returns></returns>
+        bool TryGetConsumerExecutorDescriptorByRoutingkey(string exchange, string routingkey, out ConsumerExecutorDescriptor descriptor);
     }
 }

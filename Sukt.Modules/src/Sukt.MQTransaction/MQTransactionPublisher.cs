@@ -41,7 +41,6 @@ namespace Sukt.MQTransaction
                 headers.Add(MQTransactionHeaderkeyConst.MessageId, messageId);
             }
             headers.Add(MQTransactionHeaderkeyConst.MessageExchange, exchange);
-
             headers.Add(MQTransactionHeaderkeyConst.MessageRoutingkey, routingkey);
             headers.Add(MQTransactionHeaderkeyConst.MessageType, typeof(T).Name);
             headers.Add(MQTransactionHeaderkeyConst.MessageSendTime, DateTimeOffset.Now.ToString());

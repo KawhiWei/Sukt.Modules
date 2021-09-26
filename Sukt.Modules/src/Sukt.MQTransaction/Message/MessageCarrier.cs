@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,6 +26,7 @@ namespace Sukt.MQTransaction
         /// <summary>
         /// 消息二进制内容
         /// </summary>
+        [CanBeNull]
         public byte[] Body { get; }
     }
     public static class MessageCarrierExtensions

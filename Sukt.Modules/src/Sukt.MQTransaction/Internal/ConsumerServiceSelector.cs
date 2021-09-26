@@ -17,11 +17,13 @@ namespace Sukt.MQTransaction
         /// 声明一个线程安全字典
         /// </summary>
         public ConcurrentDictionary<string, IReadOnlyList<ConsumerExecutorDescriptor>> Entries { get; set; }
+        public ConcurrentBag<ConsumerExecutorDescriptor> ConsumerExecutoBag { get; set; }
         public ConsumerServiceSelector(IServiceProvider serviceProvider, ILogger<ConsumerServiceSelector> logger)
         {
             _serviceProvider = serviceProvider;
             _logger = logger;
             Entries=new ConcurrentDictionary<string, IReadOnlyList<ConsumerExecutorDescriptor>>();
+            ConsumerExecutoBag = new ConcurrentBag<ConsumerExecutorDescriptor>();
         }
 
         public ConcurrentDictionary<string, IReadOnlyList<ConsumerExecutorDescriptor>> GetSubscribe()
@@ -44,9 +46,13 @@ namespace Sukt.MQTransaction
         /// 获取继承<ISuktMQTransactionSubscribe>的所有类型
         /// </summary>
         /// <returns></returns>
-        public virtual IEnumerable<ConsumerExecutorDescriptor> SelectConsumersFromInterfaceTypes()
+        public virtual ConcurrentBag<ConsumerExecutorDescriptor> SelectConsumersFromInterfaceTypes()
         {
-            List<ConsumerExecutorDescriptor> consumerExecutorDescriptors = new List<ConsumerExecutorDescriptor>();
+            if(ConsumerExecutoBag.Count>0)
+            {
+                return ConsumerExecutoBag;
+            }
+
             //通过typeof()获取<ISuktMQTransactionSubscribe>接口元数据
             var suktMQTransactionSubscribeTypeInfo = typeof(ISuktMQTransactionSubscribe).GetTypeInfo();
             var serviceCollection = _serviceProvider.GetRequiredService<IServiceCollection>();
@@ -69,14 +75,9 @@ namespace Sukt.MQTransaction
                 {
                     throw new NullReferenceException(nameof(service.ServiceType));
                 }
-                consumerExecutorDescriptors.AddRange(GetMethodInfo(consumerServiceActualType.GetTypeInfo(), service.ServiceType.GetTypeInfo()));
-
+                ConsumerExecutoBag = GetMethodInfo(consumerServiceActualType.GetTypeInfo(), service.ServiceType.GetTypeInfo());
             }
-
-
-
-
-            return consumerExecutorDescriptors;
+            return ConsumerExecutoBag;
         }
         /// <summary>
         /// 获取具体的实现方法
@@ -84,8 +85,9 @@ namespace Sukt.MQTransaction
         /// <param name="typeInfo"></param>
         /// <param name="serviceTypeInfo"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ConsumerExecutorDescriptor> GetMethodInfo(TypeInfo typeInfo, TypeInfo serviceTypeInfo = null)
+        protected virtual ConcurrentBag<ConsumerExecutorDescriptor> GetMethodInfo(TypeInfo typeInfo, TypeInfo serviceTypeInfo = null)
         {
+            ConcurrentBag<ConsumerExecutorDescriptor> consumerExecutorDescriptors = new ConcurrentBag<ConsumerExecutorDescriptor>();
             var topicClassSubscribeAttribute = typeInfo.GetCustomAttribute<SubscribeAttribute>(true);
             foreach (var method in typeInfo.GetRuntimeMethods())//循环该类中的所有运行时方法
             {
@@ -105,9 +107,11 @@ namespace Sukt.MQTransaction
                         Name = param.Name,
                         ParameterType = param.ParameterType,
                     }).ToList();
-                    yield return InitConsumerExecutorDescriptor(arrt, method, typeInfo, serviceTypeInfo, methodParamters);
+                    //yield return InitConsumerExecutorDescriptor(arrt, method, typeInfo, serviceTypeInfo, methodParamters);
+                    consumerExecutorDescriptors.Add(InitConsumerExecutorDescriptor(arrt, method, typeInfo, serviceTypeInfo, methodParamters));
                 }
             }
+            return consumerExecutorDescriptors;
         }
         public ConsumerExecutorDescriptor InitConsumerExecutorDescriptor(
             SubscribeAttribute attr,
@@ -125,6 +129,15 @@ namespace Sukt.MQTransaction
                 ServiceTypeInfo=serviceTypeInfo,
                 ParameterDescriptors=parameters
             };
+        }
+        public bool TryGetConsumerExecutorDescriptorByRoutingkey(string exchange,string routingkey,out ConsumerExecutorDescriptor descriptor)
+        {
+            if(ConsumerExecutoBag==null)
+            {
+                throw new ArgumentNullException(nameof(ConsumerExecutoBag));
+            }
+            descriptor = ConsumerExecutoBag.FirstOrDefault(x => x.SuktSubscribeAttribute.Exchange.Equals(exchange, StringComparison.InvariantCultureIgnoreCase) && x.SuktSubscribeAttribute.RoutingKey.Equals(routingkey, StringComparison.InvariantCultureIgnoreCase));
+            return descriptor != null;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Sukt.MQTransaction.Internal
             do
             {
                 var jsonbyte=JsonSerializer.SerializeToUtf8Bytes(message.Origin.MessageContent);
-                var executedResult = await _messageTransport.SendAsync(new MessageCarrier(message.Origin.MessageHeader, )));
+                var executedResult = await _messageTransport.SendAsync(new MessageCarrier(message.Origin.MessageHeader, jsonbyte));
                 result = executedResult;
                 if(result.Success)
                 {

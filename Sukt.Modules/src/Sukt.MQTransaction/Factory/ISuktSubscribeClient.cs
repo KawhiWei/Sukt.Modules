@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -32,5 +33,15 @@ namespace Sukt.MQTransaction.Factory
         /// 消息处理载体
         /// </summary>
         event EventHandler<MessageCarrier> OnMessageReceived;
+        /// <summary>
+        /// 消息消费成功之后的回调
+        /// </summary>
+        /// <param name="sender"></param>
+        void Commit([NotNull] object sender);
+        /// <summary>
+        /// 消费失败回调，否认消息消费成功
+        /// </summary>
+        /// <param name="sender"></param>
+        void Reject(object sender);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using JetBrains.Annotations;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Sukt.Module.Core.Extensions;
@@ -97,22 +98,28 @@ namespace Sukt.MQTransaction.RabbitMQ
             }
 
             //headers.Add(Headers.Group, _queueName);
-
-            //if (_rabbitMQOptions.CustomHeaders != null)
-            //{
-            //    var customHeaders = _rabbitMQOptions.CustomHeaders(e);
-            //    foreach (var customHeader in customHeaders)
-            //    {
-            //        headers[customHeader.Key] = customHeader.Value;
-            //    }
-            //}
-
-            var message = new MessageCarrier(new Dictionary<string, string>(), e.Body.ToArray());
+            var message = new MessageCarrier(headers, e.Body.ToArray());
             OnMessageReceived?.Invoke(e.DeliveryTag, message);
         }
         public void Dispose()
         {
             _rabbitchannelmodel?.Dispose();
+        }
+
+        public void Commit([NotNull] object sender)
+        {
+            if (_rabbitchannelmodel.IsOpen)
+            {
+                _rabbitchannelmodel.BasicAck((ulong)sender, false);
+            }
+        }
+
+        public void Reject(object sender)
+        {
+            if (_rabbitchannelmodel.IsOpen)
+            {
+                _rabbitchannelmodel.BasicReject((ulong)sender, true);
+            }
         }
     }
 }

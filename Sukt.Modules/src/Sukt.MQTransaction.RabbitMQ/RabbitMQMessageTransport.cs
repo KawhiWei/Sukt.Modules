@@ -37,7 +37,7 @@ namespace Sukt.MQTransaction.RabbitMQ
                 channel.ExchangeDeclare(exchange: message.GetExchange(), type: exchangeType, durable: true);
                 channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
                 channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
-                _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}----->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId().ToString()}");
+                _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}----->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
                 return Task.FromResult(new OperationResponse(OperationEnumType.Success));
             }
             catch (Exception ex)
