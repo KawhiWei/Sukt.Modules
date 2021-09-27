@@ -19,7 +19,7 @@ namespace SuktMQCAP.RabbitMQ.Controllers
         [Route("~/test")]
         public IActionResult Test()
         {
-            _transactionPublisher.Publish("mqtransaction", "mqtransaction.keys", DateTime.Now);
+            _transactionPublisher.Publish("sukt.mqtransaction", "mqtransaction.keys", DateTime.Now);
             return Ok();
         }
     }

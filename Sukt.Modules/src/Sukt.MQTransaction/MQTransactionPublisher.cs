@@ -55,8 +55,9 @@ namespace Sukt.MQTransaction
                 ExpiresAt=null,
                 Retries=0,
             };
-            var jsonbyte = JsonSerializer.SerializeToUtf8Bytes(message.MessageContent);
-            _dispatcher.SendToMQ(new MessageCarrier(headers, jsonbyte));
+            //var jsonbyte = JsonSerializer.SerializeToUtf8Bytes(message.MessageContent);
+            //_dispatcher.PublishToChannel(new MessageCarrier(headers, jsonbyte));
+            _dispatcher.PublishToChannel(dbmessage);
         }
     }
 }
