@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Sukt.MQTransaction.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,12 +25,13 @@ namespace Sukt.MQTransaction.Internal
         /// </summary>
         private Channel<DbMessage> _publishChannel;
         private Channel<(DbMessage, ConsumerExecutorDescriptor)> _subscribeChannel;
-
-        public Dispatcher(ILogger<Dispatcher> logger, ISenderMessageToMQ senderMessageToMQ, IOptions<SuktMQTransactionOptions> options)
+        private readonly IMessageTransport _messageTransport;
+        public Dispatcher(ILogger<Dispatcher> logger, ISenderMessageToMQ senderMessageToMQ, IOptions<SuktMQTransactionOptions> options, IMessageTransport messageTransport)
         {
             _logger = logger;
             _senderMessageToMQ = senderMessageToMQ;
             _options = options.Value;
+            _messageTransport = messageTransport;
         }
 
         public void Dispose()
@@ -180,6 +182,11 @@ namespace Sukt.MQTransaction.Internal
                 _logger.LogError(cex, cex.Message);
             }
 
+        }
+
+        public void SendToMQ()
+        {
+            _messageTransport.SendAsync();
         }
     }
 }

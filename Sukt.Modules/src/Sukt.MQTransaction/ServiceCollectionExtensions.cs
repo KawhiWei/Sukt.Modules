@@ -21,6 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<ISenderMessageToMQ, SenderMessageToMQ>();
             services.TryAddSingleton<IConsumerRegister, ConsumerRegister>();
             services.TryAddSingleton<IDispatcher, Dispatcher>();
+            services.TryAddSingleton<ISubscribeInvoker, SubscribeInvoker>();
             services.TryAddSingleton<IMQTransactionPublisher, MQTransactionPublisher>();
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingServer, IDispatcher>(serviceProvider => serviceProvider.GetRequiredService<IDispatcher>()));
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingServer,IConsumerRegister>(serviceProvider=>serviceProvider.GetRequiredService<IConsumerRegister>()));

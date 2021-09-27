@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sukt.Module.Core.Exceptions;
 using Sukt.MQTransaction.Factory;
+using Sukt.MQTransaction.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +30,13 @@ namespace Sukt.MQTransaction
         private ISuktMQClientFactory _clientFactory;
         private readonly SuktMQTransactionOptions _options;
         private IDispatcher _dispatcher;
-        public ConsumerRegister(IServiceProvider serviceProvider, ILogger<ConsumerRegister> logger)
+        private ISubscribeInvoker _subscribeInvoker;
+        public ConsumerRegister(IServiceProvider serviceProvider, ISubscribeInvoker subscribeInvoker, ILogger<ConsumerRegister> logger)
         {
             _serviceProvider = serviceProvider;
             _logger = logger;
             _cts = new CancellationTokenSource();
+            _subscribeInvoker = subscribeInvoker;
             _options = _serviceProvider.GetRequiredService<IOptions<SuktMQTransactionOptions>>().Value;
         }
 
@@ -181,19 +184,7 @@ namespace Sukt.MQTransaction
                     }
                     else
                     {
-                        using var scope = _serviceProvider.CreateScope();
-                        var provider = scope.ServiceProvider;
-                        var instance = GetInstance(provider, descriptor);
-                        if (descriptor.ParameterDescriptors.Count == 0)
-                        {
-                            descriptor.MethodInfo.Invoke(instance, null);
-                        }
-                        else
-                        {
-                            object[] parameters = new object[] { message.MessageContent };
-                            //第一个参数是委托的实例，第二个参数是方法的参数
-                            descriptor.MethodInfo.Invoke(instance, parameters);
-                        }
+                        _subscribeInvoker.Invoke(message,descriptor);
                     }
                     client.Commit(sender);
                 }

@@ -8,6 +8,6 @@ namespace Sukt.MQTransaction.Factory
 {
     public interface IMessageTransport
     {
-        Task<OperationResponse> SendAsync(MessageCarrier message, string exchangeType = "topic");
+        Task《OperationResponse SendAsync(MessageCarrier message, string exchangeType = "topic");
     }
 }
