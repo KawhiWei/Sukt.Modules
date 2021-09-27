@@ -3,6 +3,7 @@ using Sukt.Module.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace Sukt.MQTransaction
 {
@@ -54,7 +55,8 @@ namespace Sukt.MQTransaction
                 ExpiresAt=null,
                 Retries=0,
             };
-            _dispatcher.PublishToChannel(dbmessage);
+            var jsonbyte = JsonSerializer.SerializeToUtf8Bytes(message.MessageContent);
+            _dispatcher.SendToMQ(new MessageCarrier(headers, jsonbyte));
         }
     }
 }

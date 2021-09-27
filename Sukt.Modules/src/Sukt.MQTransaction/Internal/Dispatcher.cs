@@ -184,9 +184,9 @@ namespace Sukt.MQTransaction.Internal
 
         }
 
-        public void SendToMQ()
+        public void SendToMQ(MessageCarrier message)
         {
-            _messageTransport.SendAsync();
+            _messageTransport.Send(message);
         }
     }
 }

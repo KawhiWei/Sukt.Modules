@@ -17,5 +17,6 @@ namespace Sukt.MQTransaction
         /// <param name="message"></param>
         /// <param name="consumer"></param>
         void SubscribeToChannel(DbMessage message,ConsumerExecutorDescriptor consumer);
+        void SendToMQ(MessageCarrier message);
     }
 }
