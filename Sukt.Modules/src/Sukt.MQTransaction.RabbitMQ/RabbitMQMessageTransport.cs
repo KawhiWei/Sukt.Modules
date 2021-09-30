@@ -55,17 +55,56 @@ namespace Sukt.MQTransaction.RabbitMQ
 
         public Task<OperationResponse> SendAsync(MessageCarrier message, string exchangeType = "topic")
         {
+            //IModel channel = null;
+            try
+            {
+                using (var conn = _connectionChannelPool.GetConnection())
+                {
+                    using (IModel channel = conn.CreateModel())
+                    {
+                        channel.ConfirmSelect();
+                        var props = channel.CreateBasicProperties();
+                        props.DeliveryMode = 2;//发送模式1为不持续，2为持续
+                        props.Headers = message.MessageHeader.ToDictionary(x => x.Key, x => (object)x.Value);
+                        channel.ExchangeDeclare(exchange: message.GetExchange(), type: exchangeType, durable: true);
+                        channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
+                        channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
+                        _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}----->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
+                        return Task.FromResult(new OperationResponse(OperationEnumType.Success));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(new OperationResponse($"{ex.Message}{ex.StackTrace}", OperationEnumType.Error));
+            }
+            //finally
+            //{
+            //    if(channel!=null)
+            //    {
+            //        _connectionChannelPool.Return(channel);//使用完成后还给对象池
+            //    }
+            //}
+        }
+        /// <summary>
+        /// 采用对象池租用的方式
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exchangeType"></param>
+        /// <returns></returns>
+        public Task<OperationResponse> SendAsRentAsync(MessageCarrier message, string exchangeType = "topic")
+        {
             IModel channel = null;
             try
             {
-                channel = _connectionChannelPool.Rent();
+                channel = _connectionChannelPool.Rent();/*_connectionChannelPool.GetConnection().CreateModel();*/
                 channel.ConfirmSelect();
                 var props = channel.CreateBasicProperties();
                 props.DeliveryMode = 2;//发送模式1为不持续，2为持续
                 props.Headers = message.MessageHeader.ToDictionary(x => x.Key, x => (object)x.Value);
                 channel.ExchangeDeclare(exchange: message.GetExchange(), type: exchangeType, durable: true);
                 channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
-                channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
+                //channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
                 _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}----->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
                 return Task.FromResult(new OperationResponse(OperationEnumType.Success));
             }
@@ -75,7 +114,7 @@ namespace Sukt.MQTransaction.RabbitMQ
             }
             finally
             {
-                if(channel!=null)
+                if (channel != null)
                 {
                     _connectionChannelPool.Return(channel);//使用完成后还给对象池
                 }

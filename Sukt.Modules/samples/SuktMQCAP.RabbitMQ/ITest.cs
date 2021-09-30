@@ -13,7 +13,7 @@ namespace SuktMQCAP.RabbitMQ
         public void Order(DateTime model)
         {
             //throw new Exception("我报错了");
-            Console.WriteLine($"消费成功------>{model.ToLongDateString()}");
+            Console.WriteLine($"消费成功------>{model.ToString("yyyy-MM-dd hh:mm:ss")}");
         }
     }
     public class Model

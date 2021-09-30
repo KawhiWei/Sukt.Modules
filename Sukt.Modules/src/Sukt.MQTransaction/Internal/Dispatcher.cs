@@ -69,7 +69,7 @@ namespace Sukt.MQTransaction.Internal
                 Task.Factory.StartNew(() => SendingToMQ(stoppingToken), stoppingToken, TaskCreationOptions.LongRunning, TaskScheduler.Default)
                 ).ToArray());
             //启动后台处理订阅消息方法《内存队列》
-            Task.WhenAll(Enumerable.Range(0, _options.ProducerThreadCount)
+            Task.WhenAll(Enumerable.Range(0, _options.EverySubscribeThreadCount)
                 .Select(_ =>
                 Task.Factory.StartNew(() => SubscribeChanne(stoppingToken), stoppingToken, TaskCreationOptions.LongRunning, TaskScheduler.Default)
                 ).ToArray());
@@ -164,6 +164,7 @@ namespace Sukt.MQTransaction.Internal
                     {
                         try
                         {
+                            Console.WriteLine($"当前线程-----》{Thread.CurrentThread.ManagedThreadId.ToString()}.-------當前通道内還需要讀取的數量是---------->{_publishChannel.Reader.Count}");
                             var result = await _senderMessageToMQ.SendAsync(message);
                             if (!result.Success)
                             {
@@ -183,10 +184,21 @@ namespace Sukt.MQTransaction.Internal
             }
 
         }
-
-        public void SendToMQ(MessageCarrier message)
+        /// <summary>
+        /// 不持久化消息，直接发布消息到MQ
+        /// </summary>
+        /// <param name="message"></param>
+        public async Task PublishToMQAsync(MessageCarrier message, int isrent)
         {
-            _messageTransport.Send(message);
+            if(isrent==1)
+            {
+                await _messageTransport.SendAsync(message);
+            }
+            else
+            {
+                await _messageTransport.SendAsRentAsync(message);
+            }
+            
         }
     }
 }

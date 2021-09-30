@@ -67,7 +67,7 @@ namespace Sukt.Redis
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<long> SetListLeftPushAsync(string key,string value)
+        public async Task<long> SetListLeftPushAsync(string key,RedisValue value)
         {
             return await _database.ListLeftPushAsync(key, value);
         }

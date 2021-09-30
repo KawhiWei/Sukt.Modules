@@ -29,5 +29,27 @@ namespace Sukt.MQTransaction
         /// <param name="value"></param>
         /// <param name="headers"></param>
         void Publish<T>(string exchange, string routingkey, T value, IDictionary<string, string> headers, string exchangeType = "topic");
+        /// <summary>
+        /// 异步发送消息
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="exchange"></param>
+        /// <param name="routingkey"></param>
+        /// <param name="value"></param>
+        /// <param name="callbackName"></param>
+        /// <param name="exchangeType"></param>
+        /// <returns></returns>
+        Task PublishAsync<T>(string exchange, string routingkey, [CanBeNull] T value,int isrent, string callbackName = null, string exchangeType = "topic");
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="exchange"></param>
+        /// <param name="routingkey"></param>
+        /// <param name="value"></param>
+        /// <param name="headers"></param>
+        /// <param name="exchangeType"></param>
+        /// <returns></returns>
+        Task PublishAsync<T>(string exchange, string routingkey, T value, IDictionary<string, string> headers, int isrent, string exchangeType = "topic");
     }
 }

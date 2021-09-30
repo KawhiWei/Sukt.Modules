@@ -67,14 +67,14 @@ namespace Sukt.MQTransaction.RabbitMQ
 
         IModel IRabbitMQConnectionChannelPool.Rent()
         {
-            lock (connctionlock)
-            {
+            //lock (connctionlock)
+            //{
                 while (_count>_maxsize)
                 {
                     Thread.SpinWait(1);
                 }
                 return Rent();
-            }
+            //}
         }
         /// <summary>
         /// 返还Model

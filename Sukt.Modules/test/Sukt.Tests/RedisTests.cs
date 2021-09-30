@@ -8,6 +8,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using Sukt.Module.Core.Extensions;
 
 namespace Sukt.Tests
 {
@@ -45,8 +46,10 @@ namespace Sukt.Tests
             var value = "Sukt.Core.Top";
             for (int i = 0; i < 80; i++)
             {
-                await _redisRepository.SetListLeftPushAsync("listleft_top_test", $"{value }---------------------{i}");
+                var user = new User() { Name = $"$开飞机一告{i}" };
+                var index=await _redisRepository.SetListLeftPushAsync("listleft_top_test_user", user.ToJson());
             }
+            var result= await _redisRepository.GetListRangeAsync("listleft_top_test_user");
         }
         /// <summary>
         /// List头部插入和取出值
@@ -72,7 +75,8 @@ namespace Sukt.Tests
             for (int i = 0; i < 80; i++)
             {
 
-                await _redisRepository.SetListLeftPushAsync("listleft_last_test", $"{value}+++++++++++++++++{i}");
+                var result= await _redisRepository.SetListLeftPushAsync("listleft_last_test", $"{value}+++++++++++++++++{i}");
+                Console.WriteLine(result);
             }
         }
         /// <summary>
@@ -124,7 +128,12 @@ namespace Sukt.Tests
     {
         public override void AddRedis(IServiceCollection service)
         {
-            service.AddRedis("192.168.31.175:6379,password=P@ssW0rd,defaultDatabase=5,prefix=sukt_admin_");
+            service.AddRedis("192.168.31.175:6379,password=P@ssW0rd,defaultDatabase=2,prefix=sukt_admin_");
         }
+    }
+    public class User
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Name { get; set; }
     }
 }

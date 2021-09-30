@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Sukt.MQTransaction
 {
@@ -17,6 +18,10 @@ namespace Sukt.MQTransaction
         /// <param name="message"></param>
         /// <param name="consumer"></param>
         void SubscribeToChannel(DbMessage message,ConsumerExecutorDescriptor consumer);
-        void SendToMQ(MessageCarrier message);
+        /// <summary>
+        /// 不需要持久化直接发布到MQ
+        /// </summary>
+        /// <param name="message"></param>
+        Task PublishToMQAsync(MessageCarrier message, int isrent);
     }
 }

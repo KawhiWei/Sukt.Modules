@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sukt.MQTransaction.Storage;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -33,5 +34,13 @@ namespace Sukt.MQTransaction
         /// 消息重试次数
         /// </summary>
         public int Retries { get; set; }
+        /// <summary>
+        /// Redis List中的下标
+        /// </summary>
+        public long RedisIndex { get; set; }
+        /// <summary>
+        /// 消息处理状态
+        /// </summary>
+        public MessageStatus MessageState { get; set; }
     }
 }

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Sukt.CodeGenerator\Sukt.CodeGenerator.csproj" />
+    <ProjectReference Include="..\..\src\Sukt.Module.Core\Sukt.Module.Core.csproj" />
     <ProjectReference Include="..\..\src\Sukt.Redis\Sukt.Redis.csproj" />
     <ProjectReference Include="..\..\src\Sukt.TestBase\Sukt.TestBase.csproj" />
   </ItemGroup>

@@ -22,5 +22,6 @@ namespace Sukt.MQTransaction.Factory
         /// <param name="exchangeType"></param>
         /// <returns></returns>
         OperationResponse Send(MessageCarrier message, string exchangeType = "topic");
+        Task<OperationResponse> SendAsRentAsync(MessageCarrier message, string exchangeType = "topic");
     }
 }

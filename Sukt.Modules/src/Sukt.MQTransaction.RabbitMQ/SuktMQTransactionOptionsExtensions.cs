@@ -8,7 +8,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class SuktMQTransactionOptionsExtensions
     {
-        public static SuktMQTransactionOptions UseRabbitMQ(this SuktMQTransactionOptions options,Action<RabbiMQOptions> action)
+        public static SuktMQTransactionOptions AddRabbitMQ(this SuktMQTransactionOptions options,Action<RabbiMQOptions> action)
         {
             if(action==null)
             {

@@ -65,7 +65,7 @@ namespace Sukt.Redis
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        Task<long> SetListLeftPushAsync(string key, string value);
+        Task<long> SetListLeftPushAsync(string key, RedisValue value);
         /// <summary>
         /// 在list尾部插入值，不存在创建
         /// </summary>

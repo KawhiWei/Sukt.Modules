@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SuktMQCAP.RabbitMQ.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,12 +31,13 @@ namespace SuktMQCAP.RabbitMQ
             services.AddScoped<ITest, Test>();
             services.AddSuktMQTransaction(x =>
             {
-                x.UseRabbitMQ(a =>
+                x.ProducerThreadCount = 30;
+                x.AddRabbitMQ(a =>
                 {
-                    a.Host = "192.168.31.188";
-                    a.Port = 30104;
-                    a.UserName = "guest";
-                    a.Password = "guest";
+                    a.Host = "192.168.31.174";
+                    a.Port = 5672;
+                    a.UserName = "root";
+                    a.Password = "P@ssW0rd";
                 });
             });
             services.AddSwaggerGen(c =>
