@@ -192,10 +192,12 @@ namespace Sukt.MQTransaction.Internal
         {
             if(isrent==1)
             {
+                _logger.LogWarning("调用了不租用发送消息方法");
                 await _messageTransport.SendAsync(message);
             }
             else
             {
+                _logger.LogWarning("使用了租用发送消息方法");
                 await _messageTransport.SendAsRentAsync(message);
             }
             
