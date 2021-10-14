@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System;
 
-namespace Sukt.Module.Core.IdentityServer4
+namespace Sukt.Module.Core
 {
     public class DateTimeTypeConverter : ITypeConverter<DateTime, DateTimeOffset>, ITypeConverter<DateTimeOffset, DateTime>
     {

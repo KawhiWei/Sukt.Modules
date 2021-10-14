@@ -3,31 +3,31 @@ using System.Collections.Generic;
 
 namespace Sukt.Module.Core
 {
-    public static class IdentityServerConstants
+    public static class SuktAuthServerConstants
     {
         public const string LocalIdentityProvider = "local";
-        public const string DefaultCookieAuthenticationScheme = "idsrv";
-        public const string SignoutScheme = "idsrv";
-        public const string ExternalCookieAuthenticationScheme = "idsrv.external";
-        public const string DefaultCheckSessionCookieName = "idsrv.session";
+        public const string DefaultCookieAuthenticationScheme = "suktrv";
+        public const string SignoutScheme = "suktrv";
+        public const string ExternalCookieAuthenticationScheme = "suktrv.external";
+        public const string DefaultCheckSessionCookieName = "suktrv.session";
         public const string AccessTokenAudience = "{0}resources";
 
-        public const string JwtRequestClientKey = "idsrv.jwtrequesturi.client";
+        public const string JwtRequestClientKey = "sukt.jwtrequesturi.client";
 
         /// <summary>
-        /// Constants for local IdentityServer access token authentication.
+        /// Constants for local SuktAuthServer access token authentication.
         /// </summary>
         public static class LocalApi
         {
             /// <summary>
             /// The authentication scheme when using the AddLocalApi helper.
             /// </summary>
-            public const string AuthenticationScheme = "IdentityServerAccessToken";
+            public const string AuthenticationScheme = "SuktAuthServerAccessToken";
 
             /// <summary>
             /// The API scope name when using the AddLocalApiAuthentication helper.
             /// </summary>
-            public const string ScopeName = "IdentityServerApi";
+            public const string ScopeName = "SuktAuthServerApi";
 
             /// <summary>
             /// The authorization policy name when using the AddLocalApiAuthentication helper.
@@ -157,8 +157,8 @@ namespace Sukt.Module.Core
         public static class HttpClients
         {
             public const int DefaultTimeoutSeconds = 10;
-            public const string JwtRequestUriHttpClient = "IdentityServer:JwtRequestUriClient";
-            public const string BackChannelLogoutHttpClient = "IdentityServer:BackChannelLogoutClient";
+            public const string JwtRequestUriHttpClient = "SuktAuthServer:JwtRequestUriClient";
+            public const string BackChannelLogoutHttpClient = "SuktAuthServer:BackChannelLogoutClient";
         }
     }
 }

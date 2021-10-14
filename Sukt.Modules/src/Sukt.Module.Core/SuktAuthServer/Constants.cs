@@ -5,8 +5,8 @@ namespace Sukt.Module.Core
 {
     public static class Constants
     {
-        public const string IdentityServerName = "IdentityServer4";
-        public const string IdentityServerAuthenticationType = IdentityServerName;
+        public const string SuktAuthServer = "SuktAuthServer";
+        public const string SuktAuthServerAuthenticationType = SuktAuthServer;
         public const string ExternalAuthenticationMethod = "external";
         public const string DefaultHashAlgorithm = "SHA256";
 
@@ -125,7 +125,7 @@ namespace Sukt.Module.Core
 
         public static readonly Dictionary<string, IEnumerable<string>> ScopeToClaimsMapping = new Dictionary<string, IEnumerable<string>>
         {
-            { IdentityServerConstants.StandardScopes.Profile, new[]
+            { SuktAuthServerConstants.StandardScopes.Profile, new[]
                             {
                                 JwtClaimTypes.Name,
                                 JwtClaimTypes.FamilyName,
@@ -142,21 +142,21 @@ namespace Sukt.Module.Core
                                 JwtClaimTypes.Locale,
                                 JwtClaimTypes.UpdatedAt
                             }},
-            { IdentityServerConstants.StandardScopes.Email, new[]
+            { SuktAuthServerConstants.StandardScopes.Email, new[]
                             {
                                 JwtClaimTypes.Email,
                                 JwtClaimTypes.EmailVerified
                             }},
-            { IdentityServerConstants.StandardScopes.Address, new[]
+            { SuktAuthServerConstants.StandardScopes.Address, new[]
                             {
                                 JwtClaimTypes.Address
                             }},
-            { IdentityServerConstants.StandardScopes.Phone, new[]
+            { SuktAuthServerConstants.StandardScopes.Phone, new[]
                             {
                                 JwtClaimTypes.PhoneNumber,
                                 JwtClaimTypes.PhoneNumberVerified
                             }},
-            { IdentityServerConstants.StandardScopes.OpenId, new[]
+            { SuktAuthServerConstants.StandardScopes.OpenId, new[]
                             {
                                 JwtClaimTypes.Subject
                             }}
@@ -236,10 +236,10 @@ namespace Sukt.Module.Core
 
         public static class EnvironmentKeys
         {
-            public const string IdentityServerBasePath = "idsvr:IdentityServerBasePath";
-            [Obsolete("The IdentityServerOrigin constant is obsolete.")]
-            public const string IdentityServerOrigin = "idsvr:IdentityServerOrigin"; // todo: deprecate
-            public const string SignOutCalled = "idsvr:IdentityServerSignOutCalled";
+            public const string SuktAuthServerBasePath = "suktvr:SuktAuthServerBasePath";
+            [Obsolete("The SuktAuthServerOrigin constant is obsolete.")]
+            public const string SuktAuthServerOrigin = "suktvr:SuktAuthServerOrigin"; // todo: deprecate
+            public const string SignOutCalled = "suktvr:SuktAuthServerSignOutCalled";
         }
 
         public static class TokenTypeHints
