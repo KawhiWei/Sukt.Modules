@@ -159,5 +159,59 @@ namespace Sukt.Redis
         /// <param name="key"></param>
         /// <returns></returns>
         Task<bool> UnLockAsync(string key);
+        #region Hash操作
+        /// <summary>
+        /// 添加单个Hash中的单个key并设置过期时间和写入hash数据
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <param name="redisValue">值</param>
+        /// <param name="expiretime">过期时间</param>
+        /// <returns></returns>
+        Task<bool> SetHashFieldAsync(string redisKey, string hashField, string redisValue, TimeSpan? expiretime=null);
+        /// <summary>
+        /// 删除单个Hash中的key
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <returns></returns>
+        Task<bool> DeleteHashFieldAsync(string redisKey, string hashField);
+        /// <summary>
+        /// 单个Hash中的key递减默认按1递减
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <returns></returns>
+        Task<long> DecrementHashFieldAsync(string redisKey, string hashField);
+        /// <summary>
+        /// 单个Hash中的key 默认按1递增  可用于计数
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <returns></returns>
+        Task<long> IncrementHashFieldAsync(string redisKey, string hashField);
+        /// <summary>
+        /// 单个Hash中的key递减 按传入的递减
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <param name="value">递减数值</param>
+        /// <returns></returns>
+        Task<double> DecrementHashFieldAsync(string redisKey, string hashField, double value);
+        /// <summary>
+        /// 单个Hash中的key 传入的递增  <可用于计数></可用于计数>
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <param name="value">递增数值</param>
+        /// <returns></returns>
+        Task<double> IncrementHashFieldAsync(string redisKey, string hashField, double value);
+        /// <summary>
+        /// 根据Key获取所有的hash列表
+        /// </summary>
+        /// <param name="redisKey"></param>
+        /// <returns></returns>
+        Task<HashEntry[]> GetHashListAsync(string redisKey);
+        #endregion
     }
 }

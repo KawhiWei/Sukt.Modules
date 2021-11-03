@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Sukt.Module.Core.Extensions;
+using System.Collections.Generic;
 
 namespace Sukt.Tests
 {
@@ -47,9 +48,9 @@ namespace Sukt.Tests
             for (int i = 0; i < 80; i++)
             {
                 var user = new User() { Name = $"$开飞机一告{i}" };
-                var index=await _redisRepository.SetListLeftPushAsync("listleft_top_test_user", user.ToJson());
+                var index = await _redisRepository.SetListLeftPushAsync("listleft_top_test_user", user.ToJson());
             }
-            var result= await _redisRepository.GetListRangeAsync("listleft_top_test_user");
+            var result = await _redisRepository.GetListRangeAsync("listleft_top_test_user");
         }
         /// <summary>
         /// List头部插入和取出值
@@ -60,7 +61,7 @@ namespace Sukt.Tests
         {
             var value = "Sukt.Core";
             var key = "list_left_top_insert";
-            var result = await _redisRepository.SetListLeftPushAsync(key,value);
+            var result = await _redisRepository.SetListLeftPushAsync(key, value);
             var target = await _redisRepository.GetListLeftPopAsync(key);
             target.ShouldBe(value);
         }
@@ -75,7 +76,7 @@ namespace Sukt.Tests
             for (int i = 0; i < 80; i++)
             {
 
-                var result= await _redisRepository.SetListLeftPushAsync("listleft_last_test", $"{value}+++++++++++++++++{i}");
+                var result = await _redisRepository.SetListLeftPushAsync("listleft_last_test", $"{value}+++++++++++++++++{i}");
                 Console.WriteLine(result);
             }
         }
@@ -88,7 +89,7 @@ namespace Sukt.Tests
         {
             var value = "Sukt.Core";
             var key = "list_left_last_insert";
-            var result = await _redisRepository.SetListRightPushAsync(key,value);
+            var result = await _redisRepository.SetListRightPushAsync(key, value);
             var target = await _redisRepository.GetListRightPopAsync(key);
             target.ShouldBe(value);
         }
@@ -120,6 +121,36 @@ namespace Sukt.Tests
                 //切记要在finally释放锁
                 var result = await _redisRepository.UnLockAsync(key);
                 result.ShouldBe(true);
+            }
+        }
+        /// <summary>
+        /// Hash作为购物车测试
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task HashShoppingCar_Test()
+        {
+            var key = $"shoppingcar_333bfa6d-1917-4f0c-b7c1-bd7817c58521";
+            var arr= await _redisRepository.GetHashListAsync(key);
+            List<string> productids = new List<string>();
+            for (int i = 0; i < 20; i++)
+            {
+                productids.Add(Guid.NewGuid().ToString());
+            }
+            //添加产品
+            foreach (var item in productids)
+            {
+                var lockerkey = await _redisRepository.SetHashFieldAsync(key, item, "1");
+            }
+            //根据产品按照<1>累计购物车数量
+            foreach (var item in productids)
+            {
+                var lockerkey = await _redisRepository.IncrementHashFieldAsync(key, item);
+            }
+            //根据产品和传入的数量累计购物车数量
+            foreach (var item in productids)
+            {
+                var lockerkey = await _redisRepository.IncrementHashFieldAsync(key, item, 5);
             }
         }
     }

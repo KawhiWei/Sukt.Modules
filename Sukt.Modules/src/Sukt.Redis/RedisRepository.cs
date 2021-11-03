@@ -34,9 +34,9 @@ namespace Sukt.Redis
         {
             await _database.KeyDeleteAsync(key);
         }
-        public async Task SetJsonAsync(string key,object value,TimeSpan expiretime)
+        public async Task SetJsonAsync(string key, object value, TimeSpan expiretime)
         {
-            if(value!=null)
+            if (value != null)
             {
                 await _database.StringSetAsync(key, value.ToJson(), expiretime);
             }
@@ -50,10 +50,10 @@ namespace Sukt.Redis
         }
         public async Task<TEntity> GetAsync<TEntity>(string key)
         {
-            var value= await _database.StringGetAsync(key);
+            var value = await _database.StringGetAsync(key);
             if (value.HasValue)
             {
-               return value.ToString().FromJson<TEntity>();
+                return value.ToString().FromJson<TEntity>();
             }
             return default;
         }
@@ -67,7 +67,7 @@ namespace Sukt.Redis
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<long> SetListLeftPushAsync(string key,RedisValue value)
+        public async Task<long> SetListLeftPushAsync(string key, RedisValue value)
         {
             return await _database.ListLeftPushAsync(key, value);
         }
@@ -87,7 +87,7 @@ namespace Sukt.Redis
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task <T> GetListLeftPopAsync<T>(string key)
+        public async Task<T> GetListLeftPopAsync<T>(string key)
         {
             var cachevalue = await _database.ListLeftPopAsync(key);
             if (cachevalue.ToString().IsNullOrEmpty())
@@ -176,6 +176,90 @@ namespace Sukt.Redis
         {
             await _database.ListTrimAsync(redisKey, 1, 0);
         }
+
+        #region Hash操作
+        /// <summary>
+        /// 添加单个Hash中的单个key并设置过期时间和写入hash数据
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <param name="redisValue">值</param>
+        /// <param name="expiretime">过期时间</param>
+        /// <returns></returns>
+        public async Task<bool> SetHashFieldAsync(string redisKey, string hashField, string redisValue, TimeSpan? expiretime = null)
+        {
+            if (expiretime != null)
+            {
+                await _database.KeyExpireAsync(redisKey, expiretime);
+            }
+            return await _database.HashSetAsync(redisKey, hashField, redisValue);
+        }
+        /// <summary>
+        /// 删除单个Hash中的key
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <returns></returns>
+        public async Task<bool> DeleteHashFieldAsync(string redisKey, string hashField)
+        {
+            return await _database.HashDeleteAsync(redisKey, hashField);
+        }
+        /// <summary>
+        /// 单个Hash中的key递减默认按1递减
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <param name="value">递减数值</param>
+        /// <returns></returns>
+        public async Task<long> DecrementHashFieldAsync(string redisKey, string hashField)
+        {
+            return await _database.HashDecrementAsync(redisKey, hashField);
+        }
+        /// <summary>
+        /// 单个Hash中的key 默认按1递增  可用于计数
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <param name="value">递增数值</param>
+        /// <returns></returns>
+        public async Task<long> IncrementHashFieldAsync(string redisKey, string hashField)
+        {
+            return await _database.HashIncrementAsync(redisKey, hashField);
+        }
+        /// <summary>
+        /// 单个Hash中的key递减 按传入的递减
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <param name="value">递减数值</param>
+        /// <returns></returns>
+        public async Task<double> DecrementHashFieldAsync(string redisKey, string hashField, double value)
+        {
+            return await _database.HashDecrementAsync(redisKey, hashField, value);
+        }
+        /// <summary>
+        /// 单个Hash中的key 传入的递增  <可用于计数></可用于计数>
+        /// </summary>
+        /// <param name="redisKey">key</param>
+        /// <param name="hashField">Hash字段</param>
+        /// <param name="value">递增数值</param>
+        /// <returns></returns>
+        public async Task<double> IncrementHashFieldAsync(string redisKey, string hashField, double value)
+        {
+            return await _database.HashIncrementAsync(redisKey, hashField, value);
+        }
+        /// <summary>
+        /// 根据Key获取所有的hash列表
+        /// </summary>
+        /// <param name="redisKey"></param>
+        /// <returns></returns>
+        public async Task<HashEntry[]> GetHashListAsync(string redisKey)
+        {
+             return await _database.HashGetAllAsync(redisKey);
+        }
+
+        #endregion
+
         #region 分布式锁
         /// <summary>
         /// 分布式锁 Token。
@@ -188,7 +272,7 @@ namespace Sukt.Redis
         /// <param name="key"></param>
         /// <param name="expiretime"></param>
         /// <returns></returns>
-        public  bool Lock(string key, TimeSpan expiretime)
+        public bool Lock(string key, TimeSpan expiretime)
         {
             return _database.LockTake(key, LockToken, expiretime);
         }
