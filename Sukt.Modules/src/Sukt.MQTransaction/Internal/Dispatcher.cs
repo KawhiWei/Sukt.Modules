@@ -192,7 +192,7 @@ namespace Sukt.MQTransaction.Internal
         {
             if(isrent==1)
             {
-                _logger.LogWarning("调用了不租用发送消息方法");
+                _logger.LogWarning($"调用了不租用发送消息方法{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
                 await _messageTransport.SendAsync(message);
             }
             else

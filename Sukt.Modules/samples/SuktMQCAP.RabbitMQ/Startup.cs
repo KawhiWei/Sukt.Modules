@@ -29,6 +29,7 @@ namespace SuktMQCAP.RabbitMQ
 
             services.AddControllers();
             services.AddScoped<ITest, Test>();
+            services.AddScoped<ITestA, TestA>();
             services.AddSuktMQTransaction(x =>
             {
                 x.ProducerThreadCount = 30;

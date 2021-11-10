@@ -49,7 +49,7 @@ namespace Sukt.MQTransaction.RabbitMQ
                 _connection?.Dispose();
                 _connection = CreateConnction(options: _options);
                 _logger.LogInformation($"链接RabbitMQ成功！");
-                    return _connection;
+                return _connection;
             }
         }
         private static IConnection CreateConnction(RabbiMQOptions options)
@@ -116,6 +116,14 @@ namespace Sukt.MQTransaction.RabbitMQ
                 throw;
             }
             return model;
+        }
+        public virtual IModel CreateModel()
+        {
+            if (_connection != null && _connection.IsOpen)
+            {
+                return _connection.CreateModel();
+            }
+            throw new InvalidOperationException("No RabbitMQ connections are available to perform this action");
         }
     }
 }

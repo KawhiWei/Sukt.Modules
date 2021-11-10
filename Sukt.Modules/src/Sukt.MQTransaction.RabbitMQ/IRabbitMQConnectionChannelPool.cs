@@ -27,5 +27,6 @@ namespace Sukt.MQTransaction.RabbitMQ
         /// <param name="context"></param>
         /// <returns></returns>
         bool Return(IModel context);
+        IModel CreateModel();
     }
 }

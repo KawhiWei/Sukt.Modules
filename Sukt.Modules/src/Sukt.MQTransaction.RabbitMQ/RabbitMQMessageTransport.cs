@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.OperationResult;
@@ -11,17 +12,20 @@ using System.Threading.Tasks;
 
 namespace Sukt.MQTransaction.RabbitMQ
 {
-    internal class RabbitMQMessageTransport: IMessageTransport
+    internal class RabbitMQMessageTransport : IMessageTransport
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<RabbitMQMessageTransport> _logger;
+        private static readonly object connctionlock = new object();
         private readonly IRabbitMQConnectionChannelPool _connectionChannelPool;
-
-        public RabbitMQMessageTransport(IServiceProvider serviceProvider, ILogger<RabbitMQMessageTransport> logger, IRabbitMQConnectionChannelPool connectionChannelPool)
+        private readonly RabbiMQOptions _options;
+        private IConnection _connection;
+        public RabbitMQMessageTransport(IServiceProvider serviceProvider, IOptions<RabbiMQOptions> options, ILogger<RabbitMQMessageTransport> logger, IRabbitMQConnectionChannelPool connectionChannelPool)
         {
             _serviceProvider = serviceProvider;
             _logger = logger;
             _connectionChannelPool = connectionChannelPool;
+            _options = options.Value;
         }
 
         public OperationResponse Send(MessageCarrier message, string exchangeType = "topic")
@@ -52,38 +56,30 @@ namespace Sukt.MQTransaction.RabbitMQ
                 }
             }
         }
-
         public Task<OperationResponse> SendAsync(MessageCarrier message, string exchangeType = "topic")
         {
             //IModel channel = null;
-            try
-            {
-                using (var conn = _connectionChannelPool.GetConnection())
-                {
-                    using (IModel channel = conn.CreateModel())
-                    {
-                        channel.ConfirmSelect();
-                        var props = channel.CreateBasicProperties();
-                        props.DeliveryMode = 2;//发送模式1为不持续，2为持续
-                        props.Headers = message.MessageHeader.ToDictionary(x => x.Key, x => (object)x.Value);
-                        channel.ExchangeDeclare(exchange: message.GetExchange(), type: exchangeType, durable: true);
-                        channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
-                        channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
-                        _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}----->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
-                        return Task.FromResult(new OperationResponse(OperationEnumType.Success));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(new OperationResponse($"{ex.Message}{ex.StackTrace}", OperationEnumType.Error));
-            }
-            //finally
+            //try
             //{
-            //    if(channel!=null)
-            //    {
-            //        _connectionChannelPool.Return(channel);//使用完成后还给对象池
-            //    }
+
+                using (IModel channel = _connectionChannelPool.CreateModel())
+                {
+                    channel.ConfirmSelect();
+                    var props = channel.CreateBasicProperties();
+                    props.DeliveryMode = 2;//发送模式1为不持续，2为持续
+                    props.Headers = message.MessageHeader.ToDictionary(x => x.Key, x => (object)x.Value);
+                    channel.ExchangeDeclare(exchange: message.GetExchange(), type: exchangeType, durable: true);
+                    channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
+                    channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
+                    _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}---->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
+                    return Task.FromResult(new OperationResponse(OperationEnumType.Success));
+                }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //    return Task.FromResult(new OperationResponse($"{ex.Message}{ex.StackTrace}", OperationEnumType.Error));
             //}
         }
         /// <summary>
@@ -104,7 +100,6 @@ namespace Sukt.MQTransaction.RabbitMQ
                 props.Headers = message.MessageHeader.ToDictionary(x => x.Key, x => (object)x.Value);
                 channel.ExchangeDeclare(exchange: message.GetExchange(), type: exchangeType, durable: true);
                 channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
-                //channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
                 _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}----->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
                 return Task.FromResult(new OperationResponse(OperationEnumType.Success));
             }
