@@ -19,6 +19,7 @@ namespace Sukt.Redis
         {
             _logger = logger;
             _connectionMultiplexer = connectionMultiplexer;
+            connectionMultiplexer.GetDatabase();
             _database = connectionMultiplexer.GetDatabase();
         }
 

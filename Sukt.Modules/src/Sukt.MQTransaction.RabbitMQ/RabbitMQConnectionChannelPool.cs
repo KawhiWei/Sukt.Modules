@@ -48,7 +48,7 @@ namespace Sukt.MQTransaction.RabbitMQ
                 }
                 _connection?.Dispose();
                 _connection = CreateConnction(options: _options);
-                _logger.LogInformation($"链接RabbitMQ成功！");
+                _logger.LogInformation($"连接RabbitMQ成功！");
                 return _connection;
             }
         }
@@ -67,14 +67,14 @@ namespace Sukt.MQTransaction.RabbitMQ
 
         IModel IRabbitMQConnectionChannelPool.Rent()
         {
-            //lock (connctionlock)
-            //{
+            lock (connctionlock)
+            {
                 while (_count>_maxsize)
                 {
                     Thread.SpinWait(1);
                 }
                 return Rent();
-            //}
+            }
         }
         /// <summary>
         /// 返还Model

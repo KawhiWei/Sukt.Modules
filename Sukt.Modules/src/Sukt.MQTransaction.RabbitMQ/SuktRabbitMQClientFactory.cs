@@ -23,7 +23,6 @@ namespace Sukt.MQTransaction.RabbitMQ
             try
             {
                 var client = new SuktRabbitMQSubscribeClient(_options, _rabbitMQConnectionChannelPool);
-                client.Connection(exchange, queue);
                 return client;
             }
             catch (SuktAppException ex)

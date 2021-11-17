@@ -16,6 +16,6 @@ namespace Sukt.Module.Core.Entity
         /// <summary>
         /// 创建时间
         /// </summary>
-        DateTime CreatedAt { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
     }
 }

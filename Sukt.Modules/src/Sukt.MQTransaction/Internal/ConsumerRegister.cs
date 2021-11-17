@@ -46,20 +46,20 @@ namespace Sukt.MQTransaction
             _clientFactory = _serviceProvider.GetService<ISuktMQClientFactory>();
             _dispatcher = _serviceProvider.GetService<IDispatcher>();
             stoppingToken.Register(() => _cts?.Cancel());
+            _logger.LogInformation($"MQ消费者开启准备中.------>MQ Consumer ready to start.");
             Execute();
-
+            _logger.LogInformation($"MQ消费者开启完成.------>MQ Consumer enabled.");
         }
         public void Execute()
         {
             var subscribeMethodCollection = _consumerServiceSelector.SelectConsumersFromInterfaceTypes();
-
             try
             {
                 foreach (var exchange in subscribeMethodCollection)
                 {
                     using (var client = _clientFactory.Create(exchange.SuktSubscribeAttribute.Exchange, exchange.SuktSubscribeAttribute.RoutingKey, exchange.SuktSubscribeAttribute.Queue))
                     {
-
+                        
                     }
                 }
             }
@@ -67,7 +67,6 @@ namespace Sukt.MQTransaction
             {
                 _isHealthy = false;
                 _logger.LogError(ex, $"RabbitMQ创建链接;注册Exchange和Queue失败{ ex.Message}");
-
                 return;
             }
 
@@ -142,6 +141,7 @@ namespace Sukt.MQTransaction
                 Pulse();
                 _cts = new CancellationTokenSource();
                 _isHealthy = true;
+                _logger.LogError($"MQ消费者关闭，正在重启.------> MQ subscribe consumer shutdown. Is to restart.");
                 Execute();
             }
         }

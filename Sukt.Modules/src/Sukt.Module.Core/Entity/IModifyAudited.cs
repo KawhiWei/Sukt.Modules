@@ -16,6 +16,6 @@ namespace Sukt.Module.Core.Entity
         /// <summary>
         /// 最后修改时间
         /// </summary>
-        DateTime LastModifedAt { get; set; }
+        DateTimeOffset? LastModifedAt { get; set; }
     }
 }

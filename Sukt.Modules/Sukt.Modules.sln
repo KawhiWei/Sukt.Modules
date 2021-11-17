@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.MQTransaction.RabbitMQ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sukt.MQBus", "sukt.MQBus", "{1B471229-B872-4E9C-B410-E10D3C1E0918}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.MQTransaction.RedisStroe", "src\Sukt.MQTransaction.RedisStroe\Sukt.MQTransaction.RedisStroe.csproj", "{2D6850AD-DFF6-4DAF-B19C-7DBD6792EECF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.MQTransaction.RedisStroe", "src\Sukt.MQTransaction.RedisStroe\Sukt.MQTransaction.RedisStroe.csproj", "{2D6850AD-DFF6-4DAF-B19C-7DBD6792EECF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
