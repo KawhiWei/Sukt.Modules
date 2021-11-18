@@ -188,49 +188,6 @@ namespace Sukt.EntityFrameworkCore
             //int count = await _dbContext.SaveChangesAsync();
             //return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
         }
-        /// <summary>
-        /// 以异步DTO插入实体
-        /// </summary>
-        /// <typeparam name="TInputDto">添加DTO类型</typeparam>
-        /// <param name="dto">添加DTO</param>
-        /// <param name="checkFunc">添加信息合法性检查委托</param>
-        /// <param name="insertFunc">由DTO到实体的转换委托</param>
-        /// <returns>操作结果</returns>
-        public virtual async Task<OperationResponse> InsertAsync<TInputDto>(TInputDto dto, Func<TInputDto, Task> checkFunc = null, Func<TInputDto, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TInputDto> completeFunc = null) where TInputDto : IInputDto<Tkey>
-        {
-            dto.NotNull(nameof(dto));
-            try
-            {
-                if (checkFunc.IsNotNull())
-                {
-                    await checkFunc(dto);
-                }
-                TEntity entity = dto.MapTo<TEntity>();
-
-                if (!insertFunc.IsNull())
-                {
-                    entity = await insertFunc(dto, entity);
-                }
-                //entity = entity.CheckInsert<TEntity, Tkey>(_httpContextAccessor);//CheckInsert(entity);
-                await _dbSet.AddAsync(entity);
-
-                if (completeFunc.IsNotNull())
-                {
-                    dto = completeFunc(entity);
-                }
-                int count = await _dbContext.SaveChangesAsync();
-                return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
-            }
-            catch (SuktAppException e)
-            {
-                return new OperationResponse(e.Message, OperationEnumType.Error);
-            }
-            catch (Exception ex)
-            {
-                return new OperationResponse(ex.Message, OperationEnumType.Error);
-            }
-        }
-
         #endregion Insert
 
         #region Update
@@ -278,37 +235,23 @@ namespace Sukt.EntityFrameworkCore
         }
 
         /// <summary>
-        /// 以异步DTO更新实体
+        /// 异步更新单条实体
         /// </summary>
-        /// <typeparam name="TInputDto">更新DTO类型</typeparam>
-        /// <param name="dto">更新DTO</param>
-        /// <param name="checkFunc">添加信息合法性检查委托</param>
-        /// <param name="updateFunc">由DTO到实体的转换委托</param>
-        /// <returns>操作结果</returns>
-        public virtual async Task<OperationResponse> UpdateAsync<TInputDto>(TInputDto dto, Func<TInputDto, TEntity, Task> checkFunc = null, Func<TInputDto, TEntity, Task<TEntity>> updateFunc = null) where TInputDto : class, IInputDto<Tkey>, new()
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual async Task<OperationResponse> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null)
         {
-            dto.NotNull(nameof(dto));
+            entity.NotNull(nameof(entity));
             try
             {
-                TEntity entity = await this.GetByIdAsync(dto.Id);
-
-                if (entity.IsNull())
-                {
-                    return new OperationResponse($"该{dto.Id}键的数据不存在", OperationEnumType.QueryNull);
-                }
                 if (checkFunc.IsNotNull())
                 {
-                    await checkFunc(dto, entity);
+                    await checkFunc(entity);
                 }
-                entity = dto.MapTo(entity);
-                if (!updateFunc.IsNull())
-                {
-                    entity = await updateFunc(dto, entity);
-                }
-                //entity = entity.CheckModification<TEntity, Tkey>(_httpContextAccessor); //CheckUpdate(entity);
-                _dbSet.Update(entity);
+                //entity = entity.CheckInsert<TEntity, Tkey>(_httpContextAccessor);//CheckInsert(entity);
+                _dbSet.Update(entity);               
                 int count = await _dbContext.SaveChangesAsync();
-                return new OperationResponse(count > 0 ? ResultMessage.UpdateSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+                return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
             }
             catch (SuktAppException e)
             {
@@ -316,8 +259,13 @@ namespace Sukt.EntityFrameworkCore
             }
             catch (Exception ex)
             {
-                throw ex;
+                return new OperationResponse(ex.Message, OperationEnumType.Error);
             }
+            //entity.NotNull(nameof(entity));
+            //entity = CheckInsert(entity);
+            //await _dbSet.AddAsync(entity);
+            //int count = await _dbContext.SaveChangesAsync();
+            //return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
         }
 
         #endregion Update

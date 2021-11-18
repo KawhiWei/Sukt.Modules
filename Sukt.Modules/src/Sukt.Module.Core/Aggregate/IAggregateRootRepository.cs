@@ -56,16 +56,6 @@ namespace Sukt.Module.Core
         #endregion 查询
 
         #region 添加
-
-        /// <summary>
-        /// 以异步DTO插入实体
-        /// </summary>
-        /// <typeparam name="TInputDto">添加DTO类型</typeparam>
-        /// <param name="dto">添加DTO</param>
-        /// <param name="checkFunc">添加信息合法性检查委托</param>
-        /// <param name="insertFunc">由DTO到实体的转换委托</param>
-        /// <returns>业务操作结果</returns>
-        //Task<OperationResponse> InsertAsync<TInputDto>(TInputDto dto, Func<TInputDto, Task> checkFunc = null, Func<TInputDto, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TInputDto> completeFunc = null) where TInputDto : IInputDto<Tkey>;
         /// <summary>
         /// 以异步插入实体
         /// </summary>
@@ -79,6 +69,15 @@ namespace Sukt.Module.Core
         /// <param name="entitys">要插入实体集合</param>
         /// <returns>影响的行数</returns>
         Task<OperationResponse> InsertAsync(TEntity[] entitys);
+        /// <summary>
+        /// 添加新实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="checkFunc"></param>
+        /// <param name="insertFunc"></param>
+        /// <param name="completeFunc"></param>
+        /// <returns></returns>
+        Task<OperationResponse> InsertAsync(TEntity entity, Func<TEntity, Task> checkFunc = null, Func<TEntity, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TEntity> completeFunc = null);
 
         /// <summary>
         /// 批量插入实体
@@ -86,23 +85,9 @@ namespace Sukt.Module.Core
         /// <param name="entitys">要插入实体集合</param>
         /// <returns></returns>
         OperationResponse Insert(params TEntity[] entitys);
-
-        Task<OperationResponse> InsertAsync<TInputDto>(TInputDto dto, Func<TInputDto, Task> checkFunc = null, Func<TInputDto, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TInputDto> completeFunc = null) where TInputDto : IInputDto<Tkey>;
-
         #endregion 添加
 
         #region 更新
-
-        /// <summary>
-        /// 以异步DTO更新实体
-        /// </summary>
-        /// <typeparam name="TInputDto">更新DTO类型</typeparam>
-        /// <param name="dto">更新DTO</param>
-        /// <param name="checkFunc">添加信息合法性检查委托</param>
-        /// <param name="updateFunc">由DTO到实体的转换委托</param>
-        /// <returns>业务操作结果</returns>
-        Task<OperationResponse> UpdateAsync<TInputDto>(TInputDto dto, Func<TInputDto, TEntity, Task> checkFunc = null, Func<TInputDto, TEntity, Task<TEntity>> updateFunc = null) where TInputDto : class, IInputDto<Tkey>, new();
-
         /// <summary>
         /// 异步更新
         /// </summary>
@@ -116,7 +101,18 @@ namespace Sukt.Module.Core
         /// <param name="entity">要更新实体</param>
         /// <returns>返回更新受影响条数</returns>
         OperationResponse Update(TEntity entity);
-
+        /// <summary>
+        /// 异步批量更新
+        /// </summary>
+        /// <param name="entitys"></param>
+        /// <returns></returns>
+        Task<OperationResponse> UpdateAsync(TEntity[] entitys);
+        /// <summary>
+        /// 异步更新单条实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<OperationResponse> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null);
         #endregion 更新
 
         #region 删除
