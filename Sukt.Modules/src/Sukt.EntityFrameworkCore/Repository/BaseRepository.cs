@@ -115,7 +115,7 @@ namespace Sukt.EntityFrameworkCore
             //entitys = entitys.CheckInsert<TEntity, Tkey>(_httpContextAccessor);// CheckInsert(entitys);
             _dbSet.AddRange(entitys);
             var count = _dbContext.SaveChanges();
-            return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Sukt.EntityFrameworkCore
             //entity = entity.CheckInsert<TEntity, Tkey>(_httpContextAccessor);
             await _dbSet.AddAsync(entity);
             int count = await _dbContext.SaveChangesAsync();
-            return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Sukt.EntityFrameworkCore
             //entitys = entitys.CheckInsert<TEntity, Tkey>(_httpContextAccessor); //CheckInsert(entitys);
             await _dbSet.AddRangeAsync(entitys);
             int count = await _dbContext.SaveChangesAsync();
-            return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
         }
         /// <summary>
         /// 异步添加单条实体
@@ -172,7 +172,7 @@ namespace Sukt.EntityFrameworkCore
                     entity = completeFunc(entity);
                 }
                 int count = await _dbContext.SaveChangesAsync();
-                return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+                return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
             }
             catch (SuktAppException e)
             {
@@ -203,7 +203,7 @@ namespace Sukt.EntityFrameworkCore
             //entity = entity.CheckModification<TEntity, Tkey>(_httpContextAccessor);// CheckUpdate(entity);
             _dbSet.Update(entity);
             int count = _dbContext.SaveChanges();
-            return new OperationResponse(count > 0 ? ResultMessage.UpdateSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace Sukt.EntityFrameworkCore
             //entity = entity.CheckModification<TEntity, Tkey>(_httpContextAccessor);//CheckUpdate(entity);
             _dbSet.Update(entity);
             int count = await _dbContext.SaveChangesAsync();
-            return new OperationResponse(count > 0 ? ResultMessage.UpdateSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace Sukt.EntityFrameworkCore
             //entitys = entitys.CheckModification<TEntity, Tkey>(_httpContextAccessor);//.CheckModification<TEntity, Tkey>(_httpContextAccessor);//CheckUpdate(entitys);
             _dbSet.UpdateRange(entitys);
             int count = await _dbContext.SaveChangesAsync();
-            return new OperationResponse(count > 0 ? ResultMessage.UpdateSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Sukt.EntityFrameworkCore
                 //entity = entity.CheckInsert<TEntity, Tkey>(_httpContextAccessor);//CheckInsert(entity);
                 _dbSet.Update(entity);               
                 int count = await _dbContext.SaveChangesAsync();
-                return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+                return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
             }
             catch (SuktAppException e)
             {
