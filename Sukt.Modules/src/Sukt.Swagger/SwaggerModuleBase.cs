@@ -17,6 +17,7 @@ namespace Sukt.Swagger
         private string _url = string.Empty;
         private string _title = string.Empty;
         private string _version = string.Empty;
+        private string _service = string.Empty;//需要和Url(doc)后面配置的名称相同
 
         public override void ConfigureServices(ConfigureServicesContext context)
         {
@@ -25,6 +26,7 @@ namespace Sukt.Swagger
             var title = configuration["SuktCore:Swagger:Title"];
             var version = configuration["SuktCore:Swagger:Version"];
             var url = configuration["SuktCore:Swagger:Url"];
+            string service = configuration["SuktCore:Swagger:Service"];////需要和Url(doc)后面配置的名称相同
             if (url.IsNullOrEmpty())
             {
                 throw new SuktAppException("Url不能为空 ！！！");
@@ -39,12 +41,17 @@ namespace Sukt.Swagger
             {
                 throw new SuktAppException("标题不能为空 ！！！");
             }
+            if (service.IsNullOrEmpty())
+            {
+                throw new SuktAppException("标题不能为空 ！！！");
+            }
+            _service = service;
             _title = title;
             _url = url;
             _version = version;
             context.Services.AddSwaggerGen(x =>
             {
-                x.SwaggerDoc(version, new OpenApiInfo { Title = title, Version = version });
+                x.SwaggerDoc(version, new OpenApiInfo { Title = _title, Version = version });
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;
                 var files = Directory.GetFiles(basePath, "*.xml");
                 foreach (var fiel in files)
@@ -87,7 +94,7 @@ namespace Sukt.Swagger
             var applicationBuilder = context.GetApplicationBuilder();
             applicationBuilder.UseSwagger();
             applicationBuilder.UseSwagger();
-            var template = $"doc/" + "BasicsService" + "/{documentName}/swagger.json";
+            string template = "doc/" + _service + "/{documentName}/swagger.json";
             applicationBuilder.UseSwagger(c =>
             {
                 c.RouteTemplate = template;

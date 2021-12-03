@@ -10,7 +10,7 @@ namespace Sukt.Redis
     /// <summary>
     /// Redis仓储操作接口
     /// </summary>
-    public interface IRedisRepository: ITransientDependency
+    public interface IRedisRepository : ITransientDependency
     {
         /// <summary>
         /// 判断键是否存在
@@ -168,7 +168,7 @@ namespace Sukt.Redis
         /// <param name="redisValue">值</param>
         /// <param name="expiretime">过期时间</param>
         /// <returns></returns>
-        Task<bool> SetHashFieldAsync(string redisKey, string hashField, string redisValue, TimeSpan? expiretime=null);
+        Task<bool> SetHashFieldAsync(string redisKey, string hashField, string redisValue, TimeSpan? expiretime = null);
         /// <summary>
         /// 删除单个Hash中的key
         /// </summary>
