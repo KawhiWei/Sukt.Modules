@@ -14,7 +14,7 @@ namespace Sukt.EntityFrameworkCore.DbDrivens
         public DBType DatabaseType => DBType.MySql;
         public DbContextOptionsBuilder Builder(DbContextOptionsBuilder builder, string connectionString, DestinyContextOptionsBuilder optionsBuilder)
         {
-            builder.UseMySql(connectionString, new MySqlServerVersion(new Version()), opt => opt.MigrationsAssembly(optionsBuilder.MigrationsAssemblyName));
+            builder.UseMySql(connectionString, new MySqlServerVersion(new Version()), opt => opt.MigrationsAssembly(optionsBuilder.MigrationsAssemblyName)).UseSnakeCaseNamingConvention();
             return builder;
         }
     }

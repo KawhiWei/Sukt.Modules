@@ -74,5 +74,9 @@ namespace Sukt.Module.Core.AppOption
         /// 迁移Assembly名字
         /// </summary>
         public string MigrationsAssemblyName { get; set; }
+        /// <summary>
+        /// 数据库默认Schema
+        /// </summary>
+        public string DefaultSchema { get; set; }
     }
 }

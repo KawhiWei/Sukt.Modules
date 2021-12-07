@@ -17,6 +17,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using Sukt.Module;
+using System.Data;
 
 namespace Sukt.EntityFrameworkCore
 {
@@ -49,6 +50,10 @@ namespace Sukt.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            if (_appOptionSettings.DbContexts?.First().Value.DatabaseType == DBType.PostgreSQL)
+            {
+                modelBuilder.HasDefaultSchema(_appOptionSettings.DbContexts?.First().Value.DefaultSchema);
+            }
             base.OnModelCreating(modelBuilder);
             var typeFinder = ServiceProvider.GetService<ITypeFinder>();
             IEntityMappingConfiguration[] entitymapping = typeFinder.Find(x => x.IsDeriveClassFrom<IEntityMappingConfiguration>()).Select(x => Activator.CreateInstance(x) as IEntityMappingConfiguration).ToArray();

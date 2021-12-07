@@ -6,7 +6,6 @@ using Sukt.Module.Core.Entity;
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
-using Sukt.Module.Core.HttpContextUser;
 using Sukt.Module.Core.OperationResult;
 using Sukt.Module.Core.ResultMessageConst;
 using System;
@@ -28,7 +27,6 @@ namespace Sukt.EntityFrameworkCore
             UnitOfWork = (serviceProvider.GetService(typeof(IUnitOfWork)) as IUnitOfWork);//获取工作单元实例
             _dbContext = UnitOfWork.GetDbContext();
             _dbSet = _dbContext.Set<TEntity>();
-            _suktUser = (serviceProvider.GetService(typeof(ISuktUser)) as ISuktUser);//获取用户登录存储解析Token实例
             _logger = serviceProvider.GetLogger<BaseRepository<TEntity, Tkey>>();
             _httpContextAccessor = serviceProvider.GetService<IHttpContextAccessor>();
         }
@@ -47,11 +45,6 @@ namespace Sukt.EntityFrameworkCore
         ///
         /// </summary>
         private readonly ILogger _logger = null;
-
-        /// <summary>
-        ///
-        /// </summary>
-        private readonly ISuktUser _suktUser;
 
         /// <summary>
         /// 工作单元

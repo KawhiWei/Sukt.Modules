@@ -14,7 +14,7 @@ namespace Sukt.EntityFrameworkCore.DbDrivens
 
         public DbContextOptionsBuilder Builder(DbContextOptionsBuilder builder, string connectionString, DestinyContextOptionsBuilder optionsBuilder)
         {
-            builder.UseSqlServer(connectionString, opt => opt.MigrationsAssembly(optionsBuilder.MigrationsAssemblyName));
+            builder.UseSqlServer(connectionString, opt => opt.MigrationsAssembly(optionsBuilder.MigrationsAssemblyName)).UseSnakeCaseNamingConvention();
             return builder;
         }
     }
