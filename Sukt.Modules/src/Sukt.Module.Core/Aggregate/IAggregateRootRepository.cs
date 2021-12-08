@@ -111,6 +111,7 @@ namespace Sukt.Module.Core
         /// 异步更新单条实体
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="checkFunc"></param>
         /// <returns></returns>
         Task<OperationResponse> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null);
         #endregion 更新
@@ -135,7 +136,8 @@ namespace Sukt.Module.Core
         /// 异步删除所有符合特定条件的实体
         /// </summary>
         /// <param name="predicate">查询条件谓语表达式</param>
-        /// <returns>操作影响的行数</returns>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task<int> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>

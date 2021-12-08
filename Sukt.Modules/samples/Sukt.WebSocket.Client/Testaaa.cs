@@ -14,7 +14,7 @@ namespace Sukt.WebSocket.Client
             CTS = new CancellationTokenSource();
             Console.WriteLine("Hello, World!");
             clientWebSocket = new ClientWebSocket();
-            await clientWebSocket.ConnectAsync(new Uri("ws://localhost:8002/im"), CancellationToken.None);
+            await clientWebSocket.ConnectAsync(new Uri("ws://localhost:5000/im"), CancellationToken.None);
             Console.WriteLine(clientWebSocket.State);
 
             var msg = new { id = Guid.NewGuid().ToString(), targetAction = "im.login", body = new { uid = "asdasdasdasdasdadsada" } };

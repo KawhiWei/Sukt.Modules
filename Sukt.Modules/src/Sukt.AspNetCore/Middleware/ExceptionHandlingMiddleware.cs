@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Sukt.Module.Core.Enums;
+using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.OperationResult;
 using System;
 using System.Net;
@@ -26,6 +27,18 @@ namespace Sukt.AspNetCore
             {
                 await _next(context);
             }
+            catch (SuktAppBusinessException ex)
+            {
+                _logger.LogError(new EventId(), ex, ex.Message);
+                if (context.Response.HasStarted)
+                {
+                    return;
+                }
+                context.Response.StatusCode = (int)HttpStatusCode.OK; context.Response.Clear();
+                context.Response.ContentType = "application/json; charset=utf-8";
+                await context.Response.WriteAsync(new AjaxResult(ex.Message, AjaxResultType.Error).ToJson());
+                return;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(new EventId(), ex, ex.Message);
@@ -42,6 +55,7 @@ namespace Sukt.AspNetCore
                 }
                 throw;
             }
+
         }
     }
 

@@ -167,11 +167,10 @@ namespace Sukt.MQTransaction
                         var obj = JsonSerializer.Deserialize(messageCarrier.Body, type);
                         message = new Message(messageCarrier.MessageHeader, obj);
                     }
-                    catch (Exception ex)
+                    catch
                     {
-
                         //判断是否有对应的消费者
-                        throw ex;
+                        throw;
                     }
                     //开始消费消息
                     if (_options.IsDurableToDatabase)

@@ -17,16 +17,7 @@ namespace Sukt.Tests
         [Fact]
         public void Test()
         {
-            try
-            {
-                var context = ServiceProvider.GetService<SuktContext>();
-                context.Database.EnsureCreated();
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            
         }
     }
 

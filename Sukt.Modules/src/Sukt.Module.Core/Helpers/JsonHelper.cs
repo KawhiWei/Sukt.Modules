@@ -289,7 +289,7 @@ namespace Sukt.Module.Core.Helpers
         /// <typeparam name="TSource"></typeparam>
         /// <param name="source">需要转换为JSON格式字符串的对象</param>
         /// <param name="func">JSON处理方法委托，返回JSON格式的字符串</param>
-        /// <param name="isFilterNull">是否过滤IEnumerable<TSource> source中的null对象，默认为true</param>
+        /// <param name="isFilterNull">是否过滤IEnumerable<TSource>source中的null对象默认为true</param>
         /// <returns>标准的JSON格式的字符串</returns>
         private static string DelegateToJson<TSource>(IEnumerable<TSource> source, Func<TSource[], string> func, bool isFilterNull = true)
         {

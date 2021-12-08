@@ -44,7 +44,6 @@ namespace Sukt.Tests
         [Fact]
         public async Task ListLeftTopPush_Test()
         {
-            var value = "Sukt.Core.Top";
             for (int i = 0; i < 80; i++)
             {
                 var user = new User() { Name = $"$开飞机一告{i}" };

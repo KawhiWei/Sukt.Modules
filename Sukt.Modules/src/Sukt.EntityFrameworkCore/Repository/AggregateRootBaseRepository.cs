@@ -126,6 +126,9 @@ namespace Sukt.EntityFrameworkCore
         /// 异步添加单条实体
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="checkFunc"></param>
+        /// <param name="insertFunc"></param>
+        /// <param name="completeFunc"></param>
         /// <returns></returns>
         public virtual async Task<OperationResponse> InsertAsync(TEntity entity, Func<TEntity, Task> checkFunc = null, Func<TEntity, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TEntity> completeFunc = null)
         {
@@ -226,6 +229,7 @@ namespace Sukt.EntityFrameworkCore
         /// 异步更新单条实体
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="checkFunc"></param>
         /// <returns></returns>
         public virtual async Task<OperationResponse> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null)
         {
