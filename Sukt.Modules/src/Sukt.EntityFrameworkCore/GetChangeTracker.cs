@@ -1,12 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Sukt.Module.Core.Attributes;
+using Sukt.Module.Core.Audit;
 using Sukt.Module.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Sukt.Module.Core.Audit
+namespace Sukt.EntityFrameworkCore
 {
     /// <summary>
     /// 获取实体状态记录审计日志接口实现
@@ -116,5 +120,7 @@ namespace Sukt.Module.Core.Audit
             }
             return propertyDtos;
         }
+
+       
     }
 }

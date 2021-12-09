@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Sukt.EntityFrameworkCore.DbDrivens;
-using Sukt.Module.Core.DbContextDriven;
 using Sukt.Module.Core.Modules;
 
 namespace Sukt.EntityFrameworkCore

@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sukt.EntityFrameworkCore;
 using Sukt.Module.Core.AppOption;
-using Sukt.Module.Core.DbContextDriven;
 using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
 using System;
 using System.IO;
 using System.Linq;
-using Sukt.EntityFrameworkCore;
-using Sukt.Module.Core.Exceptions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -21,9 +20,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="optionsAction">操作委托</param>
         /// <returns></returns>
 
-        public static IServiceCollection AddSuktDbContext<TDbContext>(this IServiceCollection services, Action< SuktContextOptions> dbOption,  Action<IServiceProvider, DbContextOptionsBuilder> optionsAction = null) where TDbContext : SuktDbContextBase
+        public static IServiceCollection AddSuktDbContext<TDbContext>(this IServiceCollection services, Action<SuktContextOptions> dbOption, Action<IServiceProvider, DbContextOptionsBuilder> optionsAction = null) where TDbContext : SuktDbContextBase
         {
-            if(dbOption == null)
+            if (dbOption == null)
             {
                 throw new SuktAppException(nameof(dbOption));
             }

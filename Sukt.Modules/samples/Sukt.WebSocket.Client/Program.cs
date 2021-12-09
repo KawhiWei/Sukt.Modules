@@ -2,7 +2,8 @@
 using Sukt.WebSocket.Client;
 
 
-await Testaaa.SendAsync();
+await new Testaaa().SendAsync();
+
 
 
 

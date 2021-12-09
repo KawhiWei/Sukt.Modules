@@ -42,17 +42,17 @@ namespace Sukt.AspNetCore
             catch (Exception ex)
             {
                 _logger.LogError(new EventId(), ex, ex.Message);
-                if (context.Request.IsAjaxRequest() || context.Request.IsJsonContextType())
-                {
+                //if (context.Request.IsAjaxRequest() || context.Request.IsJsonContextType())
+                //{
                     if (context.Response.HasStarted)
                     {
                         return;
                     }
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; context.Response.Clear();
                     context.Response.ContentType = "application/json; charset=utf-8";
-                    await context.Response.WriteAsync(new AjaxResult(ex.Message, AjaxResultType.Error).ToJson());
+                    await context.Response.WriteAsync(new AjaxResult("服务器异常，请刷新重试！", AjaxResultType.Error).ToJson());
                     return;
-                }
+                //}
                 throw;
             }
 

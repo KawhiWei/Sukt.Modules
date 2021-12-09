@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sukt.Module.Core;
 using Sukt.Module.Core.AppOption;
 using Sukt.Module.Core.Entity;
 
-namespace Sukt.Module.Core.DbContextDriven
+namespace Sukt.EntityFrameworkCore
 {
     /// <summary>
     /// 上下文驱动提供者
     /// </summary>
-    public interface IDbContextDrivenProvider 
+    public interface IDbContextDrivenProvider
     {
         /// <summary>
         /// 数据库类型

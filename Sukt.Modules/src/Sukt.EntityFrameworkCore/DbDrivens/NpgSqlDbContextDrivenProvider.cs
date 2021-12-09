@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sukt.Module.Core.AppOption;
-using Sukt.Module.Core.DbContextDriven;
 using Sukt.Module.Core.Entity;
 using System;
 using System.Collections.Generic;
