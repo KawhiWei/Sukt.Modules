@@ -8,6 +8,13 @@ namespace Sukt.Module.Core.Domian
     /// <typeparam name="TKey"></typeparam>
     public class AggregateRootWithIdentity<TKey> : IAggregateRootWithIdentity<TKey> where TKey : IEquatable<TKey>
     {
+        public AggregateRootWithIdentity(TKey id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+        }
         /// <summary>
         /// 所有实体主键
         /// </summary>

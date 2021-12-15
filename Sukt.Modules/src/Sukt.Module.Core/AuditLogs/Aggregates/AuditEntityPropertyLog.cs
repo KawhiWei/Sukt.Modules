@@ -10,11 +10,10 @@ namespace Sukt.Module.Core.Aggregates
     /// </summary>
     [DisplayName("审计日志属性表")]
     [MongoDBTable("audit_entity_property_logs")]
-    public class AuditEntityPropertyLog : EntityWithIdentity<ObjectId>
+    public class AuditEntityPropertyLog : FullEntityWithIdentity
     {
-        public AuditEntityPropertyLog()
-        {
-            Id= ObjectId.GenerateNewId();
+        public AuditEntityPropertyLog():base(ObjectId.GenerateNewId().ToString())
+        {;
         }
         public AuditEntityPropertyLog(string properties, string propertieDisplayName, string originalValues, string newValues, string propertiesType, ObjectId auditEntryId):this()
         {

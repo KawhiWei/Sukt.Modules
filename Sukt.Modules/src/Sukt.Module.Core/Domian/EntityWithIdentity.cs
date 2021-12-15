@@ -5,10 +5,17 @@ namespace Sukt.Module.Core.Domian
 {
     public class EntityWithIdentity<TKey> : IEntityWithIdentity<TKey> where TKey : IEquatable<TKey>
     {
+        public EntityWithIdentity(TKey id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+        }
         /// <summary>
         /// 所有实体主键
         /// </summary>
-        public TKey Id { get; set; }
+        public TKey Id { get;  }
 
         /// <summary>
         /// 重写Equals方法

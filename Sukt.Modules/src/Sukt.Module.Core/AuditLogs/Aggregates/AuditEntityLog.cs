@@ -12,11 +12,10 @@ namespace Sukt.Module.Core.Aggregates
     /// </summary>
     [MongoDBTable("audit_entity_logs")]
     [DisplayName("审计日志实体")]
-    public class AuditEntityLog : AggregateRootWithIdentity<ObjectId>
+    public class AuditEntityLog : FullEntityWithIdentity
     {
-        public AuditEntityLog()
+        public AuditEntityLog() : base(ObjectId.GenerateNewId().ToString())
         {
-            Id = ObjectId.GenerateNewId();
         }
 
         public AuditEntityLog(string entityAllName, string entityDisplayName, string tableName, Dictionary<string, object> keyValues, DataOperationType operationType, ObjectId auditLogId):this()

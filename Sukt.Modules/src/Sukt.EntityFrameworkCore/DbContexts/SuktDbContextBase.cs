@@ -133,17 +133,18 @@ namespace Sukt.EntityFrameworkCore
             var entries = this.FindChangedEntries().ToList();
             foreach (var entity in entries)
             {
-                if (entity.Entity is ICreatedAudited<Guid> createdTime && entity.State == EntityState.Added)
+                if (entity.Entity is ICreated createdTime && entity.State == EntityState.Added)
                 {
-                    createdTime.CreatedAt = DateTimeOffset.UtcNow;
-                    if (_principal != null && _principal.Identity != null)
-                        createdTime.CreatedId = _principal.Identity.GetUesrId<Guid>();
+                    createdTime.UpdateCreatedAt();
+                    //createdTime.CreatedAt = DateTimeOffset.UtcNow;
+                    //if (_principal != null && _principal.Identity != null)
+                    //    createdTime.CreatedId = _principal.Identity.GetUesrId<Guid>();
                 }
-                if (entity.Entity is IModifyAudited<Guid> ModificationAuditedUserId && entity.State == EntityState.Modified)
+                if (entity.Entity is IModifyAudited ModificationAudited && entity.State == EntityState.Modified)
                 {
-                    ModificationAuditedUserId.LastModifedAt = DateTimeOffset.UtcNow;
-                    if (_principal != null && _principal.Identity != null)
-                        ModificationAuditedUserId.LastModifyId = _principal.Identity.GetUesrId<Guid>();
+                    ModificationAudited.UpdateLastModifedAt();//.LastModifedAt = DateTimeOffset.UtcNow;
+                    //if (_principal != null && _principal.Identity != null)
+                    //    ModificationAuditedUserId.LastModifyId = _principal.Identity.GetUesrId<Guid>();
                 }
             }
         }

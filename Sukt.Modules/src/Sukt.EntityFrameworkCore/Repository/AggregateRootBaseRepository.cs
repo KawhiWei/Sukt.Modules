@@ -378,117 +378,117 @@ namespace Sukt.EntityFrameworkCore
         //    return entity;
         //}
 
-        /// <summary>
-        /// 检查创建
-        /// </summary>
-        /// <param name="entitys">实体集合</param>
-        /// <returns></returns>
+      //  /// <summary>
+      //  /// 检查创建
+      //  /// </summary>
+      //  /// <param name="entitys">实体集合</param>
+      //  /// <returns></returns>
 
-        private TEntity[] CheckInsert(TEntity[] entitys)
-        {
-            for (int i = 0; i < entitys.Length; i++)
-            {
-                var entity = entitys[i];
-                entitys[i] = CheckInsert(entity);
-            }
-            return entitys;
-        }
+      //  private TEntity[] CheckInsert(TEntity[] entitys)
+      //  {
+      //      for (int i = 0; i < entitys.Length; i++)
+      //      {
+      //          var entity = entitys[i];
+      //          entitys[i] = CheckInsert(entity);
+      //      }
+      //      return entitys;
+      //  }
 
-        /// <summary>
-        /// 检查创建时间
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        private TEntity CheckInsert(TEntity entity)
-        {
-            var creationAudited = entity.GetType().GetInterface(/*$"ICreationAudited`1"*/typeof(ICreatedAudited<>).Name);
-            if (creationAudited == null)
-            {
-                return entity;
-            }
+      //  /// <summary>
+      //  /// 检查创建时间
+      //  /// </summary>
+      //  /// <param name="entity">实体</param>
+      //  /// <returns></returns>
+      //  private TEntity CheckInsert(TEntity entity)
+      //  {
+      //      var creationAudited = entity.GetType().GetInterface(/*$"ICreationAudited`1"*/typeof(ICreated<>).Name);
+      //      if (creationAudited == null)
+      //      {
+      //          return entity;
+      //      }
 
-            var typeArguments = creationAudited?.GenericTypeArguments[0];
-            var fullName = typeArguments?.FullName;
-            if (fullName == typeof(Guid).FullName)
-            {
-                entity = CheckICreationAudited<Guid>(entity);
-            }
+      //      var typeArguments = creationAudited?.GenericTypeArguments[0];
+      //      var fullName = typeArguments?.FullName;
+      //      if (fullName == typeof(Guid).FullName)
+      //      {
+      //          entity = CheckICreationAudited<Guid>(entity);
+      //      }
 
-            return entity;
-        }
+      //      return entity;
+      //  }
 
-        private TEntity CheckICreationAudited<TUserKey>(TEntity entity)
-           where TUserKey : struct, IEquatable<TUserKey>
-        {
-            if (!entity.GetType().IsBaseOn(typeof(ICreatedAudited<>)))
-            {
-                return entity;
-            }
+      //  private TEntity CheckICreationAudited<TUserKey>(TEntity entity)
+      //     where TUserKey : struct, IEquatable<TUserKey>
+      //  {
+      //      if (!entity.GetType().IsBaseOn(typeof(ICreated<>)))
+      //      {
+      //          return entity;
+      //      }
 
-            ICreatedAudited<TUserKey> entity1 = (ICreatedAudited<TUserKey>)entity;
-            entity1.CreatedId = _httpContextAccessor.HttpContext.User.Identity.GetUesrId<TUserKey>();
-            entity1.CreatedAt = DateTime.Now;
-            return (TEntity)entity1;
-        }
+      //      ICreated<TUserKey> entity1 = (ICreated<TUserKey>)entity;
+      //      entity1.CreatedId = _httpContextAccessor.HttpContext.User.Identity.GetUesrId<TUserKey>();
+      //      entity1.CreatedAt = DateTime.Now;
+      //      return (TEntity)entity1;
+      //  }
 
-        /// <summary>
-        /// 检查最后修改时间
-        /// </summary>
-        /// <param name="entitys"></param>
-        /// <returns></returns>
-        private TEntity[] CheckUpdate(TEntity[] entitys)
-        {
-            for (int i = 0; i < entitys.Length; i++)
-            {
-                var entity = entitys[i];
-                entitys[i] = CheckUpdate(entity);
-            }
-            return entitys;
-        }
+      //  /// <summary>
+      //  /// 检查最后修改时间
+      //  /// </summary>
+      //  /// <param name="entitys"></param>
+      //  /// <returns></returns>
+      //  private TEntity[] CheckUpdate(TEntity[] entitys)
+      //  {
+      //      for (int i = 0; i < entitys.Length; i++)
+      //      {
+      //          var entity = entitys[i];
+      //          entitys[i] = CheckUpdate(entity);
+      //      }
+      //      return entitys;
+      //  }
 
-        /// <summary>
-        /// 检查最后修改时间
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        private TEntity CheckUpdate(TEntity entity)
-        {
-            var creationAudited = entity.GetType().GetInterface(/*$"ICreationAudited`1"*/typeof(IModifyAudited<>).Name);
-            if (creationAudited == null)
-            {
-                return entity;
-            }
+      //  /// <summary>
+      //  /// 检查最后修改时间
+      //  /// </summary>
+      //  /// <param name="entity">实体</param>
+      //  /// <returns></returns>
+      //  private TEntity CheckUpdate(TEntity entity)
+      //  {
+      //      var creationAudited = entity.GetType().GetInterface(/*$"ICreationAudited`1"*/typeof(IModifyAudited<>).Name);
+      //      if (creationAudited == null)
+      //      {
+      //          return entity;
+      //      }
 
-            var typeArguments = creationAudited?.GenericTypeArguments[0];
-            var fullName = typeArguments?.FullName;
-            if (fullName == typeof(Guid).FullName)
-            {
-                entity = CheckIModificationAudited<Guid>(entity);
-            }
+      //      var typeArguments = creationAudited?.GenericTypeArguments[0];
+      //      var fullName = typeArguments?.FullName;
+      //      if (fullName == typeof(Guid).FullName)
+      //      {
+      //          entity = CheckIModificationAudited<Guid>(entity);
+      //      }
 
-            return entity;
-        }
+      //      return entity;
+      //  }
 
-        /// <summary>
-        /// 检查最后修改时间
-        /// </summary>
-        /// <typeparam name="TUserKey"></typeparam>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public TEntity CheckIModificationAudited<TUserKey>(TEntity entity)
-      where TUserKey : struct, IEquatable<TUserKey>
-        {
-            if (!entity.GetType().IsBaseOn(typeof(IModifyAudited<>)))
-            {
-                return entity;
-            }
+      //  /// <summary>
+      //  /// 检查最后修改时间
+      //  /// </summary>
+      //  /// <typeparam name="TUserKey"></typeparam>
+      //  /// <param name="entity"></param>
+      //  /// <returns></returns>
+      //  public TEntity CheckIModificationAudited<TUserKey>(TEntity entity)
+      //where TUserKey : struct, IEquatable<TUserKey>
+      //  {
+      //      if (!entity.GetType().IsBaseOn(typeof(IModifyAudited<>)))
+      //      {
+      //          return entity;
+      //      }
 
-            IModifyAudited<TUserKey> entity1 = (IModifyAudited<TUserKey>)entity;
-            //entity1.LastModifyId = _suktUser.Id a;
-            entity1.LastModifyId = _httpContextAccessor.HttpContext.User?.Identity.GetUesrId<TUserKey>();
-            entity1.LastModifedAt = DateTime.Now;
-            return (TEntity)entity1;
-        }
+      //      IModifyAudited<TUserKey> entity1 = (IModifyAudited<TUserKey>)entity;
+      //      //entity1.LastModifyId = _suktUser.Id a;
+      //      entity1.LastModifyId = _httpContextAccessor.HttpContext.User?.Identity.GetUesrId<TUserKey>();
+      //      entity1.LastModifedAt = DateTime.Now;
+      //      return (TEntity)entity1;
+      //  }
 
         #endregion 帮助方法
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Sukt.Module.Core.Domian
 {
@@ -11,4 +12,6 @@ namespace Sukt.Module.Core.Domian
         [Description("主键")]
         TKey Id { get; }
     }
+
+    
 }
