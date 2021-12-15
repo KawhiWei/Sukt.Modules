@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Domian;
 using System;
 
 namespace Sukt.Module.Core.Extensions
@@ -8,7 +8,7 @@ namespace Sukt.Module.Core.Extensions
     {
         #region 创建时间扩展
         public static TEntity[] CheckInsert<TEntity, TPrimaryKey>(this TEntity[] entitys, IHttpContextAccessor httpContextAccessor)
-            where TEntity : class, IEntity<TPrimaryKey>
+            where TEntity : class, IEntityWithIdentity<TPrimaryKey>
             where TPrimaryKey : IEquatable<TPrimaryKey>
         {
 
@@ -20,7 +20,7 @@ namespace Sukt.Module.Core.Extensions
             return entitys;
         }
         public static TEntity CheckInsert<TEntity, TPrimaryKey>(this TEntity entity, IHttpContextAccessor httpContextAccessor)
-           where TEntity : class, IEntity<TPrimaryKey>
+           where TEntity : class, IEntityWithIdentity<TPrimaryKey>
             where TPrimaryKey : IEquatable<TPrimaryKey>
         {
 
@@ -53,7 +53,7 @@ namespace Sukt.Module.Core.Extensions
 
         #region 检查修改时间
         public static TEntity[] CheckModification<TEntity, TPrimaryKey>(this TEntity[] entitys, IHttpContextAccessor httpContextAccessor)
-            where TEntity : class, IEntity<TPrimaryKey>
+            where TEntity : class, IEntityWithIdentity<TPrimaryKey>
             where TPrimaryKey : IEquatable<TPrimaryKey>
         {
 
@@ -65,7 +65,7 @@ namespace Sukt.Module.Core.Extensions
             return entitys;
         }
         public static TEntity CheckModification<TEntity, TPrimaryKey>(this TEntity entity, IHttpContextAccessor httpContextAccessor)
-           where TEntity : class, IEntity<TPrimaryKey>
+           where TEntity : class, IEntityWithIdentity<TPrimaryKey>
             where TPrimaryKey : IEquatable<TPrimaryKey>
         {
 

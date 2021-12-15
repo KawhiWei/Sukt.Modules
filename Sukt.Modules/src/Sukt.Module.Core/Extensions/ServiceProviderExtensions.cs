@@ -27,7 +27,6 @@ namespace Sukt.Module.Core.Extensions
         /// <summary>
         ///
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="provider"></param>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -173,7 +172,7 @@ namespace Sukt.Module.Core.Extensions
         /// <summary>
         /// 得到文件容器
         /// </summary>
-        /// <param name="services">服务接口</param>
+        /// <param name="provider">服务接口</param>
         /// <param name="fileName">文件名+后缀名</param>
         /// <param name="fileNotExistsMsg">文件不存提示信息</param>
         /// <returns>返回文件中的文件</returns>
@@ -209,8 +208,7 @@ namespace Sukt.Module.Core.Extensions
         /// <summary>
         /// 根据配置得到文件内容
         /// </summary>
-        /// <param name="services">服务接口</param>
-        /// <param name=""></param>
+        /// <param name="provider">服务接口</param>
         /// <param name="sectionKey">分区键</param>
         /// <param name="fileNotExistsMsg">文件不存提示信息</param>
         /// <returns>返回文件中的文件</returns>

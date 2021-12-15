@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
-using Sukt.Module.Core.Entity;
 using Sukt.Module.Core.Extensions;
 using Sukt.Module.Core.Extensions.ResultExtensions;
+using Sukt.Module.Core.PageParameter;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;

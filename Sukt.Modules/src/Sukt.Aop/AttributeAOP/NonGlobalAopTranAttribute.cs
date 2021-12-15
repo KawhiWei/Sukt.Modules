@@ -1,5 +1,5 @@
 ﻿using AspectCore.DynamicProxy;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.UnitOfWorks;
 using System;
 using System.Threading.Tasks;
 

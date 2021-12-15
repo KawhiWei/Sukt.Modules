@@ -15,17 +15,45 @@ namespace Sukt.WebSocket.Client
         {
             CancellationTokenSource ctss = new CancellationTokenSource();
             keyValues.TryAdd("123456", ctss);
+
+
+            //Task task = new Task(() =>
+            //  {
+            //      try
+            //      {
+
+            //          var isbool = true;
+            //          while (isbool)
+            //          {
+            //              ctss.Token.ThrowIfCancellationRequested();
+            //              Console.WriteLine("我还在运行");
+            //              Thread.Sleep(1000);
+            //          }
+            //        //Task.Delay(15000);
+            //        //isbool = false;
+            //        Console.WriteLine("我已经准备退出运行");
+            //      }
+            //      catch (Exception ex)
+            //      {
+
+            //          Console.WriteLine("取消了线程运行");
+            //          Console.WriteLine(ex.Message);
+            //      }
+            //  },ctss.Token);
+            //task.Start();
+            //Console.WriteLine( task.Status);
             Task.Factory.StartNew(() =>
             {
 
                 try
                 {
-                    ctss.Token.ThrowIfCancellationRequested();
+
                     var isbool = true;
                     while (isbool)
                     {
+                        ctss.Token.ThrowIfCancellationRequested();
                         Console.WriteLine("我还在运行");
-                        //Thread.Sleep(1000);
+                        Thread.Sleep(1000);
                     }
                     //Task.Delay(15000);
                     //isbool = false;
@@ -39,17 +67,19 @@ namespace Sukt.WebSocket.Client
                 }
 
             }, ctss.Token);
-            //sask.Start();
+
+            //await Task.Delay(15000);
+            Console.ReadLine();
             keyValues.TryGetValue("123456", out var cancellationToken);
             if(cancellationToken!=null)
             {
+
                 cancellationToken.Cancel();
             }
             
 
+
             return Task.CompletedTask;
-
-
 
             //CTS = new CancellationTokenSource();
             //Console.WriteLine("Hello, World!");

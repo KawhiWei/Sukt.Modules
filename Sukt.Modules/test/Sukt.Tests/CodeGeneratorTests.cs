@@ -76,9 +76,8 @@ namespace Sukt.Tests
 
                 codeGenerator.GenerateCode(projectMetadata);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
             }
             
 

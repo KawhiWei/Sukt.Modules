@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Domian;
 using Sukt.Module.Core.Extensions;
 using Sukt.Module.Core.OperationResult;
 using Sukt.MongoDB.DbContexts;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Sukt.MongoDB.Repositorys
 {
-    public class MongoDBRepository<TData, Tkey> : IMongoDBRepository<TData, Tkey> where TData : class, IEntity<Tkey>
+    public class MongoDBRepository<TData, Tkey> : IMongoDBRepository<TData, Tkey> where TData : class, IEntityWithIdentity<Tkey>
        where Tkey : IEquatable<Tkey>
     {
         private readonly IMongoCollection<TData> _collection;

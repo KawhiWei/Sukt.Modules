@@ -1,23 +1,22 @@
-﻿using AspectCore.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sukt.EntityFrameworkCore.MappingConfiguration;
 using Sukt.Module.Core.AppOption;
-using Sukt.Module.Core.Audit;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Audit.Transmissions;
+using Sukt.Module.Core.AuditLogs;
+using Sukt.Module.Core.Domian;
 using Sukt.Module.Core.Extensions;
-using Sukt.Module.Core.SuktDependencyAppModule;
 using Sukt.Module.Core.SuktReflection;
+using Sukt.Module.Core.UnitOfWorks;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using Sukt.Module;
-using System.Data;
 
 namespace Sukt.EntityFrameworkCore
 {
@@ -31,7 +30,7 @@ namespace Sukt.EntityFrameworkCore
         protected readonly AppOptionSettings _appOptionSettings;
         private readonly IGetChangeTracker _changeTracker;
         protected readonly ILogger _logger = null;
-        protected readonly AuditEntryDictionaryScoped _auditEntryDictionaryScoped;
+        protected readonly AuditLogDictionaryScoped _auditEntryDictionaryScoped;
         private readonly IPrincipal _principal;
         /// <summary>
         /// 构造函数
@@ -43,7 +42,7 @@ namespace Sukt.EntityFrameworkCore
             ServiceProvider = serviceProvider;
             _appOptionSettings = ServiceProvider.GetAppSettings();
             this._logger = ServiceProvider.GetLogger(GetType());
-            _auditEntryDictionaryScoped = ServiceProvider.GetService<AuditEntryDictionaryScoped>();
+            _auditEntryDictionaryScoped = ServiceProvider.GetService<AuditLogDictionaryScoped>();
             _changeTracker = ServiceProvider.GetService<IGetChangeTracker>();
             _principal = ServiceProvider.GetService<IPrincipal>();
         }
@@ -94,9 +93,9 @@ namespace Sukt.EntityFrameworkCore
         {
             if (_appOptionSettings.AuditEnabled)
             {
-                if (count > 0 && sender != null && sender is List<AuditEntryInputDto> senders)
+                if (count > 0 && sender != null && sender is List<AuditLogEntityTransMissionDto> senders)
                 {
-                    var auditChange = _auditEntryDictionaryScoped.AuditChange;
+                    var auditChange = _auditEntryDictionaryScoped.AuditRequestInformationTransMissionDto;
                     if (auditChange != null)
                     {
                         auditChange.AuditEntryInputDtos.AddRange(senders);
@@ -114,7 +113,7 @@ namespace Sukt.EntityFrameworkCore
         /// 获取修改过的实体数据（修改前/修改后）进行数据审计
         /// </summary>
         /// <returns></returns>
-        protected virtual IEnumerable<AuditEntryInputDto> GetAuditEntitys()
+        protected virtual IEnumerable<AuditLogEntityTransMissionDto> GetAuditEntitys()
         {
             return _changeTracker.GetChangeTrackerList(FindChangedEntries());
         }

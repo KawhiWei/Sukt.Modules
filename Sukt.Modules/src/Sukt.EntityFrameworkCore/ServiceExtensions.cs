@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sukt.EntityFrameworkCore;
 using Sukt.Module.Core.AppOption;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Domian;
 using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
 using System;
@@ -17,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TDbContext">上下文</typeparam>
         /// <param name="services">服务集合</param>
+        /// <param name="dbOption">服务集合</param>
         /// <param name="optionsAction">操作委托</param>
         /// <returns></returns>
 

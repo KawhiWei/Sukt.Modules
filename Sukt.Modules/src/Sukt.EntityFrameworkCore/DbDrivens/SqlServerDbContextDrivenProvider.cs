@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sukt.Module.Core.AppOption;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Domian;
 
 namespace Sukt.EntityFrameworkCore.DbDrivens
 {

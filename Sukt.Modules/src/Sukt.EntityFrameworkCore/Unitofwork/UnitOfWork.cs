@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Sukt.Module.Core.Entity;
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Extensions;
 using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,12 +25,6 @@ namespace Sukt.EntityFrameworkCore
         {
             _dbContext = dbContext as SuktDbContextBase;
         }
-
-        /// <summary>
-        /// 日志
-        /// </summary>
-        private readonly ILogger _logger = null;
-
         /// <summary>
         /// 是否释放
         /// </summary>
@@ -174,11 +168,11 @@ namespace Sukt.EntityFrameworkCore
         //    }
         //}
 
-        /// <summary>
-        /// 开启事务 如果成功提交事务，失败回滚事务
-        /// </summary>
-        /// <param name="func">要执行的操作</param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// 开启事务 如果成功提交事务，失败回滚事务
+        ///// </summary>
+        ///// <param name="func">要执行的操作</param>
+        ///// <returns></returns>
         //public OperationResponse UseTran(Func<OperationResponse> func)
         //{
         //    func.NotNull(nameof(func));

@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Sukt.Module.Core.Attributes;
 using Sukt.Module.Core.Audit;
+using Sukt.Module.Core.Audit.Transmissions;
+using Sukt.Module.Core.AuditLogs.Shared;
 using Sukt.Module.Core.Extensions;
 using System;
 using System.Collections.Generic;
@@ -22,14 +24,14 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         /// <param name="Entries"></param>
         /// <returns></returns>
-        public List<AuditEntryInputDto> GetChangeTrackerList(IEnumerable<EntityEntry> Entries)
+        public List<AuditLogEntityTransMissionDto> GetChangeTrackerList(IEnumerable<EntityEntry> Entries)
         {
-            var list = new List<AuditEntryInputDto>();
+            var list = new List<AuditLogEntityTransMissionDto>();
             EntityState[] states = { EntityState.Added, EntityState.Modified, EntityState.Deleted };
             return Entries.Where(x => x.Entity != null && states.Contains(x.State) && x.GetType().IsDefined(typeof(DisableAuditingAttribute)) == false).ToArray().Select(o => this.CreateAuditEntry(o)).ToList();
         }
 
-        private AuditEntryInputDto CreateAuditEntry(EntityEntry entityEntry)
+        private AuditLogEntityTransMissionDto CreateAuditEntry(EntityEntry entityEntry)
         {
             var entity = entityEntry.Entity;
             var type = entity.GetType();
@@ -49,12 +51,12 @@ namespace Sukt.EntityFrameworkCore
                     changeType = DataOperationType.Add;
                     break;
             }
-            AuditEntryInputDto auditEntryInput = new AuditEntryInputDto();
+            AuditLogEntityTransMissionDto auditEntryInput = new AuditLogEntityTransMissionDto();
             auditEntryInput.KeyValues = new Dictionary<string, object>();
             auditEntryInput.EntityAllName = type.FullName;
             auditEntryInput.EntityDisplayName = displayName;
             auditEntryInput.OperationType = changeType;
-            auditEntryInput.PropertysEntryInputDto = GetAuditPropertys(entityEntry);
+            auditEntryInput.AuditLogEntityPropertyTransMissionDtos = GetAuditPropertys(entityEntry);
             auditEntryInput.KeyValues = new Dictionary<string, object>() {
                 { "Id",GetEntityKey(entity)}
             };
@@ -77,14 +79,14 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         /// <param name="entityEntry"></param>
         /// <returns></returns>
-        private List<AuditPropertysEntryInputDto> GetAuditPropertys(EntityEntry entityEntry)
+        private List<AuditLogEntityPropertyTransMissionDto> GetAuditPropertys(EntityEntry entityEntry)
         {
-            List<AuditPropertysEntryInputDto> propertyDtos = new List<AuditPropertysEntryInputDto>();
+            List<AuditLogEntityPropertyTransMissionDto> propertyDtos = new List<AuditLogEntityPropertyTransMissionDto>();
 
             foreach (var propertie in entityEntry.CurrentValues.Properties.Where(p => !p.IsConcurrencyToken && p.PropertyInfo?.GetCustomAttribute<DisableAuditingAttribute>() == null))
             {
                 var propertyEntry = entityEntry.Property(propertie.Name);//获取字段名
-                AuditPropertysEntryInputDto propertyDto = new AuditPropertysEntryInputDto();
+                AuditLogEntityPropertyTransMissionDto propertyDto = new AuditLogEntityPropertyTransMissionDto();
                 propertyDto.Properties = propertie.Name;
                 propertyDto.PropertieDisplayName = propertyEntry.Metadata.PropertyInfo?.ToDescription();
                 propertyDto.PropertiesType = propertie.ClrType.FullName;

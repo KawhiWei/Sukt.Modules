@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Sukt.AspNetCore\Sukt.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Sukt.Module.Core\Sukt.Module.Core.csproj" />
     <ProjectReference Include="..\..\src\Sukt.WebSocketServer\Sukt.WebSocketServer.csproj" />
   </ItemGroup>

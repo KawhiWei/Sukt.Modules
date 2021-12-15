@@ -1,30 +1,52 @@
 ﻿using Sukt.Module.Core.Extensions.OrderExtensions;
+using Sukt.Module.Core.QueryFilters;
 
 namespace Sukt.Module.Core.PageParameter
 {
-    public class PageParameters
+    public class PageParameters : IFilteredPagedRequest, IPagedRequest
     {
-        public PageParameters(int pageIndex, int pageSize)
-        {
-            PageIndex = pageIndex;
-            PageSize = pageSize;
-            OrderConditions = new OrderCondition[] { };
-        }
-
         /// <summary>
-        /// 分页索引
+        /// 页码
         /// </summary>
-
-        public virtual int PageIndex { get; set; }
+        public int PageIndex { get; set; }
 
         /// <summary>
-        /// 分页大小
+        /// 行数
         /// </summary>
-        public virtual int PageSize { get; set; }
+        public int PageRow { get; set; }
 
         /// <summary>
-        /// 排序条件集合
+        /// 排序集合
         /// </summary>
         public OrderCondition[] OrderConditions { get; set; }
+
+        /// <summary>
+        /// 查询条件
+        /// </summary>
+        public QueryFilter queryFilter { get; set; }
+    }
+    /// <summary>
+    /// 查询条件接口
+    /// </summary>
+    public interface IFilteredPagedRequest : IPagedRequest
+    {
+        QueryFilter queryFilter { get; set; }
+    }
+    /// <summary>
+    /// 分页所需的参数
+    /// </summary>
+    public interface IPagedRequest
+    {
+        public OrderCondition[] OrderConditions { get; set; }
+
+        /// <summary>
+        /// 页码
+        /// </summary>
+        int PageIndex { get; set; }
+
+        /// <summary>
+        /// 页行数
+        /// </summary>
+        int PageRow { get; set; }
     }
 }

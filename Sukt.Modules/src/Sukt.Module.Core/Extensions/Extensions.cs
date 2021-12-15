@@ -1,4 +1,4 @@
-﻿using Sukt.Module.Core.Entity;
+﻿using Sukt.Module.Core.Domian;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,8 +20,13 @@ namespace Sukt.Module.Core.Extensions
             return ((type != null) && type.IsGenericType) && (type.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
+        /// <summary>
         /// 判断当前类型是否可由指定类型派生
         /// </summary>
+        /// <typeparam name="TBaseType"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="canAbstract"></param>
+        /// <returns></returns>
         public static bool IsDeriveClassFrom<TBaseType>(this Type type, bool canAbstract = false)
         {
             return IsDeriveClassFrom(type, typeof(TBaseType), canAbstract);
@@ -150,7 +155,7 @@ namespace Sukt.Module.Core.Extensions
         /// <summary>
         /// 从类型成员获取指定Attribute特性
         /// </summary>
-        /// <typeparam name="type">Attribute特性类型</typeparam>
+        /// <param name="type">Attribute特性类型</param>
         /// <param name="memberInfo">类型类型成员</param>
         /// <param name="inherit">是否从继承中查找</param>
         /// <returns>存在返回第一个，不存在返回null</returns>
@@ -168,7 +173,7 @@ namespace Sukt.Module.Core.Extensions
         public static bool IsEntityType(this Type type)
         {
             type.NotNull(nameof(type));
-            return typeof(IEntity<>).IsGenericAssignableFrom(type) && !type.IsAbstract && !type.IsInterface;
+            return typeof(IEntityWithIdentity<>).IsGenericAssignableFrom(type) && !type.IsAbstract && !type.IsInterface;
         }
 
         /// <summary>

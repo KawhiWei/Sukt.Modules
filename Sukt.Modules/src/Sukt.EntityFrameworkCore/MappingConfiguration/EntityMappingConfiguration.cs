@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sukt.Module.Core;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Domian;
 using System;
 
 namespace Sukt.EntityFrameworkCore.MappingConfiguration
 {
-    public abstract class EntityMappingConfiguration<TEntity, TKey> : IEntityMappingConfiguration<TEntity, TKey> where TEntity : class, IEntity<TKey>
+    public abstract class EntityMappingConfiguration<TEntity, TKey> : IEntityMappingConfiguration<TEntity, TKey> where TEntity : class, IEntityWithIdentity<TKey>
         where TKey : IEquatable<TKey>
     {
         public Type DbContextType => typeof(SuktDbContextBase);
@@ -24,7 +23,7 @@ namespace Sukt.EntityFrameworkCore.MappingConfiguration
             }
         }
     }
-    public abstract class AggregateRootMappingConfiguration<TEntity, TKey> : IAggregateRootMappingConfiguration<TEntity, TKey> where TEntity : class, IAggregateRoot<TKey>
+    public abstract class AggregateRootMappingConfiguration<TEntity, TKey> : IAggregateRootMappingConfiguration<TEntity, TKey> where TEntity : class, IAggregateRootWithIdentity<TKey>
         where TKey : IEquatable<TKey>
     {
         public Type DbContextType => typeof(SuktDbContextBase);

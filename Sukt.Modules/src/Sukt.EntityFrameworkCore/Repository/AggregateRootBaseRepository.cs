@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sukt.Module.Core;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Domian;
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
 using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.Repositories;
 using Sukt.Module.Core.ResultMessageConst;
+using Sukt.Module.Core.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ using Z.EntityFramework.Plus;
 namespace Sukt.EntityFrameworkCore
 {
     public class AggregateRootBaseRepository<TEntity, Tkey> : IAggregateRootRepository<TEntity, Tkey>
-        where TEntity : class, IAggregateRoot<Tkey> where Tkey : IEquatable<Tkey>
+        where TEntity : class, IAggregateRootWithIdentity<Tkey> where Tkey : IEquatable<Tkey>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         public AggregateRootBaseRepository(IServiceProvider serviceProvider)

@@ -16,7 +16,6 @@ namespace Sukt.Module.Core.Events
         /// <summary>
         /// 有返回值的事件处理
         /// </summary>
-        /// <typeparam name="OutT"></typeparam>
         /// <param name="notification"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>

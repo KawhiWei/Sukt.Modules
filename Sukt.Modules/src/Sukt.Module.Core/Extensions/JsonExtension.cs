@@ -234,15 +234,13 @@ namespace Sukt.Module.Core.Extensions
 
         /// <summary>
         /// 委托处理需要序列化为JSON格式的对象，返回标准的JSON格式的字符串。
-        /// 默认过滤null对象，如果需要在上层调用时，自己进行条件过滤null对象，
-        /// 则设置isFilterNull为false，不建议isFilterNull设置为false。
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <typeparam name="TResult"></typeparam>
-        /// <param name="source">需要转换为JSON格式字符串的对象</param>
-        /// <param name="func">集合/数组条件筛选方法委托，返回筛选后的集合/数组</param>
-        /// <param name="isFilterNull">是否过滤IEnumerable<TSource> source中的null对象，默认为true</param>
-        /// <returns>标准的JSON格式的字符串</returns>
+        /// <param name="source"></param>
+        /// <param name="func"></param>
+        /// <param name="isFilterNull"></param>
+        /// <returns></returns>
         private static string DelegateToJson<TSource, TResult>(IEnumerable<TSource> source, Func<TSource[], IEnumerable<TResult>> func, bool isFilterNull = true)
         {
             return DelegateToJson(source, enumerable => func(enumerable).ToJson(), isFilterNull);
@@ -273,15 +271,13 @@ namespace Sukt.Module.Core.Extensions
         }
 
         /// <summary>
-        /// 委托处理需要序列化为JSON格式的对象，返回标准的JSON格式的字符串。
-        /// 默认过滤null对象，如果需要在上层调用时，自己进行条件过滤null对象，
-        /// 则设置isFilterNull为false，不建议isFilterNull设置为false。
+        /// 
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
-        /// <param name="source">需要转换为JSON格式字符串的对象</param>
-        /// <param name="func">JSON处理方法委托，返回JSON格式的字符串</param>
-        /// <param name="isFilterNull">是否过滤IEnumerable<TSource> source中的null对象，默认为true</param>
-        /// <returns>标准的JSON格式的字符串</returns>
+        /// <param name="source"></param>
+        /// <param name="func"></param>
+        /// <param name="isFilterNull"></param>
+        /// <returns></returns>
         private static string DelegateToJson<TSource>(IEnumerable<TSource> source, Func<TSource[], string> func, bool isFilterNull = true)
         {
             if (source == null)

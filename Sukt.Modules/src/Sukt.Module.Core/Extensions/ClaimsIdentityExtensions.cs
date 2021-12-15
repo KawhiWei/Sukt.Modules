@@ -9,7 +9,7 @@ namespace Sukt.Module.Core.Extensions
         /// <summary>
         /// 得到用户ID
         /// </summary>
-        /// <param name="claims"></param>
+        /// <param name="identity"></param>
         /// <param name="type"></param>
         /// <returns></returns>
         public static T GetUesrId<T>(this IIdentity identity, string type = ClaimTypes.NameIdentifier)
@@ -30,7 +30,7 @@ namespace Sukt.Module.Core.Extensions
         /// <summary>
         /// 得到用户ID
         /// </summary>
-        /// <param name="claims"></param>
+        /// <param name="identity"></param>
         /// <param name="type"></param>
         /// <returns></returns>
         public static string GetUesrId(this IIdentity identity, string type = ClaimTypes.NameIdentifier)
@@ -168,7 +168,6 @@ namespace Sukt.Module.Core.Extensions
         /// <summary>
         /// 获取租户Id
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="identity"></param>
         /// <returns></returns>
         public static string GetTenantId(this IIdentity identity)

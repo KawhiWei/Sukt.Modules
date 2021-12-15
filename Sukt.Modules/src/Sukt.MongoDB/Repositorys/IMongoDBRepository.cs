@@ -14,7 +14,7 @@ namespace Sukt.MongoDB.Repositorys
         /// <summary>
         /// 创建
         /// </summary>
-        /// <param name="T"></param>
+        /// <param name="entity"></param>
         /// <returns></returns>
         Task InsertAsync(TData entity);
 

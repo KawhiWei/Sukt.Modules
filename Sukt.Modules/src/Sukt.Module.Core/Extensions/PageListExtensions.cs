@@ -1,4 +1,4 @@
-﻿using Sukt.Module.Core.AjaxResult;
+﻿using Sukt.Module.Core.AjaxResults;
 using Sukt.Module.Core.Extensions.ResultExtensions;
 
 namespace Sukt.Module.Core.Extensions

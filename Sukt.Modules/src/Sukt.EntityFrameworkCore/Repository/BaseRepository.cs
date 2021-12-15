@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.Domian;
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
 using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.Repositories;
 using Sukt.Module.Core.ResultMessageConst;
+using Sukt.Module.Core.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,7 @@ using Z.EntityFramework.Plus;
 namespace Sukt.EntityFrameworkCore
 {
     public class BaseRepository<TEntity, Tkey> : IEFCoreRepository<TEntity, Tkey>
-        where TEntity : class, IEntity<Tkey> where Tkey : IEquatable<Tkey>
+        where TEntity : class, IEntityWithIdentity<Tkey> where Tkey : IEquatable<Tkey>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         public BaseRepository(IServiceProvider serviceProvider)
@@ -143,6 +145,9 @@ namespace Sukt.EntityFrameworkCore
         /// 异步添加单条实体
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="checkFunc"></param>
+        /// <param name="insertFunc"></param>
+        /// <param name="completeFunc"></param>
         /// <returns></returns>
         public virtual async Task<OperationResponse> InsertAsync(TEntity entity, Func<TEntity, Task> checkFunc = null, Func<TEntity, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TEntity> completeFunc = null)
         {
@@ -231,6 +236,7 @@ namespace Sukt.EntityFrameworkCore
         /// 异步更新单条实体
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="checkFunc"></param>
         /// <returns></returns>
         public virtual async Task<OperationResponse> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null)
         {
@@ -242,7 +248,7 @@ namespace Sukt.EntityFrameworkCore
                     await checkFunc(entity);
                 }
                 //entity = entity.CheckInsert<TEntity, Tkey>(_httpContextAccessor);//CheckInsert(entity);
-                _dbSet.Update(entity);               
+                _dbSet.Update(entity);
                 int count = await _dbContext.SaveChangesAsync();
                 return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
             }

@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sukt.Module.Core.Entity;
+using Sukt.Module.Core.DtoBases;
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.ExpressionUtil;
 using Sukt.Module.Core.Extensions.OrderExtensions;
 using Sukt.Module.Core.Extensions.ResultExtensions;
+using Sukt.Module.Core.PageParameter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,14 +54,13 @@ namespace Sukt.Module.Core.Extensions
             var total = result.totalNumber;
             return new PageResult<TEntity>(list, total);
         }
+
         /// <summary>
         /// 从集合中查询指定输出DTO的分页信息
         /// </summary>
         /// <typeparam name="TEntity">动态实体类型</typeparam>
-        /// <typeparam name="TOutputDto">输出DTO数据类型</typeparam>
-        /// <param name="source">数据源</param>
-        /// <param name="predicate">查询条件表达式</param>
-        /// <param name="pageParameters">分页参数</param>
+        /// <param name="source"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public static async Task<PageResult<TEntity>> ToPageAsync<TEntity>(this IQueryable<TEntity> source, IPagedRequest request)
         {
@@ -101,10 +101,9 @@ namespace Sukt.Module.Core.Extensions
         /// 从集合中查询指定输出DTO的分页信息
         /// </summary>
         /// <typeparam name="TEntity">动态实体类型</typeparam>
-        /// <typeparam name="TOutputDto">输出DTO数据类型</typeparam>
-        /// <param name="source">数据源</param>
-        /// <param name="predicate">查询条件表达式</param>
-        /// <param name="pageParameters">分页参数</param>
+        /// <typeparam name="TOutputDto">动态实体类型</typeparam>
+        /// <param name="source"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public static async Task<IPageResult<TOutputDto>> ToPageAsync<TEntity, TOutputDto>(this IQueryable<TEntity> source, IPagedRequest request)
           where TOutputDto : IOutputDto
@@ -147,42 +146,11 @@ namespace Sukt.Module.Core.Extensions
         }
 
         /// <summary>
-        /// 动态查询
-        /// </summary>
-        /// <typeparam name="TEntity">要查询实体</typeparam>
-        /// <param name="source">数据</param>
-        /// <param name="filterInfos">查询信息集合</param>
-        /// <returns></returns>
-        //public static IQueryable<TEntity> Filter<TEntity>(this IQueryable<TEntity> source, FilterInfo[] filterInfos)
-        //{
-        //    source.NotNull(nameof(source));
-        //    filterInfos.NotNull(nameof(filterInfos));
-        //    StringBuilder strWhere = new StringBuilder();
-        //    int count = 0;
-        //    foreach (FilterInfo filterInfo in filterInfos)
-        //    {
-        //        var index = count + 1;
-        //        //"City == @0 and Orders.Count >= @1"
-        //        if (index != filterInfos.Length)
-        //        {
-        //            strWhere.Append($"{filterInfo.Key} {filterInfo.Operator.ToDescription<FilterCodeAttribute>()} @{count} {filterInfo.Connect.ToDescription<FilterCodeAttribute>()} ");
-        //        }
-        //        else
-        //        {
-        //            strWhere.Append($"{filterInfo.Key} {filterInfo.Operator.ToDescription<FilterCodeAttribute>()} @{count}");
-        //        }
-        //        count++;
-        //    }
-        //    return strWhere.Length > 0 ? source.Where(strWhere.ToString(), filterInfos.Select(o => o.Value).ToArray()) : source;
-        //}
-
-        /// <summary>
         /// 从集合中查询指定数据筛选的树数据
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="source"></param>
-        /// <param name="predicate"></param>
         /// <param name="rootwhere"></param>
         /// <param name="childswhere"></param>
         /// <param name="addchilds"></param>

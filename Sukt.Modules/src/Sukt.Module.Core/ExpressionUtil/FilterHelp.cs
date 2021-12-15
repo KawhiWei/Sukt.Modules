@@ -2,7 +2,7 @@
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
-using Sukt.Module.Core.Filter;
+using Sukt.Module.Core.QueryFilters;
 using System;
 using System.Collections.Generic;
 using System.Linq;

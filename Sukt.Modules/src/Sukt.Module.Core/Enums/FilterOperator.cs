@@ -1,4 +1,4 @@
-﻿using Sukt.Module.Core.Filter;
+﻿using Sukt.Module.Core.QueryFilters;
 using System.ComponentModel;
 
 namespace Sukt.Module.Core.Enums

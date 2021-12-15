@@ -17,7 +17,7 @@ namespace Sukt.Module.Core.Events.EventBus
         /// <summary>
         ///  发布事件
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="OutT"></typeparam>
         /// <param name="event"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>

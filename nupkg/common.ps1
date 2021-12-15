@@ -11,7 +11,6 @@ $solutions = (
 $projects = (
     "Sukt.Modules/src/Sukt.Module.Core",
     "Sukt.Modules/src/Sukt.Aop",
-    "Sukt.Modules/src/Sukt.AspNetCore",
     "Sukt.Modules/src/Sukt.AutoMapper",
     "Sukt.Modules/src/Sukt.CodeGenerator",
     "Sukt.Modules/src/Sukt.EntityFrameworkCore",
