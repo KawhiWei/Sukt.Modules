@@ -11,6 +11,7 @@ namespace Sukt.Module.Core.Domian
             {
                 throw new ArgumentNullException(nameof(id));
             }
+            Id = id;
         }
         /// <summary>
         /// 所有实体主键

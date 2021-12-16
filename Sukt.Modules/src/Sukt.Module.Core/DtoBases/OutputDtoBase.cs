@@ -8,7 +8,7 @@
     /// 实现DTO接口
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public class OutputDtoBase<TKey>
+    public class OutputDtoBase<TKey>: IOutputDto
     {
         public TKey Id { get; set; }
     }
