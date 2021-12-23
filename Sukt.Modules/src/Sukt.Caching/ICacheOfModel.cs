@@ -50,7 +50,7 @@ namespace Sukt.Caching
         /// <summary>
         /// 得到或添加
         /// </summary>
-        /// <param name="key"><键/param>
+        /// <param name="key"></param>
         /// <param name="func"></param>
         /// <param name="token"></param>
         /// <returns>返回得到或添加后的缓存数据</returns>

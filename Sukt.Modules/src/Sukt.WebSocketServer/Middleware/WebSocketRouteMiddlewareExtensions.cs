@@ -35,15 +35,15 @@ namespace Sukt.WebSocketServer
             return app;
         }
 
-        /// <summary>
-        /// Use websocket cluster start service.
-        /// Add Cyaim.WebSocketServer.Infrastructure.Middlewares.WebSocketRouteMiddleware Middleware.
-        /// The websocket request will execute the with relation endpoint methods.
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="serviceProvider"></param>
-        /// <param name="clusterOption"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// Use websocket cluster start service.
+        ///// Add Cyaim.WebSocketServer.Infrastructure.Middlewares.WebSocketRouteMiddleware Middleware.
+        ///// The websocket request will execute the with relation endpoint methods.
+        ///// </summary>
+        ///// <param name="app"></param>
+        ///// <param name="serviceProvider"></param>
+        ///// <param name="clusterOption"></param>
+        ///// <returns></returns>
         //public static IApplicationBuilder UseWebSocketServer(this IApplicationBuilder app, IServiceProvider serviceProvider, Action<ClusterOption> clusterOption)
         //{
         //    throw new NotImplementedException();

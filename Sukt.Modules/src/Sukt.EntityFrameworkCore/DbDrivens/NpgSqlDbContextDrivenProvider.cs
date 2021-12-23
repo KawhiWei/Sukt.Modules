@@ -10,7 +10,7 @@ namespace Sukt.EntityFrameworkCore.DbDrivens
 
         public DbContextOptionsBuilder Builder(DbContextOptionsBuilder builder, string connectionString, DestinyContextOptionsBuilder optionsBuilder)
         {
-            builder.UseNpgsql(connectionString, opt => opt.MigrationsAssembly(optionsBuilder.MigrationsAssemblyName)).UseSnakeCaseNamingConvention(); ;
+            builder.UseNpgsql(connectionString, opt => opt.MigrationsAssembly(optionsBuilder.MigrationsAssemblyName)).EnableSensitiveDataLogging().UseSnakeCaseNamingConvention(); ;
             return builder;
         }
     }

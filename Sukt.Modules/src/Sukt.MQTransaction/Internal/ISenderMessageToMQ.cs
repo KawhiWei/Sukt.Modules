@@ -16,6 +16,7 @@ namespace Sukt.MQTransaction.Internal
         /// 发送消息
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="exchangeType"></param>
         /// <returns></returns>
         Task<OperationResponse> SendAsync([NotNull] DbMessage message, string exchangeType = "topic");
     }

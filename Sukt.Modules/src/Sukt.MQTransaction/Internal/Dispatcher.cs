@@ -138,7 +138,7 @@ namespace Sukt.MQTransaction.Internal
                         }
                         catch(Exception ex)
                         {
-                            _logger.LogError($"代理执行消费方法消费失败，消息Id：{message.Item1.Id}");
+                            _logger.LogError($"代理执行消费方法消费失败，消息Id：{message.Item1.Id}----{ex.Message}");
                         }
 
                     }
@@ -188,6 +188,7 @@ namespace Sukt.MQTransaction.Internal
         /// 不持久化消息，直接发布消息到MQ
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="isrent"></param>
         public async Task PublishToMQAsync(MessageCarrier message, int isrent)
         {
             if(isrent==1)

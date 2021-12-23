@@ -22,6 +22,7 @@ namespace Sukt.MQTransaction
         /// 不需要持久化直接发布到MQ
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="isrent"></param>
         Task PublishToMQAsync(MessageCarrier message, int isrent);
     }
 }

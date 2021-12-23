@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\common.props" />
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Sukt.AuthServer.Domain\Sukt.AuthServer.Domain.csproj" />
+		<ProjectReference Include="..\Sukt.EntityFrameworkCore\Sukt.EntityFrameworkCore.csproj" />
+	</ItemGroup>
+
+</Project>

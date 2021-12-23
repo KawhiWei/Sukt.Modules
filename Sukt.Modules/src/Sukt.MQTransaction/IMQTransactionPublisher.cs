@@ -20,14 +20,17 @@ namespace Sukt.MQTransaction
         /// <param name="routingkey"></param>
         /// <param name="value"></param>
         /// <param name="callbackName"></param>
+        /// <param name="exchangeType"></param>
         void Publish<T>(string exchange, string routingkey, [CanBeNull]T value,string callbackName = null, string exchangeType = "topic");
         /// <summary>
         /// 发送消息到MQTransaction
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="exchange"></param>
+        /// <param name="routingkey"></param>
         /// <param name="headers"></param>
+        /// <param name="value"></param>
+        /// <param name="exchangeType"></param>
         void Publish<T>(string exchange, string routingkey, T value, IDictionary<string, string> headers, string exchangeType = "topic");
         /// <summary>
         /// 异步发送消息
@@ -36,6 +39,7 @@ namespace Sukt.MQTransaction
         /// <param name="exchange"></param>
         /// <param name="routingkey"></param>
         /// <param name="value"></param>
+        /// <param name="isrent"></param>
         /// <param name="callbackName"></param>
         /// <param name="exchangeType"></param>
         /// <returns></returns>
@@ -49,6 +53,7 @@ namespace Sukt.MQTransaction
         /// <param name="value"></param>
         /// <param name="headers"></param>
         /// <param name="exchangeType"></param>
+        /// <param name="isrent"></param>
         /// <returns></returns>
         Task PublishAsync<T>(string exchange, string routingkey, T value, IDictionary<string, string> headers, int isrent, string exchangeType = "topic");
     }

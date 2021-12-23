@@ -43,9 +43,10 @@ namespace Sukt.MQTransaction
 
         }
         /// <summary>
-        /// 获取继承<ISuktMQTransactionSubscribe>的所有类型
+        /// 获取继承ISuktMQTransactionSubscribe的所有类型
         /// </summary>
         /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public virtual ConcurrentBag<ConsumerExecutorDescriptor> SelectConsumersFromInterfaceTypes()
         {
             if(ConsumerExecutoBag.Count>0)

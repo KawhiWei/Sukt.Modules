@@ -16,7 +16,7 @@ namespace Sukt.AutoMapper
         /// <summary>
         /// 重写SuktAppModule
         /// </summary>
-        /// <param name="service"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
         public override void ConfigureServices(ConfigureServicesContext context)
         {
@@ -49,12 +49,12 @@ namespace Sukt.AutoMapper
                 }
                 foreach (var tatgetType in attribute.TargetTypes)
                 {
-                    ///判断是To
+                    //判断是To
                     if (attribute.MapDirection.HasFlag(SuktAutoMapDirection.To))
                     {
                         mapperConfigurationExpression.CreateMap(sourceType, tatgetType);
                     }
-                    ///判断是false
+                    //判断是false
                     if (attribute.MapDirection.HasFlag(SuktAutoMapDirection.From))
                     {
                         mapperConfigurationExpression.CreateMap(tatgetType, sourceType);

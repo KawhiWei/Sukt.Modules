@@ -210,7 +210,6 @@ namespace Sukt.Redis
         /// </summary>
         /// <param name="redisKey">key</param>
         /// <param name="hashField">Hash字段</param>
-        /// <param name="value">递减数值</param>
         /// <returns></returns>
         public async Task<long> DecrementHashFieldAsync(string redisKey, string hashField)
         {
@@ -221,7 +220,6 @@ namespace Sukt.Redis
         /// </summary>
         /// <param name="redisKey">key</param>
         /// <param name="hashField">Hash字段</param>
-        /// <param name="value">递增数值</param>
         /// <returns></returns>
         public async Task<long> IncrementHashFieldAsync(string redisKey, string hashField)
         {
