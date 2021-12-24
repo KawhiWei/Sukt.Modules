@@ -5,6 +5,7 @@ using Microsoft.Extensions.FileProviders;
 using Sukt.Module.Core.AppOption;
 using Sukt.Module.Core.Extensions;
 using Sukt.Module.Core.Modules;
+using Sukt.Module.Core.SuktDependencyAppModule;
 using Sukt.Swagger;
 using System;
 using System.IO;
@@ -13,6 +14,7 @@ using System.Linq;
 namespace Sukt.AuthServer.DemoApi.Startups
 {
     [SuktDependsOn(
+        typeof(DependencyAppModule),
         typeof(EntityFrameworkCoreModule),
         typeof(SwaggerModule),
         typeof(MigrationModuleBase))]

@@ -12,6 +12,7 @@ namespace Sukt.AuthServer.EntityFrameworkCore.EntityConfigurations
         {
             b.HasKey(o => o.Id);
             b.Property(c => c.Resources).HasJsonConversion().HasColumnName("resources");
+            b.Property(c => c.Properties).HasJsonConversion().HasColumnName("properties");
             b.ToTable("sukt_resourcescopes");
         }
     }

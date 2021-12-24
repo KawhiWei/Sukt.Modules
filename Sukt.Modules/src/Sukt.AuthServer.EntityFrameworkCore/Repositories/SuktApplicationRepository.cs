@@ -11,9 +11,9 @@ namespace Sukt.AuthServer.EntityFrameworkCore.Repositories
         {
         }
 
-        public async Task<SuktApplication?> FindByClientIdAsync(string clientId)
+        public virtual async Task<SuktApplication?> FindByClientIdAsync(string clientId)
         {
-            return await TrackEntities.Where(x => x.ClientId == clientId).FirstOrDefaultAsync();
+            return await TrackEntities.FirstOrDefaultAsync(x => x.ClientId == clientId);
         }
     }
 }
