@@ -9,18 +9,18 @@ $solutions = (
 
 # List of projects
 $projects = (
-    "Sukt.Modules/src/Sukt.Module.Core",
-    "Sukt.Modules/src/Sukt.Aop",
-    "Sukt.Modules/src/Sukt.AutoMapper",
-    "Sukt.Modules/src/Sukt.CodeGenerator",
-    "Sukt.Modules/src/Sukt.EntityFrameworkCore",
-    "Sukt.Modules/src/Sukt.MongoDB",
-    "Sukt.Modules/src/Sukt.MultiTenancy",
-    "Sukt.Modules/src/Sukt.Redis",
-    "Sukt.Modules/src/Sukt.SeriLog",
-    "Sukt.Modules/src/Sukt.Swagger",
-    "Sukt.Modules/src/Sukt.TestBase",
-    "Sukt.Modules/src/Sukt.WebSocketServer",
-    "Sukt.Modules/src/Sukt.MQTransaction",
-    "Sukt.Modules/src/Sukt.MQTransaction.RabbitMQ"
+    "src/Sukt.Module.Core",
+    "src/Sukt.Aop",
+    "src/Sukt.AutoMapper",
+    "src/Sukt.CodeGenerator",
+    "src/Sukt.EntityFrameworkCore",
+    "src/Sukt.MongoDB",
+    "src/Sukt.MultiTenancy",
+    "src/Sukt.Redis",
+    "src/Sukt.SeriLog",
+    "src/Sukt.Swagger",
+    "src/Sukt.TestBase",
+    "src/Sukt.WebSocketServer",
+    "src/Sukt.MQTransaction",
+    "src/Sukt.MQTransaction.RabbitMQ"
 )
