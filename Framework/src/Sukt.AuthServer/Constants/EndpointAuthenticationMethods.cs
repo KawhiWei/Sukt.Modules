@@ -1,4 +1,4 @@
-﻿namespace Sukt.AuthServer.Shared.Constants
+﻿namespace Sukt.AuthServer.Constants
 {
     /// <summary>
     /// 中间件端点路由配置

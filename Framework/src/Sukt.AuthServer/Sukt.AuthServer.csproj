@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="EndpointHandler\Responses\" />
+    <Folder Include="Middleware\" />
+    <Folder Include="RequestValidation\" />
+  </ItemGroup>
+
 </Project>
