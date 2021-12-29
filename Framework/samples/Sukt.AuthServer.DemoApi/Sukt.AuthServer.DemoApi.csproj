@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Sukt.AuthServer.EntityFrameworkCore\Sukt.AuthServer.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\Sukt.EntityFrameworkCore\Sukt.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\Sukt.SeriLog\Sukt.SeriLog.csproj" />
     <ProjectReference Include="..\..\src\Sukt.Swagger\Sukt.Swagger.csproj" />

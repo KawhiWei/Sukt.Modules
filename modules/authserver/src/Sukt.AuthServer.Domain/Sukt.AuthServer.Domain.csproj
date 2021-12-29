@@ -1,13 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\..\common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
-
 	<ItemGroup>
-		<ProjectReference Include="..\Sukt.Module.Core\Sukt.Module.Core.csproj" />
+		<PackageReference Include="Sukt.Module.Core" Version="1.1.11" />
 	</ItemGroup>
-
 </Project>
