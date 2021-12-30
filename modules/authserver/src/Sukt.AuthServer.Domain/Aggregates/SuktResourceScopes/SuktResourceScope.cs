@@ -11,6 +11,7 @@ namespace Sukt.AuthServer.Domain.Aggregates.SuktResourceScopes
         protected SuktResourceScope() : base(SuktGuid.NewSuktGuid().ToString())
         {
             Resources = new List<string>();
+            Properties = new Dictionary<string, string>();
         }
         
         public SuktResourceScope(string name,string? displayName =null,string? ConcurrencyToken=null) :this()
@@ -35,12 +36,13 @@ namespace Sukt.AuthServer.Domain.Aggregates.SuktResourceScopes
         {
             Description = description;
         }
-        public virtual void SetProperties(string key,string  value)
+        public virtual void AddProperties(string key,string  value)
         {
-            if(!Properties.TryAdd(key, value))
+            if(Properties.ContainsKey(key))
             {
                 throw new SuktAppBusinessException($"{key}:已存在");
             }
+            Properties.Add(key, value);
         }
         
         /// <summary>

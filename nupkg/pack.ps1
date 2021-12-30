@@ -3,7 +3,7 @@
 # Rebuild all solutions
 foreach($solution in $solutions) {
     $solutionFolder = Join-Path $rootFolder $solution
-    Set-Location $solutionFolder
+    Set-Location "/Framework"
     & dotnet restore
 }
 

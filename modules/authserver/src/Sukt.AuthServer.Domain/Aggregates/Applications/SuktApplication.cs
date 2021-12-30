@@ -1,15 +1,73 @@
 ﻿using Sukt.Module.Core.Domian;
+using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
 using System.ComponentModel;
 
 namespace Sukt.AuthServer.Domain.Aggregates.Applications
 {
-    public class SuktApplication: FullAggregateRootWithIdentity
+    public class SuktApplication : FullAggregateRootWithIdentity
     {
         protected SuktApplication() : base(SuktGuid.NewSuktGuid().ToString())
         {
-
+            PostLogoutRedirectUris = new List<string>();
+            ClientGrantTypes = new List<string>();
+            ClientSecrets = new List<string>();
+            RedirectUris = new List<string>();
+            ClientScopes = new List<string>();
+            Properties = new Dictionary<string, string>();
         }
+        public SuktApplication(string clientId, string clientName) : this()
+        {
+            ClientId = clientId;
+            ClientName = clientName;
+        }
+
+        public virtual void AddPostLogoutRedirectUri(string postLogoutRedirectUri)
+        {
+            PostLogoutRedirectUris.Add(postLogoutRedirectUri);
+        }
+        public virtual void AddClientGrantType(string clientGrantType)
+        {
+            ClientGrantTypes.Add(clientGrantType);
+        }
+        public virtual void AddClientSecret(string clientSecret)
+        {
+            ClientSecrets.Add(clientSecret);
+        }
+        public virtual void AddRedirectUris(string redirectUri)
+        {
+            RedirectUris.Add(redirectUri);
+        }
+        public virtual void AddClientScopes(string clientScope)
+        {
+            ClientScopes.Add(clientScope);
+        }
+        public virtual void SetAccessTokenExpire(int accessTokenExpire)
+        {
+            AccessTokenExpire = accessTokenExpire;
+        }
+        public virtual void SetSecretType(string secretType)
+        {
+            SecretType = secretType;
+        }
+        public virtual void AddProperties(string key, string value)
+        {
+            if (Properties.ContainsKey(key))
+            {
+                throw new SuktAppBusinessException($"{key}已存在！");
+            }
+            Properties.Add(key, value);
+        }
+        public virtual void SetDescription(string description)
+        {
+            Description = description;
+        }
+        public virtual void Set(string protocolType)
+        {
+            ProtocolType = protocolType;
+        }
+
+
         /// <summary>
         /// 客户端唯一Id
         /// </summary>
@@ -32,7 +90,7 @@ namespace Sukt.AuthServer.Domain.Aggregates.Applications
         /// 属性配置
         /// </summary>
         [DisplayName("属性配置")]
-        public string Properties { get; private set; }
+        public Dictionary<string, string> Properties { get; private set; }
 
         /// <summary>
         /// 备注
@@ -67,7 +125,7 @@ namespace Sukt.AuthServer.Domain.Aggregates.Applications
         /// 客户端密钥
         /// </summary>
         [DisplayName("客户端密钥")]
-        public List<string> ClientSecret { get; private set; }
+        public List<string> ClientSecrets { get; private set; }
         /// <summary>
         /// 登录重定向地址
         /// </summary>
