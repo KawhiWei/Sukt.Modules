@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Sukt.Module.Core.Enums;
-using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.DomainResults;
 using Sukt.MQTransaction.Factory;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Sukt.MQTransaction.RabbitMQ
             _options = options.Value;
         }
 
-        public OperationResponse Send(MessageCarrier message, string exchangeType = "topic")
+        public DomainResult Send(MessageCarrier message, string exchangeType = "topic")
         {
             IModel channel = null;
             try
@@ -42,11 +42,11 @@ namespace Sukt.MQTransaction.RabbitMQ
                 channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
                 channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
                 _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}----->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
-                return new OperationResponse(OperationEnumType.Success);
+                return new DomainResult(OperationEnumType.Success);
             }
             catch (Exception ex)
             {
-                return new OperationResponse($"{ex.Message}{ex.StackTrace}", OperationEnumType.Error);
+                return new DomainResult($"{ex.Message}{ex.StackTrace}", OperationEnumType.Error);
             }
             finally
             {
@@ -56,7 +56,7 @@ namespace Sukt.MQTransaction.RabbitMQ
                 }
             }
         }
-        public Task<OperationResponse> SendAsync(MessageCarrier message, string exchangeType = "topic")
+        public Task<DomainResult> SendAsync(MessageCarrier message, string exchangeType = "topic")
         {
             //IModel channel = null;
             //try
@@ -72,7 +72,7 @@ namespace Sukt.MQTransaction.RabbitMQ
                     channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
                     channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
                     _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}---->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
-                    return Task.FromResult(new OperationResponse(OperationEnumType.Success));
+                    return Task.FromResult(new DomainResult(OperationEnumType.Success));
                 }
 
             //}
@@ -88,7 +88,7 @@ namespace Sukt.MQTransaction.RabbitMQ
         /// <param name="message"></param>
         /// <param name="exchangeType"></param>
         /// <returns></returns>
-        public Task<OperationResponse> SendAsRentAsync(MessageCarrier message, string exchangeType = "topic")
+        public Task<DomainResult> SendAsRentAsync(MessageCarrier message, string exchangeType = "topic")
         {
             IModel channel = null;
             try
@@ -101,11 +101,11 @@ namespace Sukt.MQTransaction.RabbitMQ
                 channel.ExchangeDeclare(exchange: message.GetExchange(), type: exchangeType, durable: true);
                 channel.BasicPublish(message.GetExchange(), message.GetRoutingKey(), props, message.Body);//发布消息到MQ
                 _logger.LogInformation($"发送消息到RabbitMQ成功,exchange:{message.GetExchange()}----->routingkey:{message.GetRoutingKey()}------->messageid:{message.GetId()}");
-                return Task.FromResult(new OperationResponse(OperationEnumType.Success));
+                return Task.FromResult(new DomainResult(OperationEnumType.Success));
             }
             catch (Exception ex)
             {
-                return Task.FromResult(new OperationResponse($"{ex.Message}{ex.StackTrace}", OperationEnumType.Error));
+                return Task.FromResult(new DomainResult($"{ex.Message}{ex.StackTrace}", OperationEnumType.Error));
             }
             finally
             {

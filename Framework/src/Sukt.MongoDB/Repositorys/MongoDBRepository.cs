@@ -4,7 +4,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Sukt.Module.Core.Domian;
 using Sukt.Module.Core.Extensions;
-using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.DomainResults;
 using Sukt.MongoDB.DbContexts;
 using System;
 using System.Collections.Generic;
@@ -47,18 +47,18 @@ namespace Sukt.MongoDB.Repositorys
             return await Collection.Find(CreateEntityFilter(key)).FirstOrDefaultAsync();
         }
 
-        public async Task<OperationResponse> UpdateAsync(Tkey key, UpdateDefinition<TData> update)
+        public async Task<int> UpdateAsync(Tkey key, UpdateDefinition<TData> update)
         {
             var filters = this.CreateEntityFilter(key);
             var result = await Collection.UpdateManyAsync(filters, update);
-            return result.ModifiedCount > 0 ? OperationResponse.Ok("更新成功") : OperationResponse.Error("更新失败");
+            return (int)result.ModifiedCount;
         }
 
-        public async Task<OperationResponse> DeleteAsync(Tkey key)
+        public async Task<int> DeleteAsync(Tkey key)
         {
             var filters = this.CreateEntityFilter(key);
             var result = await Collection.DeleteOneAsync(filters);
-            return result.DeletedCount > 0 ? OperationResponse.Ok("删除成功") : OperationResponse.Error("删除失败");
+            return (int)result.DeletedCount;
         }
 
         private IMongoQueryable<TData> CreateQuery()

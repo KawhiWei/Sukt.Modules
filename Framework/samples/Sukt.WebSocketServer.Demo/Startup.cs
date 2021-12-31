@@ -50,8 +50,6 @@ namespace Sukt.WebSocketServer.Demo
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sukt.WebSocketServer.Demo v1"));
             }
-            app.UseErrorHandling();
-
             #region WebSocket
             var webSocketOptions = new WebSocketOptions()
             {

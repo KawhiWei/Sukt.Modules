@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.DomainResults;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,14 +38,6 @@ namespace Sukt.Module.Core.UnitOfWorks
         /// 回滚事务
         /// </summary>
         void Rollback();
-
-        /// <summary>
-        /// 开启事务 如果成功提交事务，失败回滚事务
-        /// </summary>
-        /// <param name="func"></param>
-        /// <returns>返回操作结果</returns>
-        Task<OperationResponse> UseTranAsync(Func<Task<OperationResponse>> func);
-
         /// <summary>
         /// 异步提交事务
         /// </summary>

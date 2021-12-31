@@ -1,5 +1,5 @@
 ﻿using JetBrains.Annotations;
-using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.DomainResults;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +18,6 @@ namespace Sukt.MQTransaction.Internal
         /// <param name="message"></param>
         /// <param name="exchangeType"></param>
         /// <returns></returns>
-        Task<OperationResponse> SendAsync([NotNull] DbMessage message, string exchangeType = "topic");
+        Task<DomainResult> SendAsync([NotNull] DbMessage message, string exchangeType = "topic");
     }
 }

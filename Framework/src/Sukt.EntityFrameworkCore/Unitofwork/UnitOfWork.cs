@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Extensions;
-using Sukt.Module.Core.OperationResult;
 using Sukt.Module.Core.UnitOfWorks;
 using System;
 using System.Collections.Generic;
@@ -72,7 +69,7 @@ namespace Sukt.EntityFrameworkCore
             }
             if (_dbTransaction?.Connection == null)
             {
-                if (_connection.State != System.Data.ConnectionState.Open)
+                if (_connection.State != ConnectionState.Open)
                 {
                     _connection.Open();
                 }
@@ -261,7 +258,6 @@ namespace Sukt.EntityFrameworkCore
             {
                 _dbContext.Database.CommitTransaction();
             }
-            //await _dbContext.Database.CurrentTransaction.DisposeAsync();
             HasCommitted = true;
         }
 
@@ -313,42 +309,6 @@ namespace Sukt.EntityFrameworkCore
             await func?.Invoke();
             Commit();
         }
-
-        public async Task<OperationResponse> UseTranAsync(Func<Task<OperationResponse>> func)
-        {
-            func.NotNull(nameof(func));
-            OperationResponse result = new OperationResponse();
-            if (HasCommitted)
-            {
-                result.Type = OperationEnumType.NoChanged;
-                result.Message = "事务已提交!!";
-                return result;
-            }
-
-            try
-            {
-                await this.BeginTransactionAsync();
-                result = await func.Invoke();
-                if (!result.Success)
-                {
-                    await this.RollbackAsync();
-                    return result;
-                }
-                await this.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-                await this.RollbackAsync();
-                //_logger.LogError(ex.Message, ex);
-                return new OperationResponse()
-                {
-                    Type = OperationEnumType.Error,
-                    Message = ex.Message,
-                };
-            }
-            return result;
-        }
-
         #endregion 异步事务
 
         public void Dispose()

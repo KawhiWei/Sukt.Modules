@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.DomainResults;
 using System.Threading.Tasks;
 
 namespace Sukt.MongoDB.Repositorys
@@ -47,13 +47,13 @@ namespace Sukt.MongoDB.Repositorys
         /// </summary>
         /// <returns></returns>
 
-        Task<OperationResponse> UpdateAsync(Tkey key, UpdateDefinition<TData> update);
+        Task<int> UpdateAsync(Tkey key, UpdateDefinition<TData> update);
 
         /// <summary>
         /// 删除
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        Task<OperationResponse> DeleteAsync(Tkey key);
+        Task<int> DeleteAsync(Tkey key);
     }
 }

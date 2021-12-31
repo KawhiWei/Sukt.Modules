@@ -1,5 +1,4 @@
 ﻿using Sukt.Module.Core.Domian;
-using Sukt.Module.Core.OperationResult;
 using Sukt.Module.Core.UnitOfWorks;
 using System;
 using System.Linq;
@@ -39,21 +38,6 @@ namespace Sukt.Module.Core.Repositories
         /// <param name="primaryKey">主键</param>
         /// <returns>返回查询后实体</returns>
         Task<TEntity> GetByIdAsync(Tkey primaryKey);
-
-        /// <summary>
-        /// 根据ID得到Dto实体
-        /// </summary>
-        /// <param name="primaryKey">主键</param>
-        /// <returns>返回查询后实体并转成Dto</returns>
-        TDto GetByIdToDto<TDto>(Tkey primaryKey) where TDto : class, new();
-
-        /// <summary>
-        /// 异步根据ID得到Dto实体
-        /// </summary>
-        /// <param name="primaryKey">主键</param>
-        /// <returns>返回查询后实体并转成Dto</returns>
-        Task<TDto> GetByIdToDtoAsync<TDto>(Tkey primaryKey) where TDto : class, new();
-
         #endregion 查询
 
         #region 添加
@@ -63,22 +47,22 @@ namespace Sukt.Module.Core.Repositories
         /// </summary>
         /// <param name="entity">要插入实体</param>
         /// <returns>影响的行数</returns>
-        Task<OperationResponse> InsertAsync(TEntity entity);
-        Task<OperationResponse> InsertAsync(TEntity entity, Func<TEntity, Task> checkFunc = null, Func<TEntity, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TEntity> completeFunc = null);
+        Task<int> InsertAsync(TEntity entity);
+        Task<int> InsertAsync(TEntity entity, Func<TEntity, Task> checkFunc = null, Func<TEntity, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TEntity> completeFunc = null);
 
         /// <summary>
         /// 以异步批量插入实体
         /// </summary>
         /// <param name="entitys">要插入实体集合</param>
         /// <returns>影响的行数</returns>
-        Task<OperationResponse> InsertAsync(TEntity[] entitys);
+        Task<int> InsertAsync(TEntity[] entitys);
 
         /// <summary>
         /// 批量插入实体
         /// </summary>
         /// <param name="entitys">要插入实体集合</param>
         /// <returns></returns>
-        OperationResponse Insert(params TEntity[] entitys);
+        int Insert(params TEntity[] entitys);
         #endregion 添加
 
         #region 更新
@@ -87,21 +71,21 @@ namespace Sukt.Module.Core.Repositories
         /// </summary>
         /// <param name="entity">要更新实体</param>
         /// <returns>返回更新受影响条数</returns>
-        Task<OperationResponse> UpdateAsync(TEntity entity);
-        Task<OperationResponse> UpdateAsync(TEntity[] entitys);
+        Task<int> UpdateAsync(TEntity entity);
+        Task<int> UpdateAsync(TEntity[] entitys);
         /// <summary>
         /// 同步更新
         /// </summary>
         /// <param name="entity">要更新实体</param>
         /// <returns>返回更新受影响条数</returns>
-        OperationResponse Update(TEntity entity);
+        int Update(TEntity entity);
         /// <summary>
         /// 异步更新单条实体
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="checkFunc"></param>
         /// <returns></returns>
-        Task<OperationResponse> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null);
+        Task<int> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null);
         #endregion 更新
 
         #region 删除
@@ -111,7 +95,7 @@ namespace Sukt.Module.Core.Repositories
         /// </summary>
         /// <param name="primaryKey"></param>
         /// <returns></returns>
-        Task<OperationResponse> DeleteAsync(Tkey primaryKey);
+        Task<int> DeleteAsync(Tkey primaryKey);
 
         /// <summary>
         /// 删除
@@ -126,14 +110,14 @@ namespace Sukt.Module.Core.Repositories
         /// <param name="predicate">查询条件谓语表达式</param>
         /// <param name="cancellationToken">查询条件谓语表达式</param>
         /// <returns>操作影响的行数</returns>
-        Task<OperationResponse> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
+        Task<int> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// 删除
         /// </summary>
         /// <param name="entitys">要删除实体集合</param>
         /// <returns>操作影响的行数</returns>
-        OperationResponse Delete(params TEntity[] entitys);
+        int Delete(params TEntity[] entitys);
 
         #endregion 删除
     }

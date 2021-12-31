@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sukt.AuthServer.Domain.Repositories;
+using Sukt.AspNetCore.ApiResults;
+using Sukt.Module.Core.DomainResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace Sukt.AuthServer.DemoApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ApiResultWrap]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly ISuktApplicationRepository _suktApplicationRepository;
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -20,23 +21,18 @@ namespace Sukt.AuthServer.DemoApi.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ISuktApplicationRepository suktApplicationRepository)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            _suktApplicationRepository = suktApplicationRepository;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public async Task<IEnumerable<WeatherForecast>> Get()
+        public async Task Get()
         {
-            await _suktApplicationRepository.FindByClientIdAsync("asdasdas");
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            await Task.CompletedTask;
+
+
+            //return new DomainResult("asdasdasdsa");
         }
     }
 }

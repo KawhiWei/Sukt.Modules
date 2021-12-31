@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sukt.AuthServer.DemoApi.Startups;
-using Sukt.Module.Core.Middleware;
 using Sukt.Module.Core.Modules;
 
 namespace Sukt.AuthServer.DemoApi
@@ -34,7 +33,6 @@ namespace Sukt.AuthServer.DemoApi
                 app.UseDeveloperExceptionPage();
             }
             //app.UseMultiTenancy();
-            app.UseErrorHandling();
             app.InitializeApplication();
         }
     }

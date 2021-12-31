@@ -3,7 +3,6 @@ using Sukt.Module.Core.DtoBases;
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.ExpressionUtil;
 using Sukt.Module.Core.Extensions.OrderExtensions;
-using Sukt.Module.Core.Extensions.ResultExtensions;
 using Sukt.Module.Core.PageParameter;
 using System;
 using System.Collections.Generic;
@@ -52,7 +51,7 @@ namespace Sukt.Module.Core.Extensions
             var result = await source.WhereAsync(pageParameters.PageIndex, pageParameters.PageRow, predicate, pageParameters.OrderConditions);
             var list = await result.data.ToArrayAsync();
             var total = result.totalNumber;
-            return new PageResult<TEntity>(list, total);
+            return new PageBaseResult<TEntity>( total, list);
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace Sukt.Module.Core.Extensions
         /// <param name="source"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static async Task<PageResult<TEntity>> ToPageAsync<TEntity>(this IQueryable<TEntity> source, IPagedRequest request)
+        public static async Task<PageBaseResult<TEntity>> ToPageAsync<TEntity>(this IQueryable<TEntity> source, IPagedRequest request)
         {
             request.NotNull(nameof(request));
             var isFiltered = request is IFilteredPagedRequest;
@@ -75,7 +74,7 @@ namespace Sukt.Module.Core.Extensions
             var result = await source.WhereAsync(request.PageIndex, request.PageRow, expression, request.OrderConditions);
             var list = await result.data.ToArrayAsync();
             var total = result.totalNumber;
-            return new PageResult<TEntity>(list, total);
+            return new PageBaseResult<TEntity>(total, list);
         }
         /// <summary>
         /// 从集合中查询指定数据筛选的分页信息
@@ -94,7 +93,7 @@ namespace Sukt.Module.Core.Extensions
             var result = await source.WhereAsync(pageParameters.PageIndex, pageParameters.PageRow, predicate, pageParameters.OrderConditions);
             var list = await result.data.Select(selector).ToArrayAsync();
             var total = result.totalNumber;
-            return new PageResult<TResult>(list, total);
+            return new PageBaseResult<TResult>(total, list);
         }
 
         /// <summary>
@@ -119,7 +118,7 @@ namespace Sukt.Module.Core.Extensions
             var result = await source.WhereAsync(request.PageIndex, request.PageRow, expression, request.OrderConditions);
             var list = await result.data.ToOutput<TOutputDto>().ToArrayAsync();
             var total = result.totalNumber;
-            return new PageResult<TOutputDto>(list, total);
+            return new PageBaseResult<TOutputDto>(total, list);
         }
 
         private static async Task<(IQueryable<TEntity> data, int totalNumber)> WhereAsync<TEntity>(this IQueryable<TEntity> source, int pageIndex,

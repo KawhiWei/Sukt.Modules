@@ -6,7 +6,7 @@ using Sukt.Module.Core.Domian;
 using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
-using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.DomainResults;
 using Sukt.Module.Core.Repositories;
 using Sukt.Module.Core.ResultMessageConst;
 using Sukt.Module.Core.UnitOfWorks;
@@ -78,23 +78,6 @@ namespace Sukt.EntityFrameworkCore
         /// <param name="primaryKey"></param>
         /// <returns></returns>
         public virtual async Task<TEntity> GetByIdAsync(Tkey primaryKey) => await _dbSet.FindAsync(primaryKey);
-
-        /// <summary>
-        /// 将查询的实体转换为DTO输出
-        /// </summary>
-        /// <typeparam name="TDto"></typeparam>
-        /// <param name="primaryKey"></param>
-        /// <returns></returns>
-        public virtual TDto GetByIdToDto<TDto>(Tkey primaryKey) where TDto : class, new() => this.GetById(primaryKey).MapTo<TDto>();
-
-        /// <summary>
-        /// 异步将查询的实体转换为DTO输出
-        /// </summary>
-        /// <typeparam name="TDto"></typeparam>
-        /// <param name="primaryKey"></param>
-        /// <returns></returns>
-        public virtual async Task<TDto> GetByIdToDtoAsync<TDto>(Tkey primaryKey) where TDto : class, new() => (await this.GetByIdAsync(primaryKey)).MapTo<TDto>();
-
         #endregion Query
 
         #region Insert
@@ -104,13 +87,12 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         /// <param name="entitys"></param>
         /// <returns></returns>
-        public virtual OperationResponse Insert(params TEntity[] entitys)
+        public virtual int Insert(params TEntity[] entitys)
         {
             entitys.NotNull(nameof(entitys));
-            //entitys = entitys.CheckInsert<TEntity, Tkey>(_httpContextAccessor);// CheckInsert(entitys);
             _dbSet.AddRange(entitys);
             var count = _dbContext.SaveChanges();
-            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return count;
         }
 
         /// <summary>
@@ -118,14 +100,12 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual async Task<OperationResponse> InsertAsync(TEntity entity)
+        public virtual async Task<int> InsertAsync(TEntity entity)
         {
             entity.NotNull(nameof(entity));
-            //entity = CheckInsert(entity);
-            //entity = entity.CheckInsert<TEntity, Tkey>(_httpContextAccessor);
             await _dbSet.AddAsync(entity);
             int count = await _dbContext.SaveChangesAsync();
-            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return count;
         }
 
         /// <summary>
@@ -133,13 +113,12 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         /// <param name="entitys"></param>
         /// <returns></returns>
-        public virtual async Task<OperationResponse> InsertAsync(TEntity[] entitys)
+        public virtual async Task<int> InsertAsync(TEntity[] entitys)
         {
             entitys.NotNull(nameof(entitys));
-            //entitys = entitys.CheckInsert<TEntity, Tkey>(_httpContextAccessor); //CheckInsert(entitys);
             await _dbSet.AddRangeAsync(entitys);
             int count = await _dbContext.SaveChangesAsync();
-            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return count;
         }
         /// <summary>
         /// 异步添加单条实体
@@ -149,42 +128,27 @@ namespace Sukt.EntityFrameworkCore
         /// <param name="insertFunc"></param>
         /// <param name="completeFunc"></param>
         /// <returns></returns>
-        public virtual async Task<OperationResponse> InsertAsync(TEntity entity, Func<TEntity, Task> checkFunc = null, Func<TEntity, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TEntity> completeFunc = null)
+        public virtual async Task<int> InsertAsync(TEntity entity, Func<TEntity, Task> checkFunc = null, Func<TEntity, TEntity, Task<TEntity>> insertFunc = null, Func<TEntity, TEntity> completeFunc = null)
         {
             entity.NotNull(nameof(entity));
-            try
-            {
-                if (checkFunc.IsNotNull())
-                {
-                    await checkFunc(entity);
-                }
-                if (!insertFunc.IsNull())
-                {
-                    entity = await insertFunc(entity, entity);
-                }
-                //entity = entity.CheckInsert<TEntity, Tkey>(_httpContextAccessor);//CheckInsert(entity);
-                await _dbSet.AddAsync(entity);
 
-                if (completeFunc.IsNotNull())
-                {
-                    entity = completeFunc(entity);
-                }
-                int count = await _dbContext.SaveChangesAsync();
-                return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
-            }
-            catch (SuktAppException e)
+            if (checkFunc.IsNotNull())
             {
-                return new OperationResponse(e.Message, OperationEnumType.Error);
+                await checkFunc(entity);
             }
-            catch (Exception ex)
+            if (!insertFunc.IsNull())
             {
-                return new OperationResponse(ex.Message, OperationEnumType.Error);
+                entity = await insertFunc(entity, entity);
             }
-            //entity.NotNull(nameof(entity));
-            //entity = CheckInsert(entity);
-            //await _dbSet.AddAsync(entity);
-            //int count = await _dbContext.SaveChangesAsync();
-            //return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            await _dbSet.AddAsync(entity);
+
+            if (completeFunc.IsNotNull())
+            {
+                entity = completeFunc(entity);
+            }
+            await _dbSet.AddAsync(entity);
+            int count = await _dbContext.SaveChangesAsync();
+            return count;
         }
         #endregion Insert
 
@@ -195,13 +159,13 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual OperationResponse Update(TEntity entity)
+        public virtual int Update(TEntity entity)
         {
             entity.NotNull(nameof(entity));
             //entity = entity.CheckModification<TEntity, Tkey>(_httpContextAccessor);// CheckUpdate(entity);
             _dbSet.Update(entity);
             int count = _dbContext.SaveChanges();
-            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return count;
         }
 
         /// <summary>
@@ -209,13 +173,13 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual async Task<OperationResponse> UpdateAsync(TEntity entity)
+        public virtual async Task<int> UpdateAsync(TEntity entity)
         {
             entity.NotNull(nameof(entity));
             //entity = entity.CheckModification<TEntity, Tkey>(_httpContextAccessor);//CheckUpdate(entity);
             _dbSet.Update(entity);
             int count = await _dbContext.SaveChangesAsync();
-            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return count;
         }
 
         /// <summary>
@@ -223,13 +187,12 @@ namespace Sukt.EntityFrameworkCore
         /// </summary>
         /// <param name="entitys"></param>
         /// <returns></returns>
-        public virtual async Task<OperationResponse> UpdateAsync(TEntity[] entitys)
+        public virtual async Task<int> UpdateAsync(TEntity[] entitys)
         {
             entitys.NotNull(nameof(entitys));
-            //entitys = entitys.CheckModification<TEntity, Tkey>(_httpContextAccessor);//.CheckModification<TEntity, Tkey>(_httpContextAccessor);//CheckUpdate(entitys);
             _dbSet.UpdateRange(entitys);
             int count = await _dbContext.SaveChangesAsync();
-            return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return count;
         }
 
         /// <summary>
@@ -238,59 +201,44 @@ namespace Sukt.EntityFrameworkCore
         /// <param name="entity"></param>
         /// <param name="checkFunc"></param>
         /// <returns></returns>
-        public virtual async Task<OperationResponse> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null)
+        public virtual async Task<int> UpdateAsync(TEntity entity, Func<TEntity, Task> checkFunc = null)
         {
             entity.NotNull(nameof(entity));
-            try
+
+            if (checkFunc.IsNotNull())
             {
-                if (checkFunc.IsNotNull())
-                {
-                    await checkFunc(entity);
-                }
-                //entity = entity.CheckInsert<TEntity, Tkey>(_httpContextAccessor);//CheckInsert(entity);
-                _dbSet.Update(entity);
-                int count = await _dbContext.SaveChangesAsync();
-                return new OperationResponse(count > 0 ? ResultMessage.SaveSusscess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+                await checkFunc(entity);
             }
-            catch (SuktAppException e)
-            {
-                return new OperationResponse(e.Message, OperationEnumType.Error);
-            }
-            catch (Exception ex)
-            {
-                return new OperationResponse(ex.Message, OperationEnumType.Error);
-            }
-            //entity.NotNull(nameof(entity));
-            //entity = CheckInsert(entity);
-            //await _dbSet.AddAsync(entity);
-            //int count = await _dbContext.SaveChangesAsync();
-            //return new OperationResponse(count > 0 ? ResultMessage.InsertSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            _dbSet.Update(entity);
+            int count = await _dbContext.SaveChangesAsync();
+            return count;
+
         }
 
         #endregion Update
 
         #region Delete
 
-        public virtual OperationResponse Delete(params TEntity[] entitys)
+        public virtual int Delete(params TEntity[] entitys)
         {
             foreach (var entity in entitys)
             {
                 CheckDelete(entity);
             }
             var count = _dbContext.SaveChanges();
-            return new OperationResponse(count > 0 ? ResultMessage.UpdateSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return count;
 
         }
 
-        public virtual async Task<OperationResponse> DeleteAsync(Tkey primaryKey)
+        public virtual async Task<int> DeleteAsync(Tkey primaryKey)
         {
             TEntity entity = await this.GetByIdAsync(primaryKey);
             if (entity.IsNull())
             {
-                return new OperationResponse($"该{primaryKey}键的数据不存在", OperationEnumType.QueryNull);
+                throw new SuktAppBusinessException("未找到对应的数据！");
             }
             int count = await this.DeleteAsync(entity);
-            return new OperationResponse(count > 0 ? ResultMessage.DeleteSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            return count;
         }
 
         public virtual async Task<int> DeleteAsync(TEntity entity)
@@ -298,13 +246,13 @@ namespace Sukt.EntityFrameworkCore
             entity = await this.GetByIdAsync(entity.Id);
             if (entity.IsNull())
             {
-                throw new SuktAppException($"该{entity.Id}键的数据不存在");
+                throw new SuktAppBusinessException("未找到对应的数据！");
             }
             CheckDelete(entity);
             return await _dbContext.SaveChangesAsync();
         }
 
-        public virtual async Task<OperationResponse> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        public virtual async Task<int> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
             predicate.NotNull(nameof(predicate));
             if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
@@ -326,29 +274,18 @@ namespace Sukt.EntityFrameworkCore
                    memberInit,
                    new ParameterExpression[] { parameterExpression }
                 );
-                var counts = await NoTrackEntities.Where(predicate).UpdateAsync(updateExpression, cancellationToken);
-                return new OperationResponse(counts > 0 ? ResultMessage.DeleteSuccess : ResultMessage.NoChangeInOperation, counts > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+                await NoTrackEntities.Where(predicate).UpdateAsync(updateExpression, cancellationToken);
             }
-            var count = await NoTrackEntities.Where(predicate).DeleteAsync(cancellationToken);
-            return new OperationResponse(count > 0 ? ResultMessage.DeleteSuccess : ResultMessage.NoChangeInOperation, count > 0 ? OperationEnumType.Success : OperationEnumType.NoChanged);
+            else
+            {
+                await NoTrackEntities.Where(predicate).DeleteAsync(cancellationToken);
+            }
+            return await _dbContext.SaveChangesAsync();
         }
 
         #endregion Delete
 
         #region 帮助方法
-
-        /// <summary>
-        /// 检查删除
-        /// </summary>
-        /// <param name="entitys">实体集合</param>
-        /// <returns></returns>
-        private void CheckDelete(IEnumerable<TEntity> entitys)
-        {
-            foreach (var entity in entitys)
-            {
-                this.CheckDelete(entity);
-            }
-        }
 
         /// <summary>
         /// 检查删除
@@ -370,113 +307,6 @@ namespace Sukt.EntityFrameworkCore
                 this._dbContext.Remove(entity);
             }
         }
-
-        //  /// <summary>
-        //  /// 检查创建
-        //  /// </summary>
-        //  /// <param name="entitys">实体集合</param>
-        //  /// <returns></returns>
-        //  private TEntity[] CheckInsert(TEntity[] entitys)
-        //  {
-        //      for (int i = 0; i < entitys.Length; i++)
-        //      {
-        //          var entity = entitys[i];
-        //          entitys[i] = CheckInsert(entity);
-        //      }
-        //      return entitys;
-        //  }
-        //  /// <summary>
-        //  /// 检查创建时间
-        //  /// </summary>
-        //  /// <param name="entity">实体</param>
-        //  /// <returns></returns>
-        //  private TEntity CheckInsert(TEntity entity)
-        //  {
-        //      var creationAudited = entity.GetType().GetInterface(/*$"ICreationAudited`1"*/typeof(ICreatedAudited<>).Name);
-        //      if (creationAudited == null)
-        //      {
-        //          return entity;
-        //      }
-
-        //      var typeArguments = creationAudited?.GenericTypeArguments[0];
-        //      var fullName = typeArguments?.FullName;
-        //      if (fullName == typeof(Guid).FullName)
-        //      {
-        //          entity = entity.CheckModification<TEntity, Tkey>(_httpContextAccessor);//CheckICreationAudited<Guid>(entity);
-        //      }
-
-        //      return entity;
-        //  }
-        //  private TEntity CheckICreationAudited<TUserKey>(TEntity entity)
-        //     where TUserKey : struct, IEquatable<TUserKey>
-        //  {
-        //      if (!entity.GetType().IsBaseOn(typeof(ICreatedAudited<>)))
-        //      {
-        //          return entity;
-        //      }
-
-        //      ICreatedAudited<TUserKey> entity1 = (ICreatedAudited<TUserKey>)entity;
-        //      entity1.CreatedId = _httpContextAccessor.HttpContext?.User?.Identity.GetUesrId<TUserKey>();
-        //      entity1.CreatedAt = DateTime.Now;
-        //      return (TEntity)entity1;
-        //  }
-        //  /// <summary>
-        //  /// 检查最后修改时间
-        //  /// </summary>
-        //  /// <param name="entitys"></param>
-        //  /// <returns></returns>
-        //  private TEntity[] CheckUpdate(TEntity[] entitys)
-        //  {
-        //      for (int i = 0; i < entitys.Length; i++)
-        //      {
-        //          var entity = entitys[i];
-        //          entitys[i] = CheckUpdate(entity);
-        //      }
-        //      return entitys;
-        //  }
-        //  /// <summary>
-        //  /// 检查最后修改时间
-        //  /// </summary>
-        //  /// <param name="entity">实体</param>
-        //  /// <returns></returns>
-        //  private TEntity CheckUpdate(TEntity entity)
-        //  {
-        //      var creationAudited = entity.GetType().GetInterface(/*$"ICreationAudited`1"*/typeof(IModifyAudited<>).Name);
-        //      if (creationAudited == null)
-        //      {
-        //          return entity;
-        //      }
-
-        //      var typeArguments = creationAudited?.GenericTypeArguments[0];
-        //      var fullName = typeArguments?.FullName;
-        //      if (fullName == typeof(Guid).FullName)
-        //      {
-        //          entity = CheckIModificationAudited<Guid>(entity);
-        //      }
-
-        //      return entity;
-        //  }
-        //  /// <summary>
-        //  /// 检查最后修改时间
-        //  /// </summary>
-        //  /// <typeparam name="TUserKey"></typeparam>
-        //  /// <param name="entity"></param>
-        //  /// <returns></returns>
-        //  public TEntity CheckIModificationAudited<TUserKey>(TEntity entity)
-        //where TUserKey : struct, IEquatable<TUserKey>
-        //  {
-        //      if (!entity.GetType().IsBaseOn(typeof(IModifyAudited<>)))
-        //      {
-        //          return entity;
-        //      }
-
-        //      IModifyAudited<TUserKey> entity1 = (IModifyAudited<TUserKey>)entity;
-        //      //entity1.LastModifyId = _suktUser.Id a;
-        //      entity1.LastModifyId = _httpContextAccessor.HttpContext?.User?.Identity.GetUesrId<TUserKey>();
-        //      entity1.LastModifedAt = DateTime.Now;
-        //      return (TEntity)entity1;
-        //  }
-
         #endregion 帮助方法
     }
 }

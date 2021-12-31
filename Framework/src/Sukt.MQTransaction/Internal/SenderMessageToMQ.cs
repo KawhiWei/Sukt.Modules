@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
-using Sukt.Module.Core.OperationResult;
+using Sukt.Module.Core.DomainResults;
 using Sukt.MQTransaction.Factory;
 using System;
 using System.Collections.Generic;
@@ -21,10 +21,10 @@ namespace Sukt.MQTransaction.Internal
             _logger = logger;
         }
 
-        public async Task<OperationResponse> SendAsync([NotNull] DbMessage message, string exchangeType = "topic")
+        public async Task<DomainResult> SendAsync([NotNull] DbMessage message, string exchangeType = "topic")
         {
             bool retry;
-            OperationResponse result;
+            DomainResult result;
             do
             {
                 var jsonbyte=JsonSerializer.SerializeToUtf8Bytes(message.Origin.MessageContent);

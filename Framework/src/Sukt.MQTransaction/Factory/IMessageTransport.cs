@@ -1,4 +1,4 @@
-﻿using Sukt.Module.Core.OperationResult;
+﻿using Sukt.Module.Core.DomainResults;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,14 +14,14 @@ namespace Sukt.MQTransaction.Factory
         /// <param name="message"></param>
         /// <param name="exchangeType"></param>
         /// <returns></returns>
-        Task<OperationResponse> SendAsync(MessageCarrier message, string exchangeType = "topic");
+        Task<DomainResult> SendAsync(MessageCarrier message, string exchangeType = "topic");
         /// <summary>
         /// 同步发送消息
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exchangeType"></param>
         /// <returns></returns>
-        OperationResponse Send(MessageCarrier message, string exchangeType = "topic");
-        Task<OperationResponse> SendAsRentAsync(MessageCarrier message, string exchangeType = "topic");
+        DomainResult Send(MessageCarrier message, string exchangeType = "topic");
+        Task<DomainResult> SendAsRentAsync(MessageCarrier message, string exchangeType = "topic");
     }
 }

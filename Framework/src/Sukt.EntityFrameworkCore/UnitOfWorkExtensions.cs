@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Extensions;
-using Sukt.Module.Core.OperationResult;
 using Sukt.Module.Core.Repositories;
 using Sukt.Module.Core.SuktDependencyAppModule;
 using Sukt.Module.Core.UnitOfWorks;
@@ -60,7 +58,6 @@ namespace Sukt.EntityFrameworkCore
             }
             catch (Exception ex)
             {
-
                 unitOfWork.Rollback();
                 LogError(ex);
             }
@@ -78,49 +75,6 @@ namespace Sukt.EntityFrameworkCore
             await func?.Invoke();
             unitOfWork.Commit();
         }
-
-        /// <summary>
-        /// 开启事务 如果成功提交事务，失败回滚事务
-        /// </summary>
-        /// <param name="unitOfWork"></param>
-        /// <param name="func"></param>
-        /// <returns>返回操作结果</returns>
-        public static async Task<OperationResponse> UseTranAsync(this IUnitOfWork unitOfWork, Func<Task<OperationResponse>> func)
-        {
-            func.NotNull(nameof(func));
-            OperationResponse result = new OperationResponse();
-            if (unitOfWork.HasCommit())
-            {
-                result.Type = OperationEnumType.NoChanged;
-                result.Message = "事务已提交!!";
-                return result;
-            }
-
-            try
-            {
-                await unitOfWork.BeginTransactionAsync();
-                result = await func.Invoke();
-                if (!result.Success)
-                {
-                    await unitOfWork.RollbackAsync();
-                    return result;
-                }
-                await unitOfWork.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-
-                await unitOfWork.RollbackAsync();
-                LogError(ex);
-                return new OperationResponse()
-                {
-                    Type = OperationEnumType.Error,
-                    Message = ex.Message,
-                };
-            }
-            return result;
-        }
-
         private static void LogError(Exception exception)
         {
             SuktIocManage.Instance.GetLogger<IUnitOfWork>()?.LogError(exception.Message, exception);
@@ -132,33 +86,26 @@ namespace Sukt.EntityFrameworkCore
         /// <param name="unitOfWork"></param>
         /// <param name="func"></param>
         /// <returns>返回操作结果</returns>
-        public static OperationResponse UseTran(this IUnitOfWork unitOfWork, Func<OperationResponse> func)
+        public static bool UseTran(this IUnitOfWork unitOfWork, Func<bool> func)
         {
             func.NotNull(nameof(func));
-            OperationResponse result = new OperationResponse();
             if (unitOfWork.HasCommit())
             {
-                result.Type = OperationEnumType.NoChanged;
-                result.Message = "事务已提交!!";
-                return result;
+                return false;
             }
             try
             {
                 unitOfWork.BeginTransaction();
-                result = func.Invoke();
+                func.Invoke();
                 unitOfWork.Commit();
-                return result;
+                return true;
             }
             catch (Exception ex)
             {
 
                 unitOfWork.Rollback();
                 LogError(ex);
-                return new OperationResponse()
-                {
-                    Type = OperationEnumType.Error,
-                    Message = ex.Message,
-                };
+                return false;
             }
         }
     }
