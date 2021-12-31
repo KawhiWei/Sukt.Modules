@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Sukt.AuthServer.Demo;
-using Sukt.AuthServer.Domain.Repositories;
+using Sukt.AuthServer.Domain.Aggregates.Applications;
+using Sukt.Module.Core.Repositories;
 
 namespace Sukt.AuthServer.DemoApi.Controllers
 {
@@ -8,7 +9,9 @@ namespace Sukt.AuthServer.DemoApi.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly ISuktApplicationRepository _suktApplicationRepository;
+        private readonly ISuktApplicationDomainService _suktApplicationDomainService;
+        private readonly IAggregateRootRepository<SuktApplication, string> _repository;
+
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -16,16 +19,21 @@ namespace Sukt.AuthServer.DemoApi.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ISuktApplicationRepository suktApplicationRepository)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ISuktApplicationDomainService suktApplicationDomainService, IAggregateRootRepository<SuktApplication, string> repository)
         {
             _logger = logger;
-            _suktApplicationRepository = suktApplicationRepository;
+            _suktApplicationDomainService = suktApplicationDomainService;
+            _repository=repository;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            await _suktApplicationRepository.FindByClientIdAsync("asdasdas");
+            var suktApplication= await _suktApplicationDomainService.CreateAsync("asdasdas","ASDASDA");
+            await _repository.InsertAsync(suktApplication);
+            var entity = await _repository.GetByIdAsync(suktApplication.Id);
+            entity.SetClientName("ÎÒÊÇÄãµù");
+            var count =await _repository.UpdateAsync(entity);
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

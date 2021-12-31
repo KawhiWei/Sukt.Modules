@@ -16,9 +16,21 @@ namespace Sukt.AuthServer.Domain.Aggregates.Applications
             ClientScopes = new List<string>();
             Properties = new Dictionary<string, string>();
         }
-        public SuktApplication(string clientId, string clientName) : this()
+
+        internal SuktApplication(string clientId, string clientName) : this()
         {
             ClientId = clientId;
+            ClientName = clientName;
+            Id = SuktGuid.NewSuktGuid().ToString();
+        }
+
+        public virtual void SetClientId(string clientId)
+        {
+            ClientId =clientId;
+        }
+
+        public virtual void SetClientName(string clientName)
+        {
             ClientName = clientName;
         }
 
@@ -26,30 +38,37 @@ namespace Sukt.AuthServer.Domain.Aggregates.Applications
         {
             PostLogoutRedirectUris.Add(postLogoutRedirectUri);
         }
+          
         public virtual void AddClientGrantType(string clientGrantType)
         {
             ClientGrantTypes.Add(clientGrantType);
-        }
+        }      
+
         public virtual void AddClientSecret(string clientSecret)
         {
             ClientSecrets.Add(clientSecret);
         }
+
         public virtual void AddRedirectUris(string redirectUri)
         {
             RedirectUris.Add(redirectUri);
         }
+
         public virtual void AddClientScopes(string clientScope)
         {
             ClientScopes.Add(clientScope);
         }
+
         public virtual void SetAccessTokenExpire(int accessTokenExpire)
         {
             AccessTokenExpire = accessTokenExpire;
         }
+
         public virtual void SetSecretType(string secretType)
         {
             SecretType = secretType;
         }
+
         public virtual void AddProperties(string key, string value)
         {
             if (Properties.ContainsKey(key))
@@ -58,11 +77,13 @@ namespace Sukt.AuthServer.Domain.Aggregates.Applications
             }
             Properties.Add(key, value);
         }
+
         public virtual void SetDescription(string description)
         {
             Description = description;
         }
-        public virtual void Set(string protocolType)
+
+        public virtual void SetProtocolType(string protocolType)
         {
             ProtocolType = protocolType;
         }
@@ -96,7 +117,7 @@ namespace Sukt.AuthServer.Domain.Aggregates.Applications
         /// 备注
         /// </summary>
         [DisplayName("备注")]
-        public string Description { get; private set; }
+        public string? Description { get; private set; }
 
         /// <summary>
         /// 协议类型
@@ -107,7 +128,7 @@ namespace Sukt.AuthServer.Domain.Aggregates.Applications
         /// <summary>
         /// AccessToken过期时间
         /// </summary>
-        public int AccessTokenExpire { get; private set; }
+        public int AccessTokenExpire { get; private set; } = 3600;
 
         /// <summary>
         /// 退出登录回调地址
