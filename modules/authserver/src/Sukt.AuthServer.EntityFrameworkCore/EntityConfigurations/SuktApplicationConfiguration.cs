@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sukt.AuthServer.Domain.Aggregates.Applications;
 using Sukt.EntityFrameworkCore.MappingConfiguration;
 using Sukt.EntityFrameworkCore.ValueConversion;
-//using Sukt.EntityFrameworkCore.ValueConversion;
 
 namespace Sukt.AuthServer.EntityFrameworkCore.EntityConfigurations
 {

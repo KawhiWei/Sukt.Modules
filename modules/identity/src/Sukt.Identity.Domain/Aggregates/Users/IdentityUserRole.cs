@@ -16,10 +16,5 @@
         public string UserId { get; private set; }
         [DisplayName("角色Id")]
         public string RoleId { get; private set; }
-
-        public virtual void Remove()
-        {
-            IsDeleted = true;
-        }
     }
 }

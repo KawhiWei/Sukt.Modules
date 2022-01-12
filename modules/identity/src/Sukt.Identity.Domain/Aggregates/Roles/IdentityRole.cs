@@ -13,6 +13,7 @@
             Name = name;
             NormalizedName = normalizedName;
             IsAdmin = isAdmin;
+            Claims = new Collection<IdentityRoleClaim>();
         }
 
         /// <summary>
@@ -38,6 +39,8 @@
         /// </summary>
         [DisplayName("版本标识")]
         public string ConcurrencyStamp { get; private set; } = Guid.NewGuid().ToString();
+
+        public ICollection<IdentityRoleClaim> Claims { get; private set; }
 
         public virtual void SetNormalizedName(string normalizedName)
         {

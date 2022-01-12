@@ -164,7 +164,10 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// </summary>
         public virtual void RemoveRole()
         {
-            Roles.ForEach(x => x.Remove());
+            foreach (var role in Roles)
+            {
+                Roles.Remove(role);
+            }
         }
 
         public virtual void AddClaim(Claim claim)
@@ -181,7 +184,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         public virtual void RemoveClaim([NotNull] Claim claim)
         {
 
-            Claims.(c => c.ClaimValue == claim.Value && c.ClaimType == claim.Type);
+            //Claims.Remove(c => c.ClaimValue == claim.Value && c.ClaimType == claim.Type);
         }
 
 

@@ -11,10 +11,10 @@
         {
             RoleId = roleId;
         }
-
+        /// <summary>
+        /// 角色Id
+        /// </summary>
         [DisplayName("角色Id")]
         public string RoleId { get; private set; }
-
-        
     }
 }
