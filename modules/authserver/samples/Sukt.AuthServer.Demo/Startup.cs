@@ -1,5 +1,4 @@
 ﻿using Sukt.AuthServer.Demo.Startups;
-using Sukt.Module.Core.Middleware;
 using Sukt.Module.Core.Modules;
 
 namespace Sukt.AuthServer.Demo
@@ -29,7 +28,6 @@ namespace Sukt.AuthServer.Demo
                 app.UseDeveloperExceptionPage();
             }
             //app.UseMultiTenancy();
-            app.UseErrorHandling();
             app.InitializeApplication();
         }
     }

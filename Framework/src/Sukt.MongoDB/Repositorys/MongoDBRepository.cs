@@ -64,10 +64,7 @@ namespace Sukt.MongoDB.Repositorys
         private IMongoQueryable<TData> CreateQuery()
         {
             var entities = Collection.AsQueryable();
-            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TData)))
-            {
-                entities = entities.Where(m => ((ISoftDelete)m).IsDeleted == false);
-            }
+            
             return entities;
         }
 
@@ -83,10 +80,10 @@ namespace Sukt.MongoDB.Repositorys
 
         private void AddGlobalFilters(List<FilterDefinition<TData>> filters)
         {
-            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TData)))
-            {
-                filters.Add(Builders<TData>.Filter.Eq(e => ((ISoftDelete)e).IsDeleted, false));
-            }
+            //if (typeof(ISoftDelete).IsAssignableFrom(typeof(TData)))
+            //{
+            //    filters.Add(Builders<TData>.Filter.Eq(e => ((ISoftDelete)e).IsDeleted, false));
+            //}
         }
 
         private Expression<Func<TData, bool>> CreateExpression(Expression<Func<TData, bool>> expression)
@@ -96,11 +93,11 @@ namespace Sukt.MongoDB.Repositorys
             {
                 expression = o => true;
             }
-            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TData)))
-            {
-                expression1 = m => ((ISoftDelete)m).IsDeleted == false;
-                expression = expression.And(expression1);
-            }
+            //if (typeof(ISoftDelete).IsAssignableFrom(typeof(TData)))
+            //{
+            //    expression1 = m => ((ISoftDelete)m).IsDeleted == false;
+            //    expression = expression.And(expression1);
+            //}
             return expression;
         }
 

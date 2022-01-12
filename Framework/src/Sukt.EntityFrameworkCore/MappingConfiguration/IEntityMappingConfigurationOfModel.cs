@@ -9,9 +9,5 @@ namespace Sukt.EntityFrameworkCore.MappingConfiguration
     {
         void Map(EntityTypeBuilder<TEntity> builder);
     }
-    public interface IAggregateRootMappingConfiguration<TEntity, TKey> : IEntityMappingConfiguration where TEntity : class, IAggregateRootWithIdentity<TKey>
-        where TKey : IEquatable<TKey>
-    {
-        void Map(EntityTypeBuilder<TEntity> builder);
-    }
+   
 }

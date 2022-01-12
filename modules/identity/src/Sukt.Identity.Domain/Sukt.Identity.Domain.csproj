@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Aggregates\Menus\" />
+    <Folder Include="Aggregates\Organizations\" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Sukt.Module.Core" Version="1.1.13" />
+	</ItemGroup>
+</Project>

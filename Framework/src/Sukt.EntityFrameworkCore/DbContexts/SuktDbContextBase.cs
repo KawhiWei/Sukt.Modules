@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Sukt.EntityFrameworkCore.Extensions;
 using Sukt.EntityFrameworkCore.MappingConfiguration;
 using Sukt.Module.Core.AppOption;
 using Sukt.Module.Core.Audit.Transmissions;
@@ -54,6 +55,8 @@ namespace Sukt.EntityFrameworkCore
                 modelBuilder.HasDefaultSchema(_appOptionSettings.DbContexts?.First().Value.DefaultSchema);
             }
             base.OnModelCreating(modelBuilder);
+            modelBuilder.UseDeletion();
+            modelBuilder.UseModification();
             var typeFinder = ServiceProvider.GetService<ITypeFinder>();
             IEntityMappingConfiguration[] entitymapping = typeFinder.Find(x => x.IsDeriveClassFrom<IEntityMappingConfiguration>()).Select(x => Activator.CreateInstance(x) as IEntityMappingConfiguration).ToArray();
             foreach (var item in entitymapping)
@@ -131,22 +134,24 @@ namespace Sukt.EntityFrameworkCore
         protected virtual void ApplyConcepts()
         {
             var entries = this.FindChangedEntries().ToList();
-            foreach (var entity in entries)
-            {
-                if (entity.Entity is ICreated createdTime && entity.State == EntityState.Added)
-                {
-                    createdTime.UpdateCreatedAt();
-                    //createdTime.CreatedAt = DateTimeOffset.UtcNow;
-                    //if (_principal != null && _principal.Identity != null)
-                    //    createdTime.CreatedId = _principal.Identity.GetUesrId<Guid>();
-                }
-                if (entity.Entity is IModifyAudited ModificationAudited && entity.State == EntityState.Modified)
-                {
-                    ModificationAudited.UpdateLastModifedAt();//.LastModifedAt = DateTimeOffset.UtcNow;
-                    //if (_principal != null && _principal.Identity != null)
-                    //    ModificationAuditedUserId.LastModifyId = _principal.Identity.GetUesrId<Guid>();
-                }
-            }
+            ChangeTracker.UpdateModification();
+            ChangeTracker.UpdateDeletion();
+            //foreach (var entity in entries)
+            //{
+            //    if (entity.Entity is ICreated createdTime && entity.State == EntityState.Added)
+            //    {
+            //        createdTime.UpdateCreatedAt();
+            //        //createdTime.CreatedAt = DateTimeOffset.UtcNow;
+            //        //if (_principal != null && _principal.Identity != null)
+            //        //    createdTime.CreatedId = _principal.Identity.GetUesrId<Guid>();
+            //    }
+            //    if (entity.Entity is IModifyAudited ModificationAudited && entity.State == EntityState.Modified)
+            //    {
+            //        ModificationAudited.UpdateLastModifedAt();//.LastModifedAt = DateTimeOffset.UtcNow;
+            //        //if (_principal != null && _principal.Identity != null)
+            //        //    ModificationAuditedUserId.LastModifyId = _principal.Identity.GetUesrId<Guid>();
+            //    }
+            //}
         }
     }
 }

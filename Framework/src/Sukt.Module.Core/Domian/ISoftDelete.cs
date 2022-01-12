@@ -5,6 +5,6 @@
     /// </summary>
     public interface ISoftDelete
     {
-        bool IsDeleted { get; set; }
+        public void UpdateDeletion();
     }
 }

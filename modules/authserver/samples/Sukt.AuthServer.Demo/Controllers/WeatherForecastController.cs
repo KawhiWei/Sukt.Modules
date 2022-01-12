@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Sukt.AspNetCore.ApiResults;
 using Sukt.AuthServer.Demo;
 using Sukt.AuthServer.Domain.Aggregates.Applications;
 using Sukt.Module.Core.Repositories;
@@ -7,6 +8,7 @@ namespace Sukt.AuthServer.DemoApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ApiResultWrap]
     public class WeatherForecastController : ControllerBase
     {
         private readonly ISuktApplicationDomainService _suktApplicationDomainService;
@@ -29,11 +31,12 @@ namespace Sukt.AuthServer.DemoApi.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            var suktApplication= await _suktApplicationDomainService.CreateAsync("asdasdas","ASDASDA");
-            await _repository.InsertAsync(suktApplication);
-            var entity = await _repository.GetByIdAsync(suktApplication.Id);
-            entity.SetClientName("我是你爹");
-            var count =await _repository.UpdateAsync(entity);
+            //var suktApplication= await _suktApplicationDomainService.CreateAsync("asdasdas","ASDASDA");
+            //await _repository.InsertAsync(suktApplication);
+            //var entity = await _repository.GetByIdAsync(suktApplication.Id);
+            //entity.SetClientName("我是你爹");
+            //var count =await _repository.UpdateAsync(entity);
+            await Task.CompletedTask;
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

@@ -104,13 +104,13 @@ namespace Sukt.Module.Core.Repositories
         /// <returns>返回删除受影响条数</returns>
         Task<int> DeleteAsync(TEntity entity);
 
-        /// <summary>
-        /// 异步删除所有符合特定条件的实体
-        /// </summary>
-        /// <param name="predicate">查询条件谓语表达式</param>
-        /// <param name="cancellationToken">查询条件谓语表达式</param>
-        /// <returns>操作影响的行数</returns>
-        Task<int> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
+        ///// <summary>
+        ///// 异步删除所有符合特定条件的实体
+        ///// </summary>
+        ///// <param name="predicate">查询条件谓语表达式</param>
+        ///// <param name="cancellationToken">查询条件谓语表达式</param>
+        ///// <returns>操作影响的行数</returns>
+        //Task<int> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// 删除

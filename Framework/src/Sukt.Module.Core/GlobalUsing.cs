@@ -1,0 +1,12 @@
+﻿global using AutoMapper;
+global using Microsoft.Extensions.DependencyInjection;
+global using Sukt.Module.Core.Domian;
+global using Sukt.Module.Core.Enums;
+global using Sukt.Module.Core.Extensions;
+global using Sukt.Module.Core.Modules;
+global using Sukt.Module.Core.SuktReflection;
+global using System;
+global using System.ComponentModel;
+global using System.Linq;
+global using System.Reflection;
+global using System.Security.Claims;

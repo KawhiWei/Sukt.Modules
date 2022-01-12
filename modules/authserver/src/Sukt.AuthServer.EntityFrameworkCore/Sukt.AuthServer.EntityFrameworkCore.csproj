@@ -7,7 +7,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Sukt.EntityFrameworkCore" Version="1.1.12" />
+		<PackageReference Include="Sukt.EntityFrameworkCore" Version="1.1.13" />
 	</ItemGroup>
 
 	<ItemGroup>

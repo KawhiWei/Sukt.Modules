@@ -10,6 +10,7 @@ $solutions = (
 # List of projects
 $projects = (
     "Framework/src/Sukt.Module.Core",
+    "Framework/src/Sukt.AspNetCore",
     "Framework/src/Sukt.Aop",
     "Framework/src/Sukt.AutoMapper",
     "Framework/src/Sukt.CodeGenerator",

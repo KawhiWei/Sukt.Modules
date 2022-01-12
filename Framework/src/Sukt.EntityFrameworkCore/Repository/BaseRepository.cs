@@ -3,20 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sukt.Module.Core.Domian;
-using Sukt.Module.Core.Enums;
 using Sukt.Module.Core.Exceptions;
 using Sukt.Module.Core.Extensions;
-using Sukt.Module.Core.DomainResults;
 using Sukt.Module.Core.Repositories;
-using Sukt.Module.Core.ResultMessageConst;
 using Sukt.Module.Core.UnitOfWorks;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
-using Z.EntityFramework.Plus;
 
 namespace Sukt.EntityFrameworkCore
 {
@@ -221,10 +214,8 @@ namespace Sukt.EntityFrameworkCore
 
         public virtual int Delete(params TEntity[] entitys)
         {
-            foreach (var entity in entitys)
-            {
-                CheckDelete(entity);
-            }
+
+            this._dbContext.RemoveRange(entitys);
             var count = _dbContext.SaveChanges();
             return count;
 
@@ -248,65 +239,65 @@ namespace Sukt.EntityFrameworkCore
             {
                 throw new SuktAppBusinessException("未找到对应的数据！");
             }
-            CheckDelete(entity);
+            this._dbContext.Remove(entity);
             return await _dbContext.SaveChangesAsync();
         }
 
-        public virtual async Task<int> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
-        {
-            predicate.NotNull(nameof(predicate));
-            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
-            {
-                List<MemberBinding> newMemberBindings = new List<MemberBinding>();
-                ParameterExpression parameterExpression = Expression.Parameter(typeof(TEntity), "o"); //参数
+        //public virtual async Task<int> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        //{
+        //    predicate.NotNull(nameof(predicate));
+        //    if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
+        //    {
+        //        List<MemberBinding> newMemberBindings = new List<MemberBinding>();
+        //        ParameterExpression parameterExpression = Expression.Parameter(typeof(TEntity), "o"); //参数
 
-                ConstantExpression constant = Expression.Constant(true);
-                var propertyName = nameof(ISoftDelete.IsDeleted);
-                var propertyInfo = typeof(TEntity).GetProperty(propertyName);
-                var memberAssignment = Expression.Bind(propertyInfo, constant); //绑定属性
-                newMemberBindings.Add(memberAssignment);
+        //        ConstantExpression constant = Expression.Constant(true);
+        //        var propertyName = nameof(ISoftDelete.IsDeleted);
+        //        var propertyInfo = typeof(TEntity).GetProperty(propertyName);
+        //        var memberAssignment = Expression.Bind(propertyInfo, constant); //绑定属性
+        //        newMemberBindings.Add(memberAssignment);
 
-                //创建实体
-                var newEntity = Expression.New(typeof(TEntity));
-                var memberInit = Expression.MemberInit(newEntity, newMemberBindings.ToArray()); //成员初始化
-                Expression<Func<TEntity, TEntity>> updateExpression = Expression.Lambda<Func<TEntity, TEntity>> //生成要更新的Expression
-                (
-                   memberInit,
-                   new ParameterExpression[] { parameterExpression }
-                );
-                await NoTrackEntities.Where(predicate).UpdateAsync(updateExpression, cancellationToken);
-            }
-            else
-            {
-                await NoTrackEntities.Where(predicate).DeleteAsync(cancellationToken);
-            }
-            return await _dbContext.SaveChangesAsync();
-        }
+        //        //创建实体
+        //        var newEntity = Expression.New(typeof(TEntity));
+        //        var memberInit = Expression.MemberInit(newEntity, newMemberBindings.ToArray()); //成员初始化
+        //        Expression<Func<TEntity, TEntity>> updateExpression = Expression.Lambda<Func<TEntity, TEntity>> //生成要更新的Expression
+        //        (
+        //           memberInit,
+        //           new ParameterExpression[] { parameterExpression }
+        //        );
+        //        await NoTrackEntities.Where(predicate).UpdateAsync(updateExpression, cancellationToken);
+        //    }
+        //    else
+        //    {
+        //        await NoTrackEntities.Where(predicate).DeleteAsync(cancellationToken);
+        //    }
+        //    return await _dbContext.SaveChangesAsync();
+        //}
 
         #endregion Delete
 
-        #region 帮助方法
+        //#region 帮助方法
 
-        /// <summary>
-        /// 检查删除
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        private void CheckDelete(TEntity entity)
-        {
-            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
-            {
-                ISoftDelete softDeletabl = (ISoftDelete)entity;
-                softDeletabl.IsDeleted = true;
-                var entity1 = (TEntity)softDeletabl;
+        ///// <summary>
+        ///// 检查删除
+        ///// </summary>
+        ///// <param name="entity">实体</param>
+        ///// <returns></returns>
+        //private void CheckDelete(TEntity entity)
+        //{
+        //    if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
+        //    {
+        //        ISoftDelete softDeletabl = (ISoftDelete)entity;
+        //        softDeletabl.IsDeleted = true;
+        //        var entity1 = (TEntity)softDeletabl;
 
-                this._dbContext.Update(entity1);
-            }
-            else
-            {
-                this._dbContext.Remove(entity);
-            }
-        }
-        #endregion 帮助方法
+        //        this._dbContext.Update(entity1);
+        //    }
+        //    else
+        //    {
+        //        this._dbContext.Remove(entity);
+        //    }
+        //}
+        //#endregion 帮助方法
     }
 }

@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sukt.SeriLog" Version="1.1.12" />
+    <PackageReference Include="Sukt.AspNetCore" Version="1.1.13" />
+    <PackageReference Include="Sukt.SeriLog" Version="1.1.13" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-	  <PackageReference Include="Sukt.Swagger" Version="1.1.12" />
-	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
+	  <PackageReference Include="Sukt.Swagger" Version="1.1.13" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Sukt.AuthServer.EntityFrameworkCore\Sukt.AuthServer.EntityFrameworkCore.csproj" />
