@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Identity.Domain", "src\Sukt.Identity.Domain\Sukt.Identity.Domain.csproj", "{136BFE56-5B9B-4BD5-A653-31F6230BEFDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Identity.Domain", "src\Sukt.Identity.Domain\Sukt.Identity.Domain.csproj", "{136BFE56-5B9B-4BD5-A653-31F6230BEFDF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Presentation", "1.Presentation", "{57C6EE91-1140-4725-A055-E400F7FC60F6}"
 EndProject
@@ -13,7 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Domain", "3.Domain", "{85
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Infrastructure", "4.Infrastructure", "{77D52610-A881-4FF5-97A0-49EEBF8D715B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Identity.EntityFrameworkCore", "src\Sukt.Identity.EntityFrameworkCore\Sukt.Identity.EntityFrameworkCore.csproj", "{3255E33E-0A7F-4847-B945-E1C831F4719B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Identity.EntityFrameworkCore", "src\Sukt.Identity.EntityFrameworkCore\Sukt.Identity.EntityFrameworkCore.csproj", "{3255E33E-0A7F-4847-B945-E1C831F4719B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Identity.Domain.Shared", "src\Sukt.Identity.Domain.Shared\Sukt.Identity.Domain.Shared.csproj", "{9A631064-A77F-4C98-84DA-23AD2B1C926E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Identity.Application", "src\Sukt.Identity.Application\Sukt.Identity.Application.csproj", "{14CBF645-F5B5-49C8-955C-B02C9F756379}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Identity.Api", "src\Sukt.Identity.Api\Sukt.Identity.Api.csproj", "{737ED24A-4578-4CEC-8C1B-E938B69B4D6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +35,18 @@ Global
 		{3255E33E-0A7F-4847-B945-E1C831F4719B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3255E33E-0A7F-4847-B945-E1C831F4719B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3255E33E-0A7F-4847-B945-E1C831F4719B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A631064-A77F-4C98-84DA-23AD2B1C926E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A631064-A77F-4C98-84DA-23AD2B1C926E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A631064-A77F-4C98-84DA-23AD2B1C926E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A631064-A77F-4C98-84DA-23AD2B1C926E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14CBF645-F5B5-49C8-955C-B02C9F756379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14CBF645-F5B5-49C8-955C-B02C9F756379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14CBF645-F5B5-49C8-955C-B02C9F756379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14CBF645-F5B5-49C8-955C-B02C9F756379}.Release|Any CPU.Build.0 = Release|Any CPU
+		{737ED24A-4578-4CEC-8C1B-E938B69B4D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737ED24A-4578-4CEC-8C1B-E938B69B4D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737ED24A-4578-4CEC-8C1B-E938B69B4D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737ED24A-4578-4CEC-8C1B-E938B69B4D6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +54,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{136BFE56-5B9B-4BD5-A653-31F6230BEFDF} = {854378B1-26C7-4CF9-A01E-5E41B1F3C367}
 		{3255E33E-0A7F-4847-B945-E1C831F4719B} = {77D52610-A881-4FF5-97A0-49EEBF8D715B}
+		{9A631064-A77F-4C98-84DA-23AD2B1C926E} = {854378B1-26C7-4CF9-A01E-5E41B1F3C367}
+		{14CBF645-F5B5-49C8-955C-B02C9F756379} = {5E24BA4D-A9E0-4614-86C4-60FD59389841}
+		{737ED24A-4578-4CEC-8C1B-E938B69B4D6A} = {57C6EE91-1140-4725-A055-E400F7FC60F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FDD2B53E-A84C-4412-8A2B-0C5E97EA71EB}

@@ -1,4 +1,6 @@
-﻿namespace Sukt.Identity.Domain.Aggregates
+﻿using System.ComponentModel;
+
+namespace Sukt.Identity.Domain.Aggregates
 {
     public class IdentityClaim : FullEntityWithIdentity
     {
@@ -11,10 +13,10 @@
             ClaimValue = claimValue;
         }
         [DisplayName("声明类型")]
-        public string ClaimType { get; private set; }
+        public string ClaimType { get; private set; } = default!;
 
         [DisplayName("声明值")]
-        public string ClaimValue { get; private set; }
+        public string ClaimValue { get; private set; } = default!;
         public virtual Claim ToClaim()
         {
             return new Claim(ClaimType, ClaimValue);

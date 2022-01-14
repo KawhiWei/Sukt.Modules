@@ -1,4 +1,5 @@
 ﻿using Sukt.Identity.Domain.Aggregates.Users;
+using Sukt.Identity.Domain.Shared.Users;
 
 namespace Sukt.Identity.EntityFrameworkCore.EntityConfigurations
 {
@@ -19,7 +20,7 @@ namespace Sukt.Identity.EntityFrameworkCore.EntityConfigurations
             b.HasMany(x => x.Logins).WithOne().HasForeignKey(o => o.UserId);
             b.HasMany(x => x.Claims).WithOne().HasForeignKey(o => o.UserId);
             b.HasMany(x => x.Tokens).WithOne().HasForeignKey(o => o.UserId);
-            b.ToTable($"{SuktIdentityDbProperties.DbTablePrefix}_users");
+            b.ToTable($"{SuktIdentityDbProperties.DbTablePrefix}users");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace Sukt.Identity.Domain.Aggregates.Roles
+﻿using System.ComponentModel;
+namespace Sukt.Identity.Domain.Aggregates.Roles
 {
     [DisplayName("身份角色声明")]
     public class IdentityRoleClaim : IdentityClaim

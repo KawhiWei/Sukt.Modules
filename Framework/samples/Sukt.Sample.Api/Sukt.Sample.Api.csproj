@@ -16,4 +16,6 @@
     <ProjectReference Include="..\..\src\Sukt.Swagger\Sukt.Swagger.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

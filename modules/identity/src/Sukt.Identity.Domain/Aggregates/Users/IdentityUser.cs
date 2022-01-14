@@ -1,4 +1,6 @@
 ﻿
+using Sukt.Identity.Domain.Shared.Users;
+using System.ComponentModel;
 namespace Sukt.Identity.Domain.Aggregates.Users
 {
     [DisplayName("身份用户信息")]
@@ -9,121 +11,129 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             SecurityStamp = SuktGuid.NewSuktGuid().ToString();
             ConcurrencyStamp = SuktGuid.NewSuktGuid().ToString();
         }
-        public IdentityUser(string userName, string email, bool isSystem, string sex) : this()
+        public IdentityUser(string userName, string email,string nikeName, bool isSystem = false, string sex = "", IdentityUserTypeEnum userType = IdentityUserTypeEnum.OrdinaryUser) : this()
         {
             UserName = userName;
             NormalizedUserName = userName.ToUpperInvariant();
             Email = email;
             NormalizedEmail = email.ToUpperInvariant();
+            NikeName = nikeName;
             IsSystem = isSystem;
             Sex = sex;
             Roles = new Collection<IdentityUserRole>();
             Logins = new Collection<IdentityUserLogin>();
-            Claims= new Collection<IdentityUserClaim>();
+            Claims = new Collection<IdentityUserClaim>();
             Tokens = new Collection<IdentityUserToken>();
+            UserType = userType;
         }
 
         /// <summary>
         /// 姓名
         /// </summary>
         [DisplayName("姓名")]
-        public string UserName { get; private set; }
+        public string UserName { get; private set; } = default!;
 
         /// <summary>
         /// 登录账号
         /// </summary>
         [DisplayName("登录账号")]
-        public string NormalizedUserName { get; private set; }
+        public string NormalizedUserName { get; private set; } = default!;
+
+        /// <summary>
+        /// 用户昵称
+        /// </summary>
+        [DisplayName("用户昵称")]
+        public string? NikeName { get; private set; } = default!;
 
         /// <summary>
         /// 电子邮箱
         /// </summary>
         [DisplayName("电子邮箱")]
-        public string Email { get; private set; }
+        public string Email { get; private set; } = default!;
 
         /// <summary>
         /// 密码哈希值
         /// </summary>
         [DisplayName("密码哈希值")]
-        public string PasswordHash { get; private set; }
+        public string PasswordHash { get; private set; } = default!;
 
         /// <summary>
         /// 用户头像
         /// </summary>
         [DisplayName("用户头像")]
-        public string HeadImg { get; private set; }
+        public string? HeadImg { get; private set; } = default!;
 
         /// <summary>
         /// 手机号码
         /// </summary>
         [DisplayName("手机号码")]
-        public string PhoneNumber { get; private set; }
+        public string? PhoneNumber { get; private set; } = default!;
 
         /// <summary>
         /// 是否系统账号
         /// </summary>
         [DisplayName("是否系统账号")]
-        public bool IsSystem { get; private set; }
+        public bool IsSystem { get; private set; } = default!;
 
         /// <summary>
         /// 性别
         /// </summary>
         [DisplayName("性别")]
-        public string Sex { get; private set; }
+        public string? Sex { get; private set; } = default!;
 
         /// <summary>
         /// 标准化的电子邮箱
         /// </summary>
         [DisplayName("标准化的电子邮箱")]
-        public string NormalizedEmail { get; private set; }
+        public string NormalizedEmail { get; private set; } = default!;
 
         /// <summary>
         /// 电子邮箱确认
         /// </summary>
         [DisplayName("电子邮箱确认")]
-        public bool EmailConfirmed { get; private set; }
+        public bool EmailConfirmed { get; private set; } = default!;
 
         /// <summary>
         /// 安全标识
         /// </summary>
         [DisplayName("安全标识")]
-        public string SecurityStamp { get; private set; }
+        public string SecurityStamp { get; private set; } = default!;
 
         /// <summary>
         /// 安全标识
         /// </summary>
         [DisplayName("安全标识")]
-        public string ConcurrencyStamp { get; private set; }
+        public string ConcurrencyStamp { get; private set; } = default!;
 
         /// <summary>
         /// 手机号码确定
         /// </summary>
         [DisplayName("手机号码确定")]
-        public bool PhoneNumberConfirmed { get; private set; }
+        public bool PhoneNumberConfirmed { get; private set; } = default!;
 
         /// <summary>
         /// 双因子身份验证
         /// </summary>
         [DisplayName("双因子身份验证")]
-        public bool TwoFactorEnabled { get; private set; }
+        public bool TwoFactorEnabled { get; private set; } = default!;
 
         /// <summary>
         /// 锁定时间
         /// </summary>
         [DisplayName("锁定时间")]
-        public DateTimeOffset? LockoutEnd { get; private set; }
+        public DateTimeOffset? LockoutEnd { get; private set; } = default!;
 
         /// <summary>
         /// 是否登录锁
         /// </summary>
         [DisplayName("是否登录锁")]
-        public bool LockoutEnabled { get; private set; }
+        public bool LockoutEnabled { get; private set; } = default!;
 
         /// <summary>
         /// 登录失败次数
         /// </summary>
         [DisplayName("登录失败次数")]
-        public int AccessFailedCount { get; private set; }
+        public int AccessFailedCount { get; private set; } = default!;
 
         public ICollection<IdentityUserRole> Roles { get; private set; }
 
@@ -132,21 +142,34 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         public ICollection<IdentityUserClaim> Claims { get; private set; }
 
         public ICollection<IdentityUserToken> Tokens { get; protected set; }
+        /// <summary>
+        /// 用户类型
+        /// </summary>
+        [DisplayName("用户类型")]
+        public IdentityUserTypeEnum UserType { get; private set; }
 
+
+        public virtual void AddRoles(List<string> roles)
+        {
+            foreach (var role in roles)
+            {
+                AddRole(role);
+            }
+        }
 
         /// <summary>
         /// 添加角色
         /// </summary>
         /// <param name="roleId"></param>
         public virtual void AddRole(string roleId)
+        {
+            if (IsInRole(roleId))
             {
-                if(IsInRole(roleId))
-                {
-                    return;
-                }
-                Roles.Add(new IdentityUserRole(Id, roleId));
-
+                return;
             }
+            Roles.Add(new IdentityUserRole(Id, roleId));
+
+        }
 
         /// <summary>
         /// 判断角色是否存在
@@ -159,14 +182,41 @@ namespace Sukt.Identity.Domain.Aggregates.Users
 
         }
 
+        public virtual void RemoveRole(string roleId)
+        {
+            if (!IsInRole(roleId))
+            {
+                return;
+            }
+            var roles = Roles.Where(x => x.RoleId == roleId);
+
+            foreach (var role in roles)
+            {
+                RemoveRole(role);
+            }
+        }
+
+        public virtual void RemoveRole(IdentityUserRole role)
+        {
+            Roles.Remove(role);
+        }
+
         /// <summary>
         /// 删除角色
         /// </summary>
-        public virtual void RemoveRole()
+        public virtual void RemoveAllRole()
         {
             foreach (var role in Roles)
             {
-                Roles.Remove(role);
+                RemoveRole(role);
+            }
+        }
+
+        public virtual void AddClaims(IEnumerable<Claim> claims)
+        {
+            foreach (var claim in claims)
+            {
+                AddClaim(claim);
             }
         }
 
@@ -174,28 +224,105 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         {
             Claims.Add(new IdentityUserClaim(claim.Type, claim.Value, Id));
         }
-        public virtual void AddClaims([NotNull] IEnumerable<Claim> claims)
-        {
-            foreach(var claim in claims)
-            {
-                AddClaim(claim);
-            }
-        }
-        public virtual void RemoveClaim([NotNull] Claim claim)
+
+        public virtual void ReplaceClaim(Claim claim, Claim newClaim)
         {
 
-            //Claims.Remove(c => c.ClaimValue == claim.Value && c.ClaimType == claim.Type);
+            var identityUserClaims = Claims.Where(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value);
+            foreach (var identityUserClaim in identityUserClaims)
+            {
+                identityUserClaim.SetClaim(newClaim);
+            }
+
+        }
+
+        public virtual void RemoveClaims(IEnumerable<Claim> claims)
+        {
+            foreach (var claim in claims)
+            {
+                RemoveClaim(claim);
+            }
+        }
+
+        public virtual void RemoveClaim(Claim claim)
+        {
+            var identityUserClaims = Claims.Where(c => c.ClaimValue == claim.Value && c.ClaimType == claim.Type);
+            foreach (var identityUserClaim in identityUserClaims)
+            {
+                Claims.Remove(identityUserClaim);
+            }
+        }
+
+        public virtual void AddLogin(UserLoginInfo userLoginInfo)
+        {
+            Logins.Add(new IdentityUserLogin(userLoginInfo.LoginProvider, userLoginInfo.ProviderKey, userLoginInfo.ProviderDisplayName, Id));
+        }
+
+        public virtual void RemoveLogin(string loginProvider, string providerKey)
+        {
+            var identityUserLogin = Logins.Where(x => x.LoginProvider == loginProvider && x.ProviderKey == providerKey);
+
+        }
+
+        public virtual void RemoveLogin(List<IdentityUserLogin> logins)
+        {
+            foreach (var login in logins)
+            {
+                RemoveLogin(login);
+            }
+        }
+
+        public virtual void RemoveLogin(IdentityUserLogin login)
+        {
+            Logins.Remove(login);
+        }
+
+
+        public virtual IdentityUserToken? FindToken(string loginProvider, string name)
+        {
+            return Tokens.FirstOrDefault(t => t.LoginProvider == loginProvider && t.Name == name);
+        }
+
+
+        public virtual void SetToken(string loginProvider, string name, string value)
+        {
+            var token = FindToken(loginProvider, name);
+            if (token is null)
+            {
+                Tokens.Add(new IdentityUserToken(Id, loginProvider, name, value));
+            }
+            else
+            {
+                token.Value = value;
+            }
+        }
+
+
+        public virtual void RemoveToken(string loginProvider, string name)
+        {
+            Tokens.Where(x => x.LoginProvider == loginProvider && x.Name == name);
+            foreach (var token in Tokens)
+            {
+                Tokens.Remove(token);
+            }
         }
 
 
 
         public virtual void SetUserName(string userName)
         {
-            this.UserName = userName;
+            UserName = userName;
         }
+
+        public virtual void SetNikeName(string nikeName)
+        {
+            NikeName = nikeName;
+        }
+
+
         public virtual void SetEmail(string email)
         {
-            this.Email = email;
+            Email = email;
         }
 
         /// <summary>
@@ -232,7 +359,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// <param name="normalizedUserName"></param>
         public virtual void SetNormalizedUserName(string normalizedUserName)
         {
-            this.NormalizedUserName = normalizedUserName;
+            NormalizedUserName = normalizedUserName;
         }
 
         /// <summary>
@@ -246,47 +373,47 @@ namespace Sukt.Identity.Domain.Aggregates.Users
 
         public virtual void SetNormalizedEmail(string normalizeEmail)
         {
-            this.NormalizedEmail = normalizeEmail;
+            NormalizedEmail = normalizeEmail;
         }
 
         public virtual void SetSecurityStamp(string securityStamp)
         {
-            this.SecurityStamp = securityStamp;
+            SecurityStamp = securityStamp;
         }
 
         public virtual void SetEmailConfirmed(bool emailConfirmed)
         {
-            this.EmailConfirmed = emailConfirmed;
+            EmailConfirmed = emailConfirmed;
         }
 
         public virtual void SetPhoneNumberConfirmed(bool phoneNumberConfirmed)
         {
-            this.PhoneNumberConfirmed = phoneNumberConfirmed;
+            PhoneNumberConfirmed = phoneNumberConfirmed;
         }
 
         public virtual void SetLockoutEnd(DateTimeOffset? lockoutEnd)
         {
-            this.LockoutEnd = lockoutEnd;
+            LockoutEnd = lockoutEnd;
         }
 
         public virtual void SetLockoutEnabled(bool lockoutEnabled)
         {
-            this.LockoutEnabled = lockoutEnabled;
+            LockoutEnabled = lockoutEnabled;
         }
 
         public virtual void SetAccessFailedCount()
         {
-            this.AccessFailedCount++;
+            AccessFailedCount++;
         }
 
         public virtual void ResetAccessFailedCount(int accessFailedCount)
         {
-            this.AccessFailedCount = accessFailedCount;
+            AccessFailedCount = accessFailedCount;
         }
 
         public virtual void SetTwoFactorEnabled(bool twoFactorEnabled)
         {
-            this.TwoFactorEnabled = twoFactorEnabled;
+            TwoFactorEnabled = twoFactorEnabled;
         }
 
     }

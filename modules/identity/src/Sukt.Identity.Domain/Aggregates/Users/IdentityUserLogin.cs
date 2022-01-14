@@ -15,16 +15,16 @@
         {
         }
         [DisplayName("登录的登录提供程序")]
-        public string LoginProvider { get; private set; }
+        public string LoginProvider { get; private set; } = default!;
 
         [DisplayName("第三方用户的唯一标识")]
-        public string ProviderKey { get; private set; }
+        public string ProviderKey { get; private set; } = default!;
 
         [DisplayName("第三方用户昵称")]
-        public string ProviderDisplayName { get; private set; }
+        public string ProviderDisplayName { get; private set; } = default!;
 
         [DisplayName("用户Id")]
-        public string UserId { get; private set; }
+        public string UserId { get; private set; } = default!;
 
         public virtual void SetLoginProvider(string loginProvider)
         {

@@ -13,8 +13,8 @@
             UserId = userId;
         }
         [DisplayName("用户Id")]
-        public string UserId { get; private set; }
+        public string UserId { get; private set; } = default!;
         [DisplayName("角色Id")]
-        public string RoleId { get; private set; }
+        public string RoleId { get; private set; } = default!;
     }
 }
