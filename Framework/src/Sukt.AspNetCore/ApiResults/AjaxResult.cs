@@ -18,11 +18,11 @@
             Success = true;
             Data = data;
         }
-        public AjaxResult(string message, bool success, object? data)
+        public AjaxResult(string errorCode ,string message)
         {
+            Success = false;
+            ErrorCode = errorCode;
             Message = message;
-            Data = data;
-            Success = success;
         }
 
         /// <summary>
@@ -30,6 +30,11 @@
         /// </summary>
 
         public string? Message { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string? ErrorCode { get; set; }
+
 
         /// <summary>
         /// 数据

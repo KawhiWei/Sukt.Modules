@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
+    <PackageReference Include="Sukt.AspNetCore" Version="1.2.1" />
     <PackageReference Include="Sukt.SeriLog" Version="1.2.1" />
     <PackageReference Include="Sukt.Swagger" Version="1.2.1" />
   </ItemGroup>
