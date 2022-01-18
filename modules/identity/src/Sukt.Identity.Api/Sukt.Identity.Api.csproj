@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Sukt.Identity.Application\Sukt.Identity.Application.csproj" />
     <ProjectReference Include="..\Sukt.Identity.EntityFrameworkCore\Sukt.Identity.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Sukt.Identity.Query\Sukt.Identity.Query.csproj" />
   </ItemGroup>
 
 </Project>

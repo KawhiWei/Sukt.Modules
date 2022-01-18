@@ -2,7 +2,7 @@
 
 namespace Sukt.AspNetCore.ApiResults
 {
-    internal class DisableApiResultWrapAttribute : ActionFilterAttribute
+    public class DisableApiResultWrapAttribute : ActionFilterAttribute
     {
     }
 }

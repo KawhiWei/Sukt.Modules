@@ -10,6 +10,10 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         {
             SecurityStamp = SuktGuid.NewSuktGuid().ToString();
             ConcurrencyStamp = SuktGuid.NewSuktGuid().ToString();
+            Roles = new Collection<IdentityUserRole>();
+            Logins = new Collection<IdentityUserLogin>();
+            Claims = new Collection<IdentityUserClaim>();
+            Tokens = new Collection<IdentityUserToken>();
         }
         public IdentityUser(string userName, string email,string nikeName, bool isSystem = false, string sex = "", IdentityUserTypeEnum userType = IdentityUserTypeEnum.OrdinaryUser) : this()
         {
@@ -20,10 +24,6 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             NikeName = nikeName;
             IsSystem = isSystem;
             Sex = sex;
-            Roles = new Collection<IdentityUserRole>();
-            Logins = new Collection<IdentityUserLogin>();
-            Claims = new Collection<IdentityUserClaim>();
-            Tokens = new Collection<IdentityUserToken>();
             UserType = userType;
         }
 
@@ -149,7 +149,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         public IdentityUserTypeEnum UserType { get; private set; }
 
 
-        public virtual void AddRoles(List<string> roles)
+        public virtual void AddRoles(IEnumerable<string> roles)
         {
             foreach (var role in roles)
             {
@@ -188,7 +188,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             {
                 return;
             }
-            var roles = Roles.Where(x => x.RoleId == roleId);
+            var roles = Roles.Where(x => x.RoleId == roleId).ToList();
 
             foreach (var role in roles)
             {
@@ -206,7 +206,8 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// </summary>
         public virtual void RemoveAllRole()
         {
-            foreach (var role in Roles)
+            var roels= Roles.ToList();
+            foreach (var role in roels)
             {
                 RemoveRole(role);
             }

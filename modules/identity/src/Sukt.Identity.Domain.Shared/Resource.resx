@@ -133,7 +133,7 @@
     <comment>Error for duplicate roles</comment>
   </data>
   <data name="DuplicateUserName" xml:space="preserve">
-    <value>用户名“{0}”已被占用。</value>
+    <value>用户名[{0}]已被占用。</value>
     <comment>Error for duplicate user names</comment>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
@@ -297,7 +297,7 @@
     <comment>Error when AddPasswordAsync called when a user already has a password</comment>
   </data>
   <data name="UserAlreadyInRole" xml:space="preserve">
-    <value>用户已经处于角色“{0}”中。</value>
+    <value>用户已存在角色[{0}]。</value>
     <comment>Error when a user is already in a role</comment>
   </data>
   <data name="UserLockedOut" xml:space="preserve">
@@ -313,7 +313,7 @@
     <comment>Error when a user does not exist</comment>
   </data>
   <data name="UserNotInRole" xml:space="preserve">
-    <value>用户不在角色“{0}”中。</value>
+    <value>用户不存在[{0}]角色。</value>
     <comment>Error when a user is not in the role</comment>
   </data>
 </root>

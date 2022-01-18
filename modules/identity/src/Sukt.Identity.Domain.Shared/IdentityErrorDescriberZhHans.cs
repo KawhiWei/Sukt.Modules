@@ -20,7 +20,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError DefaultError()
         {
             IdentityError error = base.DefaultError();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.DefaultError}");
             }
@@ -35,7 +35,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError ConcurrencyFailure()
         {
             IdentityError error = base.ConcurrencyFailure();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.ConcurrencyFailure}");
             }
@@ -50,7 +50,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError PasswordMismatch()
         {
             IdentityError error = base.PasswordMismatch();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.PasswordMismatch}");
             }
@@ -65,7 +65,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError InvalidToken()
         {
             IdentityError error = base.InvalidToken();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.InvalidToken}");
             }
@@ -80,7 +80,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError RecoveryCodeRedemptionFailed()
         {
             IdentityError error = base.RecoveryCodeRedemptionFailed();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.RecoveryCodeRedemptionFailed}");
             }
@@ -95,7 +95,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError LoginAlreadyAssociated()
         {
             IdentityError error = base.LoginAlreadyAssociated();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.LoginAlreadyAssociated}");
             }
@@ -111,7 +111,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError InvalidUserName(string userName)
         {
             IdentityError error = base.InvalidUserName(userName);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.InvalidUserName.FormatWith(userName)}");
             }
@@ -127,7 +127,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError InvalidEmail(string email)
         {
             IdentityError error = base.InvalidEmail(email);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.InvalidEmail.FormatWith(email)}");
             }
@@ -143,7 +143,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError DuplicateUserName(string userName)
         {
             IdentityError error = base.DuplicateUserName(userName);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.DuplicateUserName.FormatWith(userName)}");
             }
@@ -159,7 +159,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError DuplicateEmail(string email)
         {
             IdentityError error = base.DuplicateEmail(email);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.DuplicateEmail.FormatWith(email)}");
             }
@@ -175,7 +175,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError InvalidRoleName(string role)
         {
             IdentityError error = base.InvalidRoleName(role);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.InvalidRoleName.FormatWith(role)}");
             }
@@ -191,7 +191,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError DuplicateRoleName(string role)
         {
             IdentityError error = base.DuplicateRoleName(role);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.DuplicateRoleName.FormatWith(role)}");
             }
@@ -206,7 +206,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError UserAlreadyHasPassword()
         {
             IdentityError error = base.UserAlreadyHasPassword();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.UserAlreadyHasPassword}");
             }
@@ -221,7 +221,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError UserLockoutNotEnabled()
         {
             IdentityError error = base.UserLockoutNotEnabled();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.UserLockoutNotEnabled}");
             }
@@ -237,7 +237,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError UserAlreadyInRole(string role)
         {
             IdentityError error = base.UserAlreadyInRole(role);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.UserAlreadyInRole.FormatWith(role)}");
             }
@@ -253,11 +253,12 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError UserNotInRole(string role)
         {
             IdentityError error = base.UserNotInRole(role);
-            if (error.Code.IsNullOrEmpty())
-            {
-                throw new SuktAppBusinessException($"{Resource.UserNotInRole.FormatWith(role)}");
-            }
-            error.Description = Resource.UserNotInRole.FormatWith(role);
+            //if (!error.Code.IsNullOrEmpty())
+            //{
+            //    throw new SuktAppBusinessException($"{Resource.UserNotInRole.FormatWith(role)}");
+            //}
+            error.Code = "";
+            error.Description = "";// Resource.UserNotInRole.FormatWith(role);
             return error;
         }
 
@@ -269,7 +270,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError PasswordTooShort(int length)
         {
             IdentityError error = base.PasswordTooShort(length);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.PasswordTooShort.FormatWith(length)}");
             }
@@ -285,7 +286,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError PasswordRequiresUniqueChars(int uniqueChars)
         {
             IdentityError error = base.PasswordRequiresUniqueChars(uniqueChars);
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.PasswordRequiresUniqueChars.FormatWith(uniqueChars)}");
             }
@@ -300,7 +301,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError PasswordRequiresNonAlphanumeric()
         {
             IdentityError error = base.PasswordRequiresNonAlphanumeric();
-            if(!error.Code.IsNullOrEmpty())
+            if(!!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.PasswordRequiresNonAlphanumeric}");
             }
@@ -315,7 +316,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError PasswordRequiresDigit()
         {
             IdentityError error = base.PasswordRequiresDigit();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.PasswordRequiresDigit}");
             }
@@ -330,7 +331,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError PasswordRequiresLower()
         {
             IdentityError error = base.PasswordRequiresLower();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.PasswordRequiresLower}");
             }
@@ -345,7 +346,7 @@ namespace Sukt.Identity.Domain.Shared
         public override IdentityError PasswordRequiresUpper()
         {
             IdentityError error = base.PasswordRequiresUpper();
-            if (error.Code.IsNullOrEmpty())
+            if (!error.Code.IsNullOrEmpty())
             {
                 throw new SuktAppBusinessException($"{Resource.PasswordRequiresUpper}");
             }

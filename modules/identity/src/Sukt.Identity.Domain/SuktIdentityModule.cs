@@ -49,16 +49,14 @@ namespace Sukt.Identity.Domain
             return options =>
             {
                 options.SignIn.RequireConfirmedEmail = false;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = false;
                 options.User.RequireUniqueEmail = false;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequireDigit = false;//需要数字
+                options.Password.RequireLowercase = false;//需要小写
+                options.Password.RequiredLength = 6;//长度
+                options.Password.RequiredUniqueChars = 1;//需要独特的字符
+                options.Password.RequireNonAlphanumeric = true;//需要非字母数字
+                options.Password.RequireUppercase = false;//需要大写
             };
         }
 

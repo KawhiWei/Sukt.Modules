@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Sukt.Identity.Domain\Sukt.Identity.Domain.csproj" />
     <ProjectReference Include="..\Sukt.Identity.Dto\Sukt.Identity.Dto.csproj" />
+    <ProjectReference Include="..\Sukt.Identity.EntityFrameworkCore\Sukt.Identity.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>

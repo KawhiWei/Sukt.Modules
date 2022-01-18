@@ -9,5 +9,15 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         {
 
         }
+        public override Task<IdentityResult> RemoveFromRolesAsync(IdentityUser user, IEnumerable<string> roles)
+        {
+            user.RemoveAllRole();
+            return Task.FromResult(IdentityResult.Success);
+        }
+        public override Task<IdentityResult> AddToRolesAsync(IdentityUser user, IEnumerable<string> roles)
+        {
+            user.AddRoles(roles.Distinct());
+            return Task.FromResult(IdentityResult.Success);
+        }
     }
 }

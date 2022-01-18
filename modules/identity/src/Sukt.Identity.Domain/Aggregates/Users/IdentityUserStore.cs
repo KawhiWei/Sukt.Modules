@@ -182,7 +182,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// <returns>
         /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing the user matching the specified <paramref name="userId" /> if it exists.
         /// </returns>
-        public Task<IdentityUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        public async Task<IdentityUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
@@ -192,7 +192,14 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             {
                 throw new SuktAppBusinessException($"Id为空");
             }
-            return Task.FromResult(_userRepository.GetById(id));
+            var identityUser = await _userRepository.TrackEntities.Include(x => x.Roles)
+                .Include(x => x.Logins)
+                .Include(x => x.Claims)
+                .Include(x => x.Tokens).FirstOrDefaultAsync(x => x.Id == id);
+#pragma warning disable CS8603 // 可能返回 null 引用。
+            return identityUser;
+#pragma warning restore CS8603 // 可能返回 null 引用。
+                              //return Task.FromResult(IdentityUser);
         }
 
         /// <summary>
@@ -203,14 +210,17 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// <returns>
         /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing the user matching the specified <paramref name="normalizedUserName" /> if it exists.
         /// </returns>
-        public Task<IdentityUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public async Task<IdentityUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
-            var identityUser = _userRepository.NoTrackEntities.FirstOrDefault(m => m.NormalizedUserName == normalizedUserName);
-#pragma warning disable CS8619 // 值中的引用类型的为 Null 性与目标类型不匹配。
-            return Task.FromResult(identityUser);
-#pragma warning restore CS8619 // 值中的引用类型的为 Null 性与目标类型不匹配。
+            var identityUser = await _userRepository.TrackEntities.Include(x => x.Roles)
+                .Include(x => x.Logins)
+                .Include(x => x.Claims)
+                .Include(x => x.Tokens).FirstOrDefaultAsync(m => m.NormalizedUserName == normalizedUserName, cancellationToken);
+#pragma warning disable CS8603 // 可能返回 null 引用。
+            return identityUser;
+#pragma warning restore CS8603 // 可能返回 null 引用。
         }
 
         public Task<string> GetUserIdAsync(IdentityUser user, CancellationToken cancellationToken)
@@ -1030,6 +1040,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
 
         /// <summary>
         /// Returns a flag indicating whether the specified <paramref name="user" /> is a member of the give named role.
+        /// 所有和roleName || roleName
         /// </summary>
         /// <param name="user">The user whose role membership should be checked.</param>
         /// <param name="roleName">The name of the role to be checked.</param>
@@ -1038,12 +1049,12 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing a flag indicating whether the specified <paramref name="user" /> is
         /// a member of the named role.
         /// </returns>
-        public async Task<bool> IsInRoleAsync(IdentityUser user, string roleName, CancellationToken cancellationToken)
+        public Task<bool> IsInRoleAsync(IdentityUser user, string roleName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
 
-            return await _roleRepository.TrackEntities.Where(x => x.Id == roleName).AnyAsync();
+            //return await _roleRepository.TrackEntities.Where(x => x.Id == roleName).AnyAsync();
 
             //TRoleKey roleId = _roleRepository.NoTrackEntities.Where(m => m.NormalizedName == roleName).Select(m => m.Id).FirstOrDefault();
             //if (Equals(roleId, default(TRoleKey)))
@@ -1052,7 +1063,8 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             //}
             ////bool exist = _userRoleRepository.NoTrackEntities.Where(m => m.UserId.Equals(user.Id) && m.RoleId.Equals(roleId)).Any();
             ////return Task.FromResult(exist);
-            //return Task.FromResult(true);
+            ///user.IsInRole(roleName)//考虑到性能问题，暂时先不做校验
+            return Task.FromResult(true);
         }
 
         public async Task<IList<IdentityUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)

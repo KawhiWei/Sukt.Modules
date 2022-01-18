@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Sukt.Identity.Domain.Aggregates.Users;
+﻿using Sukt.Identity.Domain.Aggregates.Users;
+using Sukt.Identity.Dto.Identity.Users;
 
 namespace Sukt.Identity.Application.Users
 {
@@ -11,18 +11,39 @@ namespace Sukt.Identity.Application.Users
         {
             _identityUserManager = userManager;
         }
+       
 
-        public async Task CreateAsync()
+        public virtual async Task CreateUserAsync(IdentityUserCreateInputDto input)
         {
-            //try
-            //{
-                await _identityUserManager.CreateAsync(new IdentityUser("asdsad", "asdasdas", "asdasda"),"123456");
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
-            
+            var identityUser = new IdentityUser(input.UserName, input.Email, input.NikeName);
+            await _identityUserManager.CreateAsync(identityUser, identityUser.PasswordHash);
         }
+        public virtual async Task UpdateUserForIdAsync(string id, IdentityUserUpdateInputDto input)
+        {
+            var identityUser = await _identityUserManager.FindByIdAsync(id);
+
+            identityUser.SetUserName(input.UserName);
+            identityUser.SetNormalizedUserName(input.UserName);
+            identityUser.SetNikeName(input.NikeName);
+            identityUser.SetEmail(input.Email);
+            identityUser.SetNormalizedEmail(input.Email);
+
+            await _identityUserManager.CreateAsync(identityUser, identityUser.PasswordHash);
+        }
+
+        public virtual async Task DeleteUserForIdAsync(string id)
+        {
+            var identityUser = await _identityUserManager.FindByIdAsync(id);
+            await _identityUserManager.DeleteAsync(identityUser);
+        }
+
+        public virtual async Task UpdateRoleForUserIdAsync(string id,IEnumerable<string> roles)
+        {
+            var identityUser = await _identityUserManager.FindByIdAsync(id);
+            await _identityUserManager.RemoveFromRolesAsync(identityUser, roles);
+            await _identityUserManager.AddToRolesAsync(identityUser, roles);
+            await _identityUserManager.UpdateAsync(identityUser);
+        }
+
     }
 }

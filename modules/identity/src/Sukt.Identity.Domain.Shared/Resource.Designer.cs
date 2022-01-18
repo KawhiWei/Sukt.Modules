@@ -97,7 +97,7 @@ namespace Sukt.Identity.Domain.Shared {
         }
         
         /// <summary>
-        ///   查找类似 用户名“{0}”已被占用。 的本地化字符串。
+        ///   查找类似 用户名[{0}]已被占用。 的本地化字符串。
         /// </summary>
         internal static string DuplicateUserName {
             get {
@@ -466,7 +466,7 @@ namespace Sukt.Identity.Domain.Shared {
         }
         
         /// <summary>
-        ///   查找类似 用户已经处于角色“{0}”中。 的本地化字符串。
+        ///   查找类似 用户已存在角色[{0}]。 的本地化字符串。
         /// </summary>
         internal static string UserAlreadyInRole {
             get {
@@ -502,7 +502,7 @@ namespace Sukt.Identity.Domain.Shared {
         }
         
         /// <summary>
-        ///   查找类似 用户不在角色“{0}”中。 的本地化字符串。
+        ///   查找类似 用户不存在[{0}]角色。 的本地化字符串。
         /// </summary>
         internal static string UserNotInRole {
             get {
