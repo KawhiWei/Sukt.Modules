@@ -22,10 +22,10 @@ namespace Sukt.Identity.Query.Users
         {
             var identityUser = await _identityUserManager.FindByIdAsync(id);
         }
-        public virtual async Task<IPageResult<IdentityUserPageDto>> GetUserListAsync(PageRequest request)
+        public virtual async Task<IPageResult<IdentityUserListDto>> GetUserListAsync(PageRequest request)
         {
             return  await _identityUserManager.Users
-                .Select(x => new IdentityUserPageDto
+                .Select(x => new IdentityUserListDto
                 {
                     Id = x.Id,
                     UserName = x.UserName,

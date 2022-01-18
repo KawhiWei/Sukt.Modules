@@ -10,9 +10,6 @@
 		<PackageReference Include="Sukt.Module.Core" Version="1.2.1" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Repositories\Roles\" />
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\Sukt.Identity.Domain.Shared\Sukt.Identity.Domain.Shared.csproj" />
 	</ItemGroup>
 </Project>

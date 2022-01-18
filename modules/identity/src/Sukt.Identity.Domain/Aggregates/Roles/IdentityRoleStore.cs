@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sukt.Module.Core.Exceptions;
+using Sukt.Identity.Domain.Repositories.Roles;
 
 namespace Sukt.Identity.Domain.Aggregates.Roles
 {
@@ -190,7 +190,7 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
-            var role =  await _roleRepository.TrackEntities.FirstOrDefaultAsync(m => m.NormalizedName == normalizedRoleName);
+            var role = await _roleRepository.TrackEntities.FirstOrDefaultAsync(m => m.NormalizedName == normalizedRoleName);
             if (role is null)
             {
                 throw new SuktAppBusinessException($"角色不存在");
@@ -264,7 +264,7 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
 
         public async Task SetRoleNameAsync(IdentityRole role, string roleName, CancellationToken cancellationToken)
         {
-            role.ChangeName(roleName);
+            role.SetName(roleName);
             await _roleRepository.UpdateAsync(role);
         }
 

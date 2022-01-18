@@ -10,13 +10,14 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
 
         }
 
-        public IdentityRole(string name, bool isAdmin) : this()
+        public IdentityRole(string name, bool isAdmin,bool isDefault=false) : this()
         {
             ConcurrencyStamp = SuktGuid.NewSuktGuid().ToString();
             Name = name;
             NormalizedName = name;
             IsAdmin = isAdmin;
             Claims = new Collection<IdentityRoleClaim>();
+            IsDefault = isDefault;
         }
 
         /// <summary>
@@ -26,16 +27,22 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
         public string Name { get; private set; } = default!;
 
         /// <summary>
-        /// 标准化角色名称
+        /// 是否默认
         /// </summary>
-        [DisplayName("标准化角色名称")]
-        public string NormalizedName { get; private set; } = default!;
+        [DisplayName("是否默认")]
+        public bool IsDefault { get; private set; } = default!;
 
         /// <summary>
         /// 是否管理员
         /// </summary>
         [DisplayName("是否管理员")]
-        public bool IsAdmin { get; set; } = default!;
+        public bool IsAdmin { get; private set; } = default!;
+
+        /// <summary>
+        /// 标准化角色名称
+        /// </summary>
+        [DisplayName("标准化角色名称")]
+        public string NormalizedName { get; private set; } = default!;
 
         /// <summary>
         /// 版本标识
@@ -55,9 +62,9 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
             Name = name;
         }
 
-        public virtual void ChangeName(string roleName)
+        public virtual void SetIsDefault(bool isDefault)
         {
-            Name=roleName;
+            IsDefault = isDefault;
         }
 
         public virtual void SetIsAdmin(bool isAdmin)

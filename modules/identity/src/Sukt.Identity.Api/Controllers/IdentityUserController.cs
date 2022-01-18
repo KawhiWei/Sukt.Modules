@@ -27,7 +27,7 @@ namespace Sukt.Identity.Api.Controllers
         }
         [Route("pagelist")]
         [HttpPost]
-        public virtual async Task<IPageResult<IdentityUserPageDto>> GetListAsync([FromBody] PageRequest request)
+        public virtual async Task<IPageResult<IdentityUserListDto>> GetListAsync([FromBody] PageRequest request)
         {
             return await _identityUserQueryService.GetUserListAsync(request);
         }

@@ -11,7 +11,7 @@ namespace Sukt.Identity.Query.Users
 
         Task<IEnumerable<string>> GetRolesForUserIdAsync(string id);
 
-        Task<IPageResult<IdentityUserPageDto>> GetUserListAsync(PageRequest request);
+        Task<IPageResult<IdentityUserListDto>> GetUserListAsync(PageRequest request);
 
     }
 }

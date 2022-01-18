@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Sukt.Identity.Domain.Aggregates.Roles;
+using Sukt.Identity.Domain.Repositories.Roles;
 using Sukt.Identity.Domain.Repositories.Users;
 
 

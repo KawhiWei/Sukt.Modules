@@ -1,5 +1,5 @@
-﻿using Sukt.EntityFrameworkCore;
-using Sukt.Identity.Domain.Aggregates.Roles;
+﻿using Sukt.Identity.Domain.Aggregates.Roles;
+using Sukt.Identity.Domain.Repositories.Roles;
 
 namespace Sukt.Identity.EntityFrameworkCore.Repositories
 {

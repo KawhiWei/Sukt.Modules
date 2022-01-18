@@ -18,7 +18,6 @@ namespace Sukt.Identity.Domain
 
 
 
-
             // IdentityUserStore
             context.Services.TryAddScoped<IdentityUserStore>();
 #pragma warning disable CS8603 // 可能返回 null 引用。
@@ -26,6 +25,14 @@ namespace Sukt.Identity.Domain
 #pragma warning restore CS8603 // 可能返回 null 引用。
 
 
+
+
+            //IdentityRoleManager
+            context.Services.TryAddScoped<IdentityRoleManager>();
+#pragma warning disable CS8603 // 可能返回 null 引用。
+            context.Services.TryAddScoped(typeof(RoleManager<IdentityRole>), provider => provider.GetService(typeof(IdentityRoleManager)));
+#pragma warning restore CS8603 // 可能返回 null 引用。
+            
 
 
             //IdentityRoleStore

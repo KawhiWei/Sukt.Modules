@@ -1,7 +1,7 @@
 ﻿
 namespace Sukt.Identity.Dto.Identity.Users
 {
-    public class IdentityUserPageDto : OutputDtoBase<string>
+    public class IdentityUserListDto : OutputDtoBase<string>
     {
 
         /// <summary>
