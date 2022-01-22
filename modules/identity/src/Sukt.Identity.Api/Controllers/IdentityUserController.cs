@@ -23,6 +23,8 @@ namespace Sukt.Identity.Api.Controllers
         [HttpGet("{id}")]
         public async Task GetAsync(string id)
         {
+            Console.WriteLine(HttpContext.Request.Path);
+
             await _identityUserQueryService.GetUserForIdAsync(id);
         }
         [Route("pagelist")]

@@ -16,6 +16,7 @@ namespace Sukt.Identity.Application.Users
         public virtual async Task CreateUserAsync(IdentityUserCreateInputDto input)
         {
             var identityUser = new IdentityUser(input.UserName, input.Email, input.NikeName);
+            identityUser.SetPasswordHash(input.PasswordHash);
             await _identityUserManager.CreateAsync(identityUser, identityUser.PasswordHash);
         }
         public virtual async Task UpdateUserForIdAsync(string id, IdentityUserUpdateInputDto input)

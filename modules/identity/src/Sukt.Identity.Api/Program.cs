@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Serilog;
 using Serilog.Events;
 using Sukt.Identity.Api;
-
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((webHost, logconfiguration) =>
@@ -35,6 +36,8 @@ builder.Host.UseSerilog((webHost, logconfiguration) =>
     });
 // Add services to the container.
 builder.Services.AddApplication<SuktAppWebModule>();
+//var oneService = new ServiceDescriptor(typeof(IOneService), typeof(OneService), ServiceLifetime.Scoped);
+//builder.Services.Replace<>()
 builder.Services.AddControllers();
 var app = builder.Build();
 

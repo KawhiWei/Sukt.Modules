@@ -5,6 +5,6 @@
         /// <summary>
         /// 密码哈希值
         /// </summary>
-        public string PasswordHash { get; private set; }
+        public string PasswordHash { get; set; }
     }
 }
