@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Identity.Api", "src\Su
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Identity.Dto", "src\Sukt.Identity.Dto\Sukt.Identity.Dto.csproj", "{5D5735DE-57E8-41D6-B8A4-C28244EB69A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.Identity.Query", "src\Sukt.Identity.Query\Sukt.Identity.Query.csproj", "{E0A36215-ED0B-4C07-90C7-709D170B054F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Identity.Query", "src\Sukt.Identity.Query\Sukt.Identity.Query.csproj", "{E0A36215-ED0B-4C07-90C7-709D170B054F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,6 +6,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Sukt.Module.Core" Version="1.2.1" />
+		<PackageReference Include="Sukt.Module.Core" Version="1.2.2" />
 	</ItemGroup>
 </Project>

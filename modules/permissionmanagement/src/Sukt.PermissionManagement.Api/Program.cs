@@ -1,8 +1,8 @@
 using Serilog;
 using Serilog.Events;
-using Sukt.Identity.Api;
-var builder = WebApplication.CreateBuilder(args);
+using Sukt.PermissionManagement.Api;
 
+var builder = WebApplication.CreateBuilder(args);
 
 //Ìí¼ÓSeriLogÅäÖÃ
 builder.Host.UseSerilog((webHost, logconfiguration) =>
@@ -33,11 +33,18 @@ builder.Host.UseSerilog((webHost, logconfiguration) =>
         builder.AddConsole();
         builder.AddDebug();
     });
-// Add services to the container.
+
+
 builder.Services.AddApplication<SuktAppWebModule>();
-//var oneService = new ServiceDescriptor(typeof(IOneService), typeof(OneService), ServiceLifetime.Scoped);
-//builder.Services.Replace<>()
+
+
+
+
+
+// Add services to the container.
+
 builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,5 +52,7 @@ var app = builder.Build();
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.InitializeApplication();
+
 app.Run();

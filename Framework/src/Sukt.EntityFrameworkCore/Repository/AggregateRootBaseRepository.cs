@@ -239,6 +239,11 @@ namespace Sukt.EntityFrameworkCore
             return await _dbContext.SaveChangesAsync();
         }
 
+        public virtual async Task<int> DeleteAsync(TEntity[] entitys)
+        {
+            this._dbContext.RemoveRange(entitys);
+            return await _dbContext.SaveChangesAsync();
+        }
         //public virtual async Task<int> DeleteBatchAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         //{
         //    predicate.NotNull(nameof(predicate));

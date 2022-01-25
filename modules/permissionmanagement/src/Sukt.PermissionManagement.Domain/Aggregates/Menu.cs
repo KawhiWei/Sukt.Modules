@@ -6,7 +6,7 @@ namespace Sukt.PermissionManagement.Domain.Aggregates
 {
     public class Menu : FullAggregateRootWithIdentity
     {
-        protected Menu() : base(SuktGuid.NewSuktGuid().ToString())
+        protected Menu() : base(SuktGuid.NewSuktGuid().ToString().Replace("-",""))
         {
 
         }

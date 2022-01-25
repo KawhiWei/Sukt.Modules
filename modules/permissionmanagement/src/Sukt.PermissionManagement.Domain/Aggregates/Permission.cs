@@ -2,7 +2,7 @@
 {
     public class Permission : FullAggregateRootWithIdentity
     {
-        protected Permission() : base(SuktGuid.NewSuktGuid().ToString())
+        protected Permission() : base(SuktGuid.NewSuktGuid().ToString().Replace("-", ""))
         {
 
         }

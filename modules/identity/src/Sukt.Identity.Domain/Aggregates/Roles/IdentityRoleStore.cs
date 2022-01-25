@@ -191,11 +191,13 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
             var role = await _roleRepository.TrackEntities.FirstOrDefaultAsync(m => m.NormalizedName == normalizedRoleName);
-            if (role is null)
-            {
-                throw new SuktAppBusinessException($"角色不存在");
-            }
+            //if (role is null)
+            //{
+            //    throw new SuktAppBusinessException($"角色不存在");
+            //}
+#pragma warning disable CS8603 // 可能返回 null 引用。
             return role;
+#pragma warning restore CS8603 // 可能返回 null 引用。
         }
 
         #endregion Implementation of IRoleStore<IdentityRole>

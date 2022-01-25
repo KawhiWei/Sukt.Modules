@@ -2,12 +2,12 @@
 
 namespace Sukt.PermissionManagement.Dto.Menus
 {
-    public class MenuBaseDto
+    public class MenuListOutputDto : OutputDtoBase<string>
     {
         /// <summary>
         /// 菜单名称
         /// </summary>
-        public string Name { get;  set; }
+        public string? Name { get;  set; }
 
         /// <summary>
         /// 路由地址(前端)

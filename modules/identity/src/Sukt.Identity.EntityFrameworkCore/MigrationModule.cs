@@ -1,9 +1,11 @@
-﻿using Sukt.Module.Core.SeedDatas;
+﻿using Microsoft.Extensions.Configuration;
+using Sukt.Module.Core.Modules;
+using Sukt.Module.Core.SeedDatas;
 using Sukt.Module.Core.UnitOfWorks;
 
-namespace Sukt.Identity.Domain.Migrations
+namespace Sukt.Identity.EntityFrameworkCore
 {
-    public class MigrationModuleBase : SuktAppModule
+    public class MigrationModule : SuktAppModule
     {
         public override void ApplicationInitialization(ApplicationContext context)
         {

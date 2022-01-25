@@ -118,6 +118,7 @@ namespace Sukt.Module.Core.Repositories
         /// <param name="entitys">要删除实体集合</param>
         /// <returns>操作影响的行数</returns>
         int Delete(params TEntity[] entitys);
+        Task<int> DeleteAsync(TEntity[] entitys);
 
         #endregion 删除
     }

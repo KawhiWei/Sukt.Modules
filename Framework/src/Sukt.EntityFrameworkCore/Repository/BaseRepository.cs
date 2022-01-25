@@ -234,12 +234,12 @@ namespace Sukt.EntityFrameworkCore
 
         public virtual async Task<int> DeleteAsync(TEntity entity)
         {
-            entity = await this.GetByIdAsync(entity.Id);
-            if (entity.IsNull())
-            {
-                throw new SuktAppBusinessException("未找到对应的数据！");
-            }
             this._dbContext.Remove(entity);
+            return await _dbContext.SaveChangesAsync();
+        }
+        public virtual async Task<int> DeleteAsync(TEntity[] entitys)
+        {
+            this._dbContext.RemoveRange(entitys);
             return await _dbContext.SaveChangesAsync();
         }
 

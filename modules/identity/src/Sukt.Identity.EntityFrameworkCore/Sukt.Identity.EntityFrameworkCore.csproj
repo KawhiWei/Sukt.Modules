@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Sukt.EntityFrameworkCore" Version="1.2.1" />
+		<PackageReference Include="Sukt.EntityFrameworkCore" Version="1.2.2" />
 	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sukt.Identity.Domain\Sukt.Identity.Domain.csproj" />

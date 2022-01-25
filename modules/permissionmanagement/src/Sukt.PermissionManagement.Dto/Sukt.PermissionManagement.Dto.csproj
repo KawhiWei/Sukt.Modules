@@ -5,7 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+	<ItemGroup>
+		<PackageReference Include="Sukt.Module.Core" Version="1.2.2" />
+	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sukt.PermissionManagement.Domain.Shared\Sukt.PermissionManagement.Domain.Shared.csproj" />
   </ItemGroup>

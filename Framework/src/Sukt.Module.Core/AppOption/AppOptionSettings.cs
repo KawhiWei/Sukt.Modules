@@ -61,22 +61,10 @@ namespace Sukt.Module.Core.AppOption
         public string ConnectionString { get; set; }
 
         /// <summary>
-        /// 下上文类型名字
-        /// </summary>
-        public string DbContextTypeName { get; set; }
-
-        /// <summary>
-        /// 上下文类型
-        /// </summary>
-        public Type DbContextType => Type.GetType(DbContextTypeName);
-
-        /// <summary>
-        /// 迁移Assembly名字
-        /// </summary>
-        public string MigrationsAssemblyName { get; set; }
-        /// <summary>
         /// 数据库默认Schema
         /// </summary>
         public string DefaultSchema { get; set; }
+
+        public string MigrationsAssemblyName { get; set; } = "";
     }
 }

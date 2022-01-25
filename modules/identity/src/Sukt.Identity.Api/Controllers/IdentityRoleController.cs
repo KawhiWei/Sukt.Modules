@@ -17,38 +17,27 @@ namespace Sukt.Identity.Api.Controllers
         public IdentityRoleController(IIdentityRoleAppService identityRoleAppService, IIdentityRoleQueryService identityRoleQueryService)
         {
             _identityRoleAppService = identityRoleAppService;
-            _identityRoleQueryService= identityRoleQueryService;
+            _identityRoleQueryService = identityRoleQueryService;
         }
 
         [HttpPost]
-        public virtual async Task CreateRoleAsync([FromBody] IdentityRoleCreateOrUpdateInputDto input)
-        {
-            await _identityRoleAppService.CreateRoleAsync(input);
-        }
+        public virtual async Task CreateRoleAsync([FromBody] IdentityRoleCreateOrUpdateInputDto input) => await _identityRoleAppService.CreateRoleAsync(input);
+
 
         [HttpPut("{id}")]
-        public virtual async Task UpdateRoleForIdAsync(string id,[FromBody] IdentityRoleCreateOrUpdateInputDto input)
-        {
-            await _identityRoleAppService.UpdateRoleForIdAsync(id,input);
-        }
+        public virtual async Task UpdateRoleForIdAsync(string id, [FromBody] IdentityRoleCreateOrUpdateInputDto input) => await _identityRoleAppService.UpdateRoleForIdAsync(id, input);
 
         [HttpDelete("{id}")]
-        public virtual async Task DeleteRoleForIdAsync(string id)
-        {
-            await _identityRoleAppService.DeleteRoleForIdAsync(id);
-        }
+        public virtual async Task DeleteRoleForIdAsync(string id) => await _identityRoleAppService.DeleteRoleForIdAsync(id);
+
 
         [HttpGet("{id}")]
-        public virtual async Task<IdentityRoleListDto> GetRoleForIdAsync(string id)
-        {
-            return await _identityRoleQueryService.GetRoleForIdAsync(id);
-        }
+        public virtual async Task<IdentityRoleListDto> GetRoleForIdAsync(string id) => await _identityRoleQueryService.GetRoleForIdAsync(id);
+
 
         [Route("pagelist")]
         [HttpPost]
-        public virtual async Task<IPageResult<IdentityRoleListDto>> GetRoleListAsync([FromBody] PageRequest request)
-        {
-            return await _identityRoleQueryService.GetRoleListAsync(request);
-        }
+        public virtual async Task<IPageResult<IdentityRoleListDto>> GetRoleListAsync([FromBody] PageRequest request) => await _identityRoleQueryService.GetRoleListAsync(request);
+
     }
 }

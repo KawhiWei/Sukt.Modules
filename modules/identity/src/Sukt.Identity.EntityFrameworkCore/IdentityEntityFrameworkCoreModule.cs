@@ -13,7 +13,7 @@ namespace Sukt.Identity.EntityFrameworkCore
             {
                 x.ConnectionString = settings.DbContexts.Values.First().ConnectionString;
                 x.DatabaseType = settings.DbContexts.Values.First().DatabaseType;
-                x.MigrationsAssemblyName = settings.DbContexts.Values.First().MigrationsAssemblyName;
+                x.MigrationsAssemblyName = typeof(SuktIdentityContext).Assembly.GetName().Name;// settings.DbContexts.Values.First().MigrationsAssemblyName;
             });
             services.AddUnitOfWork<SuktIdentityContext>();
         }

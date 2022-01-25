@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sukt.PermissionManagement.Domain\Sukt.PermissionManagement.Domain.csproj" />
+    <ProjectReference Include="..\Sukt.PermissionManagement.Dto\Sukt.PermissionManagement.Dto.csproj" />
+    <ProjectReference Include="..\Sukt.PermissionManagement.EntityFrameworkCore\Sukt.PermissionManagement.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,18 +1,16 @@
 ﻿using Microsoft.Extensions.FileProviders;
-using Sukt.Identity.Domain;
-using Sukt.Identity.EntityFrameworkCore;
 using Sukt.Module.Core.AppOption;
 using Sukt.Module.Core.Extensions;
+using Sukt.PermissionManagement.EntityFrameworkCore;
 using Sukt.Swagger;
 
-namespace Sukt.Identity.Api
+namespace Sukt.PermissionManagement.Api
 {
     [SuktDependsOn(
     typeof(DependencyAppModule),
-    typeof(IdentityEntityFrameworkCoreModule),
+    typeof(PermissionManagementEntityFrameworkCoreModule),
     typeof(SwaggerModule),
-    typeof(MigrationModule),
-    typeof(SuktIdentityModule)
+    typeof(MigrationModule)
         )]
     public class SuktAppWebModule : SuktAppModule
     {
@@ -85,5 +83,6 @@ namespace Sukt.Identity.Api
             //    endpoints.MapControllers();
             //});
         }
+
     }
 }

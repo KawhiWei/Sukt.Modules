@@ -1,6 +1,6 @@
 ﻿namespace Sukt.PermissionManagement.Application.Permissions
 {
-    public interface IPermissionAppService
+    public interface IPermissionAppService : IScopedDependency
     {
         Task CreateAndUpdateForRoleIdPermissionAsync(string roleId, IEnumerable<string> menuIds);
     }
