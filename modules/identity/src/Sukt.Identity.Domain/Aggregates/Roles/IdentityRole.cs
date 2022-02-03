@@ -50,6 +50,12 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
         [DisplayName("版本标识")]
         public string ConcurrencyStamp { get; private set; } = default!;
 
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        [DisplayName("租户Id")]
+        public string? TenantId { get; private set; } = default!;
+
         public ICollection<IdentityRoleClaim> Claims { get; private set; }
 
         public virtual void SetNormalizedName(string normalizedName)
@@ -71,6 +77,12 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
         {
             IsAdmin = isAdmin;
         }
+
+        public virtual void SetTenantId(string tenantId)
+        {
+            TenantId = tenantId;
+        }
+
 
         public virtual void AddClaim(Claim claim)
         {

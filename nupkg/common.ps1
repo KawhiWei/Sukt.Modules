@@ -1,10 +1,11 @@
-# Paths
+# Paths 获取完整的相对路径
 $packFolder = (Get-Item -Path "./" -Verbose).FullName
+# 
 $rootFolder = Join-Path $packFolder "../"
 
 # List of solutions
 $solutions = (
-    "Sukt.Modules"
+    "Framework"
 )
 
 # List of projects

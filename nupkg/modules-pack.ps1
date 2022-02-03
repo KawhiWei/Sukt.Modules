@@ -1,4 +1,4 @@
-. ".\common.ps1"
+. ".\modules-common.ps1"
 
 # Rebuild all solutions
 foreach($solution in $solutions) {

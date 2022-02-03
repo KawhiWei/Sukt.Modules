@@ -1,4 +1,4 @@
-. ".\common.ps1"
+. ".\modules-common.ps1"
 
 $apiKey = $args[0]
 

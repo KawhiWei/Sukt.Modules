@@ -16,5 +16,9 @@
         /// 是否管理员
         /// </summary>
         public bool IsAdmin { get; set; }
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        public string TenantId { get; set; }
     }
 }

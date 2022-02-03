@@ -1,24 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<Import Project="..\..\..\..\common.props" />
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
-
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
-		<PackageReference Include="Sukt.AspNetCore" Version="1.2.2" />
-		<PackageReference Include="Sukt.SeriLog" Version="1.2.2" />
-		<PackageReference Include="Sukt.Swagger" Version="1.2.2" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\Framework\src\Sukt.AspNetCore\Sukt.AspNetCore.csproj" />
+		<ProjectReference Include="..\..\..\..\Framework\src\Sukt.SeriLog\Sukt.SeriLog.csproj" />
+		<ProjectReference Include="..\..\..\..\Framework\src\Sukt.Swagger\Sukt.Swagger.csproj" />
 		<ProjectReference Include="..\Sukt.Identity.Application\Sukt.Identity.Application.csproj" />
 		<ProjectReference Include="..\Sukt.Identity.EntityFrameworkCore\Sukt.Identity.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\Sukt.Identity.Query\Sukt.Identity.Query.csproj" />
 	</ItemGroup>
-
 	<ProjectExtensions>
 		<VisualStudio>
 			<UserProperties />

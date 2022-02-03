@@ -1062,9 +1062,9 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             //{
             //    throw new InvalidOperationException($"名称为“{roleName}”的角色信息不存在");
             //}
-            ////bool exist = _userRoleRepository.NoTrackEntities.Where(m => m.UserId.Equals(user.Id) && m.RoleId.Equals(roleId)).Any();
-            ////return Task.FromResult(exist);
-            ///user.IsInRole(roleName)//考虑到性能问题，暂时先不做校验
+            //bool exist = _userRoleRepository.NoTrackEntities.Where(m => m.UserId.Equals(user.Id) && m.RoleId.Equals(roleId)).Any();
+            //return Task.FromResult(exist);
+            //user.IsInRole(roleName)//考虑到性能问题，暂时先不做校验
             return Task.FromResult(true);
         }
 
@@ -1081,7 +1081,6 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// Converts the provided <paramref name="id"/> to a strongly typed key object.
         /// </summary>
         /// <param name="id">The id to convert.</param>
-        /// <returns>An instance of <typeparamref name="string"/> representing the provided <paramref name="id"/>.</returns>
         public virtual string? ConvertIdFromString(string id)
         {
             if (id == null)

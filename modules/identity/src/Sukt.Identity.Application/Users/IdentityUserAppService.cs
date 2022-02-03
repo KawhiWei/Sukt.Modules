@@ -1,5 +1,6 @@
 ﻿using Sukt.Identity.Domain.Aggregates.Users;
 using Sukt.Identity.Dto.Identity.Users;
+using Sukt.Module.Core.Extensions;
 
 namespace Sukt.Identity.Application.Users
 {
@@ -15,8 +16,13 @@ namespace Sukt.Identity.Application.Users
 
         public virtual async Task CreateUserAsync(IdentityUserCreateInputDto input)
         {
-            var identityUser = new IdentityUser(input.UserName, input.Email, input.NikeName);
+            var identityUser = new IdentityUser(input.UserName, input.Email, input.NikeName,phoneNumber:input.PhoneNumber);
             identityUser.SetPasswordHash(input.PasswordHash);
+
+            if(!input.TenantId.IsNullOrEmpty())
+            {
+                identityUser.SetTenantId(input.TenantId);
+            }
             await _identityUserManager.CreateAsync(identityUser, identityUser.PasswordHash);
         }
         public virtual async Task UpdateUserForIdAsync(string id, IdentityUserUpdateInputDto input)
@@ -28,7 +34,10 @@ namespace Sukt.Identity.Application.Users
             identityUser.SetNikeName(input.NikeName);
             identityUser.SetEmail(input.Email);
             identityUser.SetNormalizedEmail(input.Email);
-
+            if (!input.TenantId.IsNullOrEmpty())
+            {
+                identityUser.SetTenantId(input.TenantId);
+            }
             await _identityUserManager.CreateAsync(identityUser, identityUser.PasswordHash);
         }
 

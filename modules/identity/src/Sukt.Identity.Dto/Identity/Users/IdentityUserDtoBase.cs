@@ -14,5 +14,14 @@
         /// 电子邮箱
         /// </summary>
         public string Email { get; set; }
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string PhoneNumber { get;  set; }
+
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        public string TenantId { get; set; } = default!;
     }
 }

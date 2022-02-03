@@ -1,15 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<Import Project="..\..\..\..\common.props" />
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Sukt.EntityFrameworkCore" Version="1.2.2" />
+		<!--<PackageReference Include="Sukt.EntityFrameworkCore" Version="1.2.2" />-->
 	</ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sukt.Identity.Domain\Sukt.Identity.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Sukt.Identity.Domain\Sukt.Identity.Domain.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\Framework\src\Sukt.EntityFrameworkCore\Sukt.EntityFrameworkCore.csproj" />
+	</ItemGroup>
 
 </Project>

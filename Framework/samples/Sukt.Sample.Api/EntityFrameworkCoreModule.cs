@@ -15,7 +15,7 @@ namespace Sukt.Sample.Api
             {
                 x.ConnectionString = settings.DbContexts.Values.First().ConnectionString;
                 x.DatabaseType = settings.DbContexts.Values.First().DatabaseType;
-                x.MigrationsAssemblyName = settings.DbContexts.Values.First().MigrationsAssemblyName;
+                x.MigrationsAssemblyName = typeof(SampleDbContext).Assembly.GetName().Name;
             });
             services.AddUnitOfWork<SampleDbContext>();
         }

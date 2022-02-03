@@ -1,5 +1,6 @@
 ﻿using Sukt.Identity.Domain.Aggregates.Roles;
 using Sukt.Identity.Dto.Identity.Roles;
+using Sukt.Module.Core.Extensions;
 
 namespace Sukt.Identity.Application.Roles
 {
@@ -15,6 +16,10 @@ namespace Sukt.Identity.Application.Roles
         public virtual async Task CreateRoleAsync(IdentityRoleCreateOrUpdateInputDto input)
         {
             var identityRole = new IdentityRole(input.Name, input.IsAdmin, input.IsDefault);
+            if (!input.TenantId.IsNullOrEmpty())
+            {
+                identityRole.SetTenantId(input.TenantId);
+            }
             await _identityRoleManager.CreateAsync(identityRole);
         }
 
@@ -24,6 +29,10 @@ namespace Sukt.Identity.Application.Roles
             identityRole.SetName(input.Name);
             identityRole.SetIsAdmin(input.IsAdmin);
             identityRole.SetIsDefault(input.IsDefault);
+            if (!input.TenantId.IsNullOrEmpty())
+            {
+                identityRole.SetTenantId(input.TenantId);
+            }
             await _identityRoleManager.UpdateAsync(identityRole);
         }
 

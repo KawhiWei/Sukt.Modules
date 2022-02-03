@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\..\..\common.props" />
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Sukt.PermissionManagement.Domain\Sukt.PermissionManagement.Domain.csproj" />
-    <ProjectReference Include="..\Sukt.PermissionManagement.Dto\Sukt.PermissionManagement.Dto.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Sukt.PermissionManagement.Domain\Sukt.PermissionManagement.Domain.csproj" />
+		<ProjectReference Include="..\Sukt.PermissionManagement.Dto\Sukt.PermissionManagement.Dto.csproj" />
+	</ItemGroup>
 
 </Project>

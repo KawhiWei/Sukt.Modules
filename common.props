@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <Version>1.2.2</Version>
+    <Version>1.2.5</Version>
     <NoWarn>$(NoWarn);CS1591;CS0436</NoWarn>
     <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
@@ -10,16 +10,17 @@
     <PackageProjectUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GeorGeWzw/Sukt.Core.Moduls</RepositoryUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageIcon>logo.jpg</PackageIcon>
+    <IsPackable>true</IsPackable>
+    <!-- <PackageIcon>logo.jpg</PackageIcon> -->
     <!-- Include symbol files (*.pdb) in the built .nupkg -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
    <ItemGroup>
-    <None Include="..\logo.jpg">
+    <!-- <None Include="..\logo.jpg">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
-    </None>
+    </None> -->
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
   </ItemGroup>
 </Project>

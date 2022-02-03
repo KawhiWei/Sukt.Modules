@@ -15,7 +15,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             Claims = new Collection<IdentityUserClaim>();
             Tokens = new Collection<IdentityUserToken>();
         }
-        public IdentityUser(string userName, string email,string nikeName, bool isSystem = false, string sex = "", IdentityUserTypeEnum userType = IdentityUserTypeEnum.OrdinaryUser) : this()
+        public IdentityUser(string userName, string email,string nikeName, bool isSystem = false, string sex = "", string phoneNumber="", IdentityUserTypeEnum userType = IdentityUserTypeEnum.OrdinaryUser) : this()
         {
             UserName = userName;
             NormalizedUserName = userName.ToUpperInvariant();
@@ -25,6 +25,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             IsSystem = isSystem;
             Sex = sex;
             UserType = userType;
+            PhoneNumber = phoneNumber;
         }
 
         /// <summary>
@@ -74,6 +75,12 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// </summary>
         [DisplayName("是否系统账号")]
         public bool IsSystem { get; private set; } = default!;
+
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        [DisplayName("租户Id")]
+        public string? TenantId { get; private set; } = default!;
 
         /// <summary>
         /// 性别
@@ -135,6 +142,12 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         [DisplayName("登录失败次数")]
         public int AccessFailedCount { get; private set; } = default!;
 
+        /// <summary>
+        /// 用户类型
+        /// </summary>
+        [DisplayName("用户类型")]
+        public IdentityUserTypeEnum UserType { get; private set; }
+
         public ICollection<IdentityUserRole> Roles { get; private set; }
 
         public ICollection<IdentityUserLogin> Logins { get; private set; }
@@ -142,12 +155,6 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         public ICollection<IdentityUserClaim> Claims { get; private set; }
 
         public ICollection<IdentityUserToken> Tokens { get; protected set; }
-        /// <summary>
-        /// 用户类型
-        /// </summary>
-        [DisplayName("用户类型")]
-        public IdentityUserTypeEnum UserType { get; private set; }
-
 
         public virtual void AddRoles(IEnumerable<string> roles)
         {
@@ -352,6 +359,11 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         public virtual void SetIsSystem(bool isSystem)
         {
             IsSystem = isSystem;
+        }
+
+        public virtual void SetTenantId(string tenantId)
+        {
+            TenantId=tenantId;
         }
 
         /// <summary>

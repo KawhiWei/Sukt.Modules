@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,6 +55,9 @@ namespace Sukt.EntityFrameworkCore
             {
                 modelBuilder.HasDefaultSchema(_appOptionSettings.DbContexts?.First().Value.DefaultSchema);
             }
+
+            //DynamicDbSet(modelBuilder);
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.UseDeletion();
             modelBuilder.UseModification();
@@ -136,22 +140,33 @@ namespace Sukt.EntityFrameworkCore
             var entries = this.FindChangedEntries().ToList();
             ChangeTracker.UpdateModification();
             ChangeTracker.UpdateDeletion();
-            //foreach (var entity in entries)
-            //{
-            //    if (entity.Entity is ICreated createdTime && entity.State == EntityState.Added)
-            //    {
-            //        createdTime.UpdateCreatedAt();
-            //        //createdTime.CreatedAt = DateTimeOffset.UtcNow;
-            //        //if (_principal != null && _principal.Identity != null)
-            //        //    createdTime.CreatedId = _principal.Identity.GetUesrId<Guid>();
-            //    }
-            //    if (entity.Entity is IModifyAudited ModificationAudited && entity.State == EntityState.Modified)
-            //    {
-            //        ModificationAudited.UpdateLastModifedAt();//.LastModifedAt = DateTimeOffset.UtcNow;
-            //        //if (_principal != null && _principal.Identity != null)
-            //        //    ModificationAuditedUserId.LastModifyId = _principal.Identity.GetUesrId<Guid>();
-            //    }
-            //}
         }
+
+        ///// <summary>
+        ///// 动态dbSet
+        ///// </summary>
+        ///// <param name="modelBuilder"></param>
+        //private void DynamicDbSet(ModelBuilder modelBuilder)
+        //{
+        //    foreach (var entityType in EntityType())
+        //    {
+        //        modelBuilder.Model.AddEntityType(entityType);
+        //    }
+        //}
+
+
+        ///// <summary>
+        ///// 派生IEntity的实体
+        ///// </summary>
+        ///// <returns></returns>
+        //private  List<Type> EntityType()
+        //{
+        //    var typeFinder = ServiceProvider.GetService<ITypeFinder>();
+
+        //    var dbsets= typeFinder.Find(x=> typeof(IEntity).IsAssignableFrom(x)).Select(s => s).ToList();
+        //    return dbsets;
+        //}
+
+
     }
 }

@@ -23,7 +23,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.PermissionManagement.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.PermissionManagement.Domain.Shared", "src\Sukt.PermissionManagement.Domain.Shared\Sukt.PermissionManagement.Domain.Shared.csproj", "{1A2CAC80-4224-4E46-8229-7B5B1DF3E725}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sukt.PermissionManagement.Api", "src\Sukt.PermissionManagement.Api\Sukt.PermissionManagement.Api.csproj", "{FECFC5F4-28D4-4EAC-B46C-2888C2ED9C07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.PermissionManagement.Api", "src\Sukt.PermissionManagement.Api\Sukt.PermissionManagement.Api.csproj", "{FECFC5F4-28D4-4EAC-B46C-2888C2ED9C07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Module.Core", "..\..\Framework\src\Sukt.Module.Core\Sukt.Module.Core.csproj", "{08DE0FDE-0365-40A4-8353-BAB710E388B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.EntityFrameworkCore", "..\..\Framework\src\Sukt.EntityFrameworkCore\Sukt.EntityFrameworkCore.csproj", "{DD05024B-FDDC-4ED9-B06F-48182792746A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.Swagger", "..\..\Framework\src\Sukt.Swagger\Sukt.Swagger.csproj", "{8CDC86B3-EB04-422C-BF00-DBA7E0D1C101}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.SeriLog", "..\..\Framework\src\Sukt.SeriLog\Sukt.SeriLog.csproj", "{9569F206-E868-40DC-9836-32EA364049DB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sukt.AspNetCore", "..\..\Framework\src\Sukt.AspNetCore\Sukt.AspNetCore.csproj", "{2E3E30C8-13AD-4ABD-B9D8-7E292818315F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +69,26 @@ Global
 		{FECFC5F4-28D4-4EAC-B46C-2888C2ED9C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FECFC5F4-28D4-4EAC-B46C-2888C2ED9C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FECFC5F4-28D4-4EAC-B46C-2888C2ED9C07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08DE0FDE-0365-40A4-8353-BAB710E388B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08DE0FDE-0365-40A4-8353-BAB710E388B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08DE0FDE-0365-40A4-8353-BAB710E388B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08DE0FDE-0365-40A4-8353-BAB710E388B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD05024B-FDDC-4ED9-B06F-48182792746A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD05024B-FDDC-4ED9-B06F-48182792746A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD05024B-FDDC-4ED9-B06F-48182792746A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD05024B-FDDC-4ED9-B06F-48182792746A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CDC86B3-EB04-422C-BF00-DBA7E0D1C101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CDC86B3-EB04-422C-BF00-DBA7E0D1C101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CDC86B3-EB04-422C-BF00-DBA7E0D1C101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CDC86B3-EB04-422C-BF00-DBA7E0D1C101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9569F206-E868-40DC-9836-32EA364049DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9569F206-E868-40DC-9836-32EA364049DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9569F206-E868-40DC-9836-32EA364049DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9569F206-E868-40DC-9836-32EA364049DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E3E30C8-13AD-4ABD-B9D8-7E292818315F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3E30C8-13AD-4ABD-B9D8-7E292818315F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3E30C8-13AD-4ABD-B9D8-7E292818315F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3E30C8-13AD-4ABD-B9D8-7E292818315F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
