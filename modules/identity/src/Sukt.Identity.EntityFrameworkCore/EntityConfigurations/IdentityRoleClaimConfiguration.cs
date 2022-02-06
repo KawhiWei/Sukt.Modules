@@ -1,4 +1,5 @@
 ﻿using Sukt.Identity.Domain.Aggregates.Roles;
+using Sukt.Module.Core.DbProperties;
 
 namespace Sukt.Identity.EntityFrameworkCore.EntityConfigurations
 {
@@ -7,7 +8,7 @@ namespace Sukt.Identity.EntityFrameworkCore.EntityConfigurations
         public override void Map(EntityTypeBuilder<IdentityRoleClaim> b)
         {
             b.HasKey(o => o.Id);
-            b.ToTable($"{SuktIdentityDbProperties.DbTablePrefix}role_claims");
+            b.ToTable($"{SuktDbProperties.DbTablePrefix}role_claims");
         }
     }
 }

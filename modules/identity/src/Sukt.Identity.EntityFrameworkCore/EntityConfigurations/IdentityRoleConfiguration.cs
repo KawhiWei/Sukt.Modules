@@ -1,4 +1,5 @@
 ﻿using Sukt.Identity.Domain.Aggregates.Roles;
+using Sukt.Module.Core.DbProperties;
 
 namespace Sukt.Identity.EntityFrameworkCore.EntityConfigurations
 {
@@ -9,7 +10,7 @@ namespace Sukt.Identity.EntityFrameworkCore.EntityConfigurations
             b.HasKey(o => o.Id);
             b.Property(o => o.ConcurrencyStamp).IsConcurrencyToken();
             b.HasMany(x => x.Claims).WithOne().HasForeignKey(o => o.RoleId);
-            b.ToTable($"{SuktIdentityDbProperties.DbTablePrefix}roles");
+            b.ToTable($"{SuktDbProperties.DbTablePrefix}roles");
         }
     }
 }
