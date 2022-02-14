@@ -5,7 +5,8 @@ namespace Sukt.Identity.Domain.Aggregates.Roles
 {
     public class IdentityRoleStore :
         IRoleStore<IdentityRole>,
-        IRoleClaimStore<IdentityRole>
+        IRoleClaimStore<IdentityRole>,
+        IQueryableRoleStore<IdentityRole>
     {
         private bool _disposed;
 
