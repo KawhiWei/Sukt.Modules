@@ -12,7 +12,7 @@ namespace Sukt.Identity.Dto.Identity.Users
         /// <summary>
         /// 用户昵称
         /// </summary>
-        public string NikeName { get; set; }
+        public string NickName { get; set; }
 
         /// <summary>
         /// 电子邮箱

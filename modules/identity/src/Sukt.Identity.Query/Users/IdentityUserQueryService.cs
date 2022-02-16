@@ -24,7 +24,7 @@ namespace Sukt.Identity.Query.Users
             var identityUser = await _identityUserManager.FindByIdAsync(id);
             return identityUser is not null ? new IdentityUserFromOutputDto()
             {
-                NikeName = identityUser.NikeName,
+                NickName = identityUser.NickName,
                 UserName = identityUser.UserName,
                 PhoneNumber = identityUser.PhoneNumber,
                 Email = identityUser.Email,
@@ -41,7 +41,7 @@ namespace Sukt.Identity.Query.Users
                 {
                     Id = x.Id,
                     UserName = x.UserName,
-                    NikeName = x.NikeName,
+                    NickName = x.NickName,
                     Email = x.Email,
                     Sex = x.Sex,
                     CreatedAt = x.CreatedAt,

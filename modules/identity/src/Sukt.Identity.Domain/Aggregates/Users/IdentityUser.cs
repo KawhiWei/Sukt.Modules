@@ -15,13 +15,13 @@ namespace Sukt.Identity.Domain.Aggregates.Users
             Claims = new Collection<IdentityUserClaim>();
             Tokens = new Collection<IdentityUserToken>();
         }
-        public IdentityUser(string userName, string email,string nikeName, bool isSystem = false, string sex = "", string phoneNumber="", IdentityUserTypeEnum userType = IdentityUserTypeEnum.OrdinaryUser) : this()
+        public IdentityUser(string userName, string email,string nickName, bool isSystem = false, string sex = "", string phoneNumber="", IdentityUserTypeEnum userType = IdentityUserTypeEnum.OrdinaryUser) : this()
         {
             UserName = userName;
             NormalizedUserName = userName.ToUpperInvariant();
             Email = email;
             NormalizedEmail = email.ToUpperInvariant();
-            NikeName = nikeName;
+            NickName = nickName;
             IsSystem = isSystem;
             Sex = sex;
             UserType = userType;
@@ -44,7 +44,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
         /// 用户昵称
         /// </summary>
         [DisplayName("用户昵称")]
-        public string? NikeName { get; private set; } = default!;
+        public string NickName { get; private set; } = default!;
 
         /// <summary>
         /// 电子邮箱
@@ -324,7 +324,7 @@ namespace Sukt.Identity.Domain.Aggregates.Users
 
         public virtual void SetNikeName(string nikeName)
         {
-            NikeName = nikeName;
+            NickName = nikeName;
         }
 
 

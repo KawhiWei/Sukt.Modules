@@ -19,7 +19,7 @@ namespace Sukt.Identity.Application.Users
 
         public virtual async Task CreateUserAsync(IdentityUserCreateInputDto input)
         {
-            var identityUser = new IdentityUser(input.UserName, input.Email, input.NikeName,phoneNumber:input.PhoneNumber);
+            var identityUser = new IdentityUser(input.UserName, input.Email, input.NickName, phoneNumber:input.PhoneNumber);
             _logger.LogError($"创建用户日志打印：{identityUser.ToJson()}");
 
             identityUser.SetPasswordHash(input.PasswordHash);
@@ -36,7 +36,7 @@ namespace Sukt.Identity.Application.Users
 
             identityUser.SetUserName(input.UserName);
             identityUser.SetNormalizedUserName(input.UserName);
-            identityUser.SetNikeName(input.NikeName);
+            identityUser.SetNikeName(input.NickName);
             identityUser.SetEmail(input.Email);
             identityUser.SetNormalizedEmail(input.Email);
             if (!input.TenantId.IsNullOrEmpty())
