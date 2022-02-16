@@ -1,4 +1,5 @@
-﻿using Sukt.Identity.Domain.Aggregates.Users;
+﻿using Microsoft.Extensions.Logging;
+using Sukt.Identity.Domain.Aggregates.Users;
 using Sukt.Identity.Dto.Identity.Users;
 using Sukt.Module.Core.Extensions;
 
@@ -7,16 +8,20 @@ namespace Sukt.Identity.Application.Users
     public class IdentityUserAppService : IIdentityUserAppService
     {
         private readonly IdentityUserManager _identityUserManager;
+        private readonly ILogger _logger;
 
-        public IdentityUserAppService(IdentityUserManager userManager)
+        public IdentityUserAppService(IdentityUserManager userManager, ILogger<IdentityUserAppService> logger)
         {
             _identityUserManager = userManager;
+            _logger = logger;
         }
        
 
         public virtual async Task CreateUserAsync(IdentityUserCreateInputDto input)
         {
             var identityUser = new IdentityUser(input.UserName, input.Email, input.NikeName,phoneNumber:input.PhoneNumber);
+            _logger.LogError($"创建用户日志打印：{identityUser.ToJson()}");
+
             identityUser.SetPasswordHash(input.PasswordHash);
 
             if(!input.TenantId.IsNullOrEmpty())
@@ -38,7 +43,7 @@ namespace Sukt.Identity.Application.Users
             {
                 identityUser.SetTenantId(input.TenantId);
             }
-            await _identityUserManager.CreateAsync(identityUser, identityUser.PasswordHash);
+            await _identityUserManager.UpdateAsync(identityUser);
         }
 
         public virtual async Task DeleteUserForIdAsync(string id)
