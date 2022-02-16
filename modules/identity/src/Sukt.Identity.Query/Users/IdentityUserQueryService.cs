@@ -1,6 +1,7 @@
 ﻿using Sukt.Identity.Domain.Aggregates.Users;
 using Sukt.Identity.Dto.Identity.Users;
 using Sukt.Module.Core.DtoBases;
+using Sukt.Module.Core.Exceptions;
 
 namespace Sukt.Identity.Query.Users
 {
@@ -18,9 +19,20 @@ namespace Sukt.Identity.Query.Users
             var identityUser = await _identityUserManager.FindByIdAsync(id);
             return await _identityUserManager.GetRolesAsync(identityUser);
         }
-        public virtual async Task GetUserForIdAsync(string id)
+        public virtual async Task<IdentityUserFromOutputDto> GetUserForIdAsync(string id)
         {
             var identityUser = await _identityUserManager.FindByIdAsync(id);
+            return identityUser is not null ? new IdentityUserFromOutputDto()
+            {
+                NikeName = identityUser.NikeName,
+                UserName = identityUser.UserName,
+                PhoneNumber = identityUser.PhoneNumber,
+                Email = identityUser.Email,
+                Sex=identityUser.Sex,
+                UserType = identityUser.UserType,
+            } : throw new SuktAppBusinessException($"用户不存在!"); ;
+
+
         }
         public virtual async Task<IPageResult<IdentityUserListDto>> GetUserListAsync(PageRequest request)
         {

@@ -1,4 +1,6 @@
-﻿namespace Sukt.Identity.Dto.Identity.Users
+﻿using Sukt.Identity.Domain.Shared.Users;
+
+namespace Sukt.Identity.Dto.Identity.Users
 {
     public class IdentityUserDtoBase
     {
@@ -18,6 +20,15 @@
         /// 手机号码
         /// </summary>
         public string PhoneNumber { get;  set; }
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string Sex { get; set; }
+
+        /// <summary>
+        /// 用户类型
+        /// </summary>
+        public IdentityUserTypeEnum UserType { get; set; }
 
         /// <summary>
         /// 租户Id

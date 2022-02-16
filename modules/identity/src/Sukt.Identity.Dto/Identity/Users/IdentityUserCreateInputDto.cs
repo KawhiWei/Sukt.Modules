@@ -7,4 +7,10 @@
         /// </summary>
         public string PasswordHash { get; set; }
     }
+
+
+    public class IdentityUserFromOutputDto : IdentityUserDtoBase
+    {
+
+    }
 }

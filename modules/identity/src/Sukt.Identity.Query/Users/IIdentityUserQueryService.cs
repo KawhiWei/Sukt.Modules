@@ -7,7 +7,7 @@ namespace Sukt.Identity.Query.Users
     public interface IIdentityUserQueryService : IScopedDependency
     {
 
-        Task GetUserForIdAsync(string id);
+        Task<IdentityUserFromOutputDto> GetUserForIdAsync(string id);
 
         Task<IEnumerable<string>> GetRolesForUserIdAsync(string id);
 

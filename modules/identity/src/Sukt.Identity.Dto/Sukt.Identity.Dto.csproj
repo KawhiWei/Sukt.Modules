@@ -13,5 +13,6 @@
 	</ItemGroup>-->
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\Framework\src\Sukt.Module.Core\Sukt.Module.Core.csproj" />
+		<ProjectReference Include="..\Sukt.Identity.Domain.Shared\Sukt.Identity.Domain.Shared.csproj" />
 	</ItemGroup>
 </Project>

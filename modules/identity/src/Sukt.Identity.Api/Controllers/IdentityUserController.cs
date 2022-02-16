@@ -21,7 +21,7 @@ namespace Sukt.Identity.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task GetAsync(string id) => await _identityUserQueryService.GetUserForIdAsync(id);
+        public async Task<IdentityUserFromOutputDto> GetAsync(string id) => await _identityUserQueryService.GetUserForIdAsync(id);
 
         [Route("pagelist")]
         [HttpPost]
