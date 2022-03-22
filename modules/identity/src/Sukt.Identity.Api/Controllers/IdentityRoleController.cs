@@ -9,8 +9,7 @@ namespace Sukt.Identity.Api.Controllers
 {
     [ApiController]
     [Route("api/identity/roles")]
-    [ApiResultWrap]
-    public class IdentityRoleController : ControllerBase
+    public class IdentityRoleController : SuktBaseController
     {
         private readonly IIdentityRoleAppService _identityRoleAppService;
         private readonly IIdentityRoleQueryService _identityRoleQueryService;

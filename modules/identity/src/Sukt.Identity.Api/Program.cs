@@ -37,7 +37,10 @@ builder.Host.UseSerilog((webHost, logconfiguration) =>
 builder.Services.AddApplication<SuktAppWebModule>();
 //var oneService = new ServiceDescriptor(typeof(IOneService), typeof(OneService), ServiceLifetime.Scoped);
 //builder.Services.Replace<>()
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
