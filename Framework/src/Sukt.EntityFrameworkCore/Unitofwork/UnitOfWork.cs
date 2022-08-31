@@ -51,7 +51,7 @@ namespace Sukt.EntityFrameworkCore
         /// <returns></returns>
         public DbContext GetDbContext()
         {
-            _connection = _dbContext.Database.GetDbConnection();
+            //_connection = _dbContext.Database.GetDbConnection();
             _dbContext.unitOfWork = this;
             return _dbContext as DbContext;
         }

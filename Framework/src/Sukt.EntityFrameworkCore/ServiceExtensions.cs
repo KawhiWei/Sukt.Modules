@@ -59,10 +59,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 DestinyContextOptionsBuilder optionsBuilder1 = new DestinyContextOptionsBuilder();
                 optionsBuilder1.MigrationsAssemblyName = option.MigrationsAssemblyName;
                 var connectionString = option.ConnectionString;
-                if (Path.GetExtension(option.ConnectionString).ToLower() == ".txt") //txt文件
-                {
-                    connectionString = provider.GetFileText(option.ConnectionString, $"未找到存放{databaseType.ToDescription()}数据库链接的文件");
-                }
+                //if (Path.GetExtension(option.ConnectionString).ToLower() == ".txt") //txt文件
+                //{
+                //    connectionString = provider.GetFileText(option.ConnectionString, $"未找到存放{databaseType.ToDescription()}数据库链接的文件");
+                //}
                 builder = drivenProvider.Builder(builder, connectionString, optionsBuilder1);
                 optionsAction?.Invoke(provider, builder);
             });

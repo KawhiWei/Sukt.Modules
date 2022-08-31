@@ -13,8 +13,7 @@ namespace Sukt.Sample.Api
             services.Configure<AppOptionSettings>(configuration.GetSection("SuktCore"));
             services.AddSuktDbContext<SampleDbContext>(x =>
             {
-                x.ConnectionString = settings.DbContexts.Values.First().ConnectionString;
-                x.DatabaseType = settings.DbContexts.Values.First().DatabaseType;
+                x.DatabaseType = DBType.InMemory;
                 x.MigrationsAssemblyName = typeof(SampleDbContext).Assembly.GetName().Name;
             });
             services.AddUnitOfWork<SampleDbContext>();
