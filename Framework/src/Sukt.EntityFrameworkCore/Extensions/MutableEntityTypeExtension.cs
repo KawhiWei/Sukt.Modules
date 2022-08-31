@@ -9,7 +9,8 @@ namespace Sukt.EntityFrameworkCore.Extensions
         {
             if (mutableEntityType.FindProperty(propertyName) != null)
             {
-                throw new SuktAppException($"属性冲突，无法添加{propertyName}的隐藏属性。");
+                return;
+                //throw new SuktAppException($"属性冲突，无法添加{propertyName}的隐藏属性。");
             }
             mutableEntityType.AddProperty(propertyName, typeof(T));
         }

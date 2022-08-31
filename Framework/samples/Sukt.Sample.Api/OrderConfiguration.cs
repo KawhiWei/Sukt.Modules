@@ -12,7 +12,7 @@ namespace Sukt.Sample.Api
 
             b.HasKey(o => o.Id);
 
-            b.OwnsOne(o => o.Address);
+            b.HasMany(o => o.Address);
             b.ToTable("orders");
         }
     }

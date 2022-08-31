@@ -7,7 +7,10 @@ namespace Sukt.Sample.Api
     public class SampleDbContext : SuktDbContextBase
     {
 
-        //public DbSet<Order> Orders => Set<Order>();
+        public DbSet<Order> Orders => Set<Order>();
+
+        public DbSet<Address> Addresses => Set<Address>();
+
 
         public SampleDbContext(DbContextOptions options, IServiceProvider serviceProvider) : base(options, serviceProvider)
         {

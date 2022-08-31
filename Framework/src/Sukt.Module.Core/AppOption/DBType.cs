@@ -16,6 +16,8 @@
         /// <summary>
         /// PostgreSQL数据库类型
         /// </summary>
-        PostgreSQL
+        PostgreSQL,
+
+        InMemory
     }
 }
